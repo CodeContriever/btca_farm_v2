@@ -14,7 +14,9 @@ import VerifyOTP from './pages/auth/VerifyOTP';
 import Role from './pages/auth/Role';
 import Reset from './pages/auth/Reset';
 import Franchisor from './pages/franchisor';
-import EditProfile from './pages/franchisor/EditProfile';
+import EditFranchisorProfile from './pages/franchisor/EditProfile';
+import Reseller from './pages/reseller'
+import EditResellerProfile from './pages/reseller/EditProfile'
 
 const App = () => {
   return (
@@ -37,10 +39,16 @@ const App = () => {
                 element={<Navigate to="/franchisor/profile" replace />}
               />
               <Route path="/franchisor/profile" element={<Franchisor />} />
-              <Route path="/franchisor/edit_profile" element={<EditProfile />} />
+              <Route path="/franchisor/edit_profile" element={<EditFranchisorProfile />} />
 
-              {/* Add the Dashboard route, but remove it from here */}
-              {/* <Route path="/franchisor/dashboard" element={<Dashboard />} /> */}
+              {/* Catch-all route for /reseller and its children */}
+              <Route
+                path="/reseller/*"
+                element={<Navigate to="/reseller/profile" replace />}
+              />
+              <Route path="/reseller/profile" element={<Reseller />} />
+              <Route path="/reseller/edit_profile" element={<EditResellerProfile />} />
+
 
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

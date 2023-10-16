@@ -6,17 +6,14 @@ import axios from 'axios';
 
 import toast, { Toaster } from 'react-hot-toast';
 
-import avatar from '../../assets/profile.png';
-import convertToBase64 from '../../utils/convertToBase64';
-
-import Input from "../../components/form/Input";
-import validateSignupInputs from "../../utils/validateSignupInputs";
-
-
 import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
 import { selectSignupData } from '../../store/signup';
 import { setSignupData, } from '../../store/signup';
+
+import Input from "../../components/form/Input";
+import PwdInput from '../../components/form/PwdInput';
+import validateSignupInputs from "../../utils/validateSignupInputs";
 
 
 
@@ -100,7 +97,7 @@ const Signup = () => {
         // console.log("Signup Data:", data);
 
         if (data.success) {
-          navigate("/verify_email");
+          navigate("/verify_OTP");
           // navigate("/test");
         } else if (data.error === "User already exists") {
           toast.error("This email or phone number has already been used.");
@@ -153,13 +150,6 @@ const Signup = () => {
     handleRegister();
   };
 
-  const [file, setFile] = useState();
-
-  const onUpload = async (e) => {
-    const base64 = await convertToBase64(e.target.files[0]);
-    setFile(base64);
-  };
-
 
   return (
     <>
@@ -202,28 +192,6 @@ const Signup = () => {
                 onSubmit={handleSubmit}
               >
 
-                {/* Profile avatar */}
-                <div
-                  className='profile flex justify-center py-8'
-                >
-                  <label
-                    htmlFor="profile"
-                  >
-                    <img
-                      src={file || avatar}
-                      className=""
-                      alt="avatar"
-                    />
-                  </label>
-
-                  <input
-                    onChange={onUpload}
-                    type="file"
-                    id='profile'
-                    name='profile'
-                  />
-                </div>
-
                 {/* Register input fields */}
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
 
@@ -233,13 +201,12 @@ const Signup = () => {
                     <Input
                       type="text"
                       name="fullname"
-                      id="fullname" // Make sure this matches the 'name' attribute
+                      id="fullname"
                       value={formData.fullname}
-                      onChange={handleInputChange} // Ensure this is set to the 'handleInputChange' function
+                      onChange={handleInputChange}
                       label="Full Name"
                       required
-                      labelClasses="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      inputClasses="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+
                     />
 
                     {formErrors.fullname && (
@@ -259,8 +226,7 @@ const Signup = () => {
                       onChange={handleInputChange}
                       label="Phone Number"
                       required
-                      labelClasses="block mb-2 text-sm font-medium  text-gray-900 dark:text-white"
-                      inputClasses="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+
                     />
 
                     {formErrors.phoneNumber && (
@@ -280,8 +246,7 @@ const Signup = () => {
                       onChange={handleInputChange}
                       label="Email Address"
                       required
-                      labelClasses="block mb-2 text-sm font-medium  text-gray-900 dark:text-white"
-                      inputClasses="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+
                     />
 
                     {formErrors.email && (
@@ -294,16 +259,15 @@ const Signup = () => {
                   {/* Password Field */}
                   <div className="flex flex-col gap-1">
 
-                    <Input
+                    <PwdInput
                       type="password"
                       name="password"
                       id="password"
+                      label="Password"
                       value={formData.password}
                       onChange={handleInputChange}
-                      label="Password"
                       required
-                      labelClasses="block mb-2 text-sm font-medium  text-gray-900 dark:text-white"
-                      inputClasses="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+
                     />
 
                     {formErrors.password && (
@@ -315,17 +279,18 @@ const Signup = () => {
 
                   {/* Confirm Password Field */}
                   <div className="flex flex-col gap-1">
-                    <Input
+
+                    <PwdInput
                       type="password"
-                      name="cpassword"
-                      id="cpassword"
-                      value={formData.cpassword}
-                      onChange={handleInputChange}
+                      name="confirmPassword"
+                      id="password"
                       label="Confirm Password"
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
                       required
-                      labelClasses="block mb-2 text-sm font-medium  text-gray-900 dark:text-white"
-                      inputClasses="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+
                     />
+
                     {formErrors.cpassword && (
                       <span className="text-red-500">{formErrors.cpassword}</span>
                     )}
@@ -343,8 +308,6 @@ const Signup = () => {
                       onChange={handleInputChange}
                       label="Referred By"
                       required
-                      labelClasses="block mb-2 text-sm font-medium  text-gray-900 dark:text-white"
-                      inputClasses="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
 
                   </div>

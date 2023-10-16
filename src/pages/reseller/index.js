@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/reseller/Sidebar';
 import Footer from '../../components/footer/Footer';
-import NavBar from '../../components/franchisor/Navbar';
-import Profile from '../../components/franchisor/Profile';
-import Dashboard from '../../components/franchisor/dashboard/Dashboard';
+import NavBar from '../../components/reseller/Navbar';
+import Profile from '../../components/reseller/Profile';
+import Dashboard from '../../components/reseller/Dashboard';
 
-const Franchisor = () => {
+const Reseller = () => {
   const [activeComponent, setActiveComponent] = useState('profile');
 
   useEffect(() => {
@@ -13,12 +13,12 @@ const Franchisor = () => {
     const currentPath = window.location.pathname;
 
     // Check if the current path is '/franchisor' and update it to '/franchisor/profile'
-    if (currentPath === '/franchisor') {
-      window.history.replaceState({}, document.title, '/franchisor/profile');
+    if (currentPath === '/reseller') {
+      window.history.replaceState({}, document.title, '/reseller/profile');
     }
 
     // Check if the current path is '/franchisor/dashboard' and update the active component
-    if (currentPath === '/franchisor/dashboard') {
+    if (currentPath === '/reseller/dashboard') {
       setActiveComponent('dashboard');
     }
   }, []);
@@ -27,10 +27,10 @@ const Franchisor = () => {
   const handleNavigate = (path) => {
     // Update the URL and active component based on the path
     if (path === 'dashboard') {
-      window.history.replaceState({}, document.title, '/franchisor/dashboard');
+      window.history.replaceState({}, document.title, '/reseller/dashboard');
       setActiveComponent('dashboard');
     } else {
-      window.history.replaceState({}, document.title, `/franchisor/${path}`);
+      window.history.replaceState({}, document.title, `/reseller/${path}`);
       setActiveComponent(path);
     }
   };
@@ -78,4 +78,4 @@ const Franchisor = () => {
   );
 };
 
-export default Franchisor;
+export default Reseller;

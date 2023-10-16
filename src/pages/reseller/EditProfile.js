@@ -15,7 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
-import { setFranchisorData, } from '../../store/franchisor';
+import { setResellerData, } from '../../store/reseller';
 
 import { selectSignupData } from '../../store/signup';
 
@@ -112,7 +112,7 @@ const EditProfile = () => {
     try {
       // Send the POST request to the server
       const response = await axios.post(
-        "https://btca.afribook.world/franchisor/applyFranchisor",
+        "https://btca.afribook.world/reseller/applyReseller",
         formData,
         {
           headers: {
@@ -129,7 +129,7 @@ const EditProfile = () => {
         console.log("Data submitted successfully:", data);
 
         // Dispatch the entire data object to store it in the Redux store
-        dispatch(setFranchisorData(data)); // Dispatch the action
+        dispatch(setResellerData(data)); // Dispatch the action
 
         if (data.success) {
           setSuccessModalVisible(true);

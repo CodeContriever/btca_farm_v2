@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import convertToBase64 from '../../utils/convertToBase64';
-import avatar from '../../assets/profile.png';
 import { useAuth } from '../../utils/auth';
 
 
@@ -10,21 +8,27 @@ import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
 import { selectSigninData } from '../../store/signin';
 import { setSigninData, } from '../../store/signin';
+import Input from '../../components/form/Input';
+import PwdInput from '../../components/form/PwdInput';
 
 
 const Signin = () => {
   const dispatch = useDispatch();
   const signinData = useSelector(selectSigninData);
 
-  const [file, setFile] = useState()
-  /**  file upload handler */
-  const onUpload = async e => {
-    const base64 = await convertToBase64(e.target.files[0]);
-    setFile(base64);
-  }
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const auth = useAuth()
   const navigate = useNavigate()
@@ -34,17 +38,11 @@ const Signin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const { email, password, } = formData;
     if (!email || !password) {
       toast.error('Please fill in all the required fields correctly');
       return;
     }
-
-    // Create a request body with the email and password data
-    const requestBody = {
-      email: email,
-      password: password
-    };
 
     try {
       // Send the POST request to the server
@@ -53,7 +51,7 @@ const Signin = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(formData)
       });
 
 
@@ -80,12 +78,12 @@ const Signin = () => {
             navigate(redirectPath, { replace: true });
           } else {
             // If redirectPath is not defined, navigate to /home
-            navigate('/home', { replace: true });
+            navigate('/franchisor', { replace: true });
           }
         } else {
           // Display an error message and navigate to the verify_email page
-          toast.error('Please get verified.');
-          navigate('/verify_OTP');
+          toast.error('You are not registered, please signup.');
+          navigate('/signup');
         }
 
       } else {
@@ -140,73 +138,39 @@ const Signin = () => {
                 onSubmit={handleSubmit}
               >
 
-                {/* Profile avatar */}
-                <div
-                  className='profile flex justify-center py-8'
-                >
-                  <label
-                    htmlFor="profile"
-                  >
-                    <img
-                      src={file || avatar}
-                      className=""
-                      alt="avatar"
-                    />
-                  </label>
-
-                  <input
-                    onChange={onUpload}
-                    type="file"
-                    id='profile'
-                    name='profile'
-                  />
-                </div>
-
-
                 {/* Login input fields */}
                 <div class="flex flex-col gap-8 mt-8">
 
-
-
-
-                  {/* Email field */}
+                  {/* Email Address*/}
                   <div className="flex flex-col gap-1">
 
-                    <label for="email" class="block mb-2 text-sm font-medium  text-gray-900 dark:text-white"
-                    >
-                      Email address
-                    </label>
-
-                    <input
+                    <Input
                       type="email"
                       name="email"
                       id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Boniee Ben"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      label="Email Address"
+                      required
+                      additionalLabelStyles="text-gray-900"
                     />
+
                   </div>
 
-                  {/* Password Field */}
+                  {/* Password field */}
                   <div className="flex flex-col gap-1">
 
-                    <label
-                      for="password"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Password
-                    </label>
-
-                    <input
+                    <PwdInput
                       type="password"
                       name="password"
                       id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required
+                      label="Password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      required
 
                     />
+
                   </div>
 
                 </div>
