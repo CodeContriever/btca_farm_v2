@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 const History = () => {
   const [transactionData, setTransactionData] = useState([]);
-  const [activeButton, setActiveButton] = useState('FarmHistory'); // Default active button
 
   const fetchTransactionHistory = async (url) => {
     try {
@@ -27,39 +26,19 @@ const History = () => {
   };
 
   useEffect(() => {
-    const apiUrl =
-      activeButton === 'FarmHistory'
-        ? 'https://btca.afribook.world/transaction/getUserTransactionHistory/ea02f715-37c0-4c27-95fb-3452e6cfb1f0'
-        : 'https://btca.afribook.world/transaction/getWalletTransactionHistory/0xA258dDa230F78C51F202e893EE22e4845bFee5fF';
+    const apiUrl = 'https://btca.afribook.world/transaction/getUserTransactionHistory/ea02f715-37c0-4c27-95fb-3452e6cfb1f0';
 
     fetchTransactionHistory(apiUrl);
-  }, [activeButton]);
+  }, []); // Removed the dependency array since we don't need it
 
   return (
     <div className="wrapper bg-white py-2">
       <div className="container">
         <div className='flex gap-4'>
-          <button
-            onClick={() => setActiveButton('FarmHistory')}
-            className={`btn ${activeButton === 'FarmHistory' ? 'bg-teal-500' : 'bg-gray-500'}`}
-          >
-            All Transaction History
-          </button>
-          <button
-            onClick={() => setActiveButton('FrozenHistory')}
-            className={`btn ${activeButton === 'FrozenHistory' ? 'bg-teal-500' : 'bg-gray-500'}`}
-          >
-            Frozen Transaction History
-          </button>
+          {/* Add content here */}
         </div>
 
-        {activeButton === 'FarmHistory' && (
-          <TransactionSection title="All Transaction History" transactions={transactionData} />
-        )}
-
-        {activeButton === 'FrozenHistory' && (
-          <TransactionSection title="Frozen Transaction History" transactions={transactionData} />
-        )}
+        <TransactionSection title="All Transaction History" transactions={transactionData} />
 
         {/* Other sections */}
       </div>

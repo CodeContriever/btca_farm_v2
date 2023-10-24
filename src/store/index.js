@@ -3,7 +3,7 @@
 import { createStore, combineReducers } from 'redux';
 import signupReducer from './signup';
 import signinReducer from './signin';
-import userRoleReducer from "./role";
+import roleReducer from "./role";
 import franchisorReducer from './franchisor';
 import resellerReducer from './reseller';
 
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
 
   signin: signinReducer,
 
-  userRole: userRoleReducer,
+  role: roleReducer,
 
   franchisor: franchisorReducer,
 

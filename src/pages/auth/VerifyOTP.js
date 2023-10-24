@@ -4,14 +4,17 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 import { useSelector } from "react-redux";
-import { selectSigninData } from '../../store/signin';
+import { selectSignupData } from '../../store/signup';
 
 const VerifyOTP = () => {
   const navigate = useNavigate();
+  const reduxState = useSelector((state) => state); // Log the entire state
+  console.log("Redux State:", reduxState);
+  // Retrieve 'signupData' from the Redux store
+  const signupData = useSelector(selectSignupData);
+  const { userId } = signupData?.data || {};
 
-  const signinData = useSelector(selectSigninData);
-
-  const { userId } = signinData?.data || {};
+  console.log(userId)
   const [formData, setFormData] = useState({
     OTP: "",
   });
@@ -29,8 +32,8 @@ const VerifyOTP = () => {
 
     if (!userId) {
       // If userId is not available, navigate back to the login page
-      toast.error('Please sign in or sign up first.');
-      navigate('/signin');
+      toast.error('Please signup first.');
+      navigate('/signup');
       return;
     }
 

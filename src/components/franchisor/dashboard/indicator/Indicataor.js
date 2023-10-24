@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const Indicator = () => {
+  const [chartSize, setChartSize] = useState({ width: 300, height: 300 });
+
+  useEffect(() => {
+    const updateChartSize = () => {
+      const windowWidth = window.innerWidth;
+      if (windowWidth <= 768) {
+        setChartSize({ width: 200, height: 200 }); // Adjust the size for mobile
+      } else {
+        setChartSize({ width: 300, height: 300 }); // Default size for desktop
+      }
+    };
+
+    updateChartSize();
+    window.addEventListener('resize', updateChartSize);
+
+    return () => {
+      window.removeEventListener('resize', updateChartSize);
+    };
+  }, []);
+
   const data = {
     labels: ['Red', 'Yellow', 'Green'],
     datasets: [
@@ -68,9 +88,9 @@ const Indicator = () => {
       ctx.fill();
       ctx.restore();
 
-      ctx.font = '50px Helvetica';
+      ctx.font = '30px Helvetica'; // Adjust the font size for mobile
       ctx.fillStyle = '#444';
-      ctx.fillText(needleValue + '%', cx, cy + 50);
+      ctx.fillText(needleValue + '%', cx, cy + 30); // Adjust the positioning for mobile
       ctx.textAlign = 'center';
       ctx.restore();
     },
@@ -79,16 +99,22 @@ const Indicator = () => {
   const plugins = [gaugeNeedle];
 
   return (
-    <div>
-      <div className="w-[100%] p-8 space-x-8">
-        <Doughnut data={data} options={options} plugins={plugins}></Doughnut>
+    <div className='flex flex-col items-center justify-center'>
+      <div className="px-4">
+        <Doughnut data={data} options={options} plugins={plugins} width={chartSize.width} height={chartSize.height}></Doughnut>
       </div>
-      <IndicatorLegend color="green" label="Green" />
-      <IndicatorLegend color="yellow" label="Yellow" />
-      <IndicatorLegend color="red" label="Red" />
+
+      <div className='flex flex-col md:flex-row justify-between'>
+        <IndicatorLegend color="green" label="Green" />
+        <IndicatorLegend color="yellow" label="Yellow" />
+        <IndicatorLegend color="red" label="Red" />
+      </div>
+
     </div>
   );
 };
+
+
 
 export default Indicator;
 
@@ -96,10 +122,10 @@ const IndicatorLegend = ({ color, label }) => {
   return (
     <div className="box-border gap-2 flex items-center mt-2">
       <div className={`box-border rounded-full h-2 w-2 mr-2 bg-${color}`} />
-      <p className="box-border mb-0 mt-0 font-inter font-semibold uppercase text-gray-800 text-base leading-6">
+      <p className="box-border mb-0 mt-0 font-inter font-semibold uppercase text-gray-800  text-[12px] md:text-base leading-6">
         {label}:
       </p>
-      <p className="box-border mb-0 mt-0 text-gray-800 font-inter text-base leading-6 font-medium">
+      <p className="box-border mb-0 mt-0 text-gray-800 font-inter text-[12px] md:text-base leading-6 font-medium">
         {label === 'Green' ? 'Price is Good' : `${label} freezing`}
       </p>
     </div>
