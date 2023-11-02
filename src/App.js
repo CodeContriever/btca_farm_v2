@@ -18,6 +18,11 @@ import EditFranchisorProfile from './pages/franchisor/EditProfile';
 import Reseller from './pages/reseller'
 import EditResellerProfile from './pages/reseller/EditProfile'
 
+import Admin from './pages/admin/dashboard';
+import AdminSignup from './pages/admin/auth/Signup'
+import AdminSignin from './pages/admin/auth/Signin'
+
+
 const App = () => {
   return (
     <div>
@@ -46,8 +51,22 @@ const App = () => {
                 path="/reseller/*"
                 element={<Navigate to="/reseller/profile" replace />}
               />
+
               <Route path="/reseller/profile" element={<Reseller />} />
               <Route path="/reseller/edit_profile" element={<EditResellerProfile />} />
+
+
+              {/* Admin */}
+              <Route path="/admin/signup" element={<AdminSignup />} />
+              <Route path="/admin/signin" element={<AdminSignin />} />
+              
+                {/* Catch-all route for /admin and its children */}
+                <Route
+                path="/admin/*"
+                element={<Navigate to="/admin/dashboard" replace />}
+              />
+                            <Route path="/admin/dashboard" element={<Admin />} />
+
 
 
               <Route path="*" element={<NotFoundPage />} />
