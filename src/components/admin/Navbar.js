@@ -36,15 +36,33 @@ function HamburgerMenu({ activeButton, handleHamburgerClick, onNavigate }) {
         <div className="items-center justify-start lg:hidden flex w-[100%] order-1 bg-gray-400" id="mobile-menu-2" tabIndex="-1">
           <ul className="bg-white w-64 absolute top-8 z-10 flex flex-col justify-center p-4 gap-4 mt-4 font-medium lg:flex-row lg-space-x-8 lg-mt-0">
             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer" onClick={() => onNavigate('profile')}>Profile</button>
-            </li>
-            <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('dashboard')}>Dashboard</button>
             </li>
-            {/* Add more menu items as needed */}
+
             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer" onClick={() => onNavigate('support')}>Support</button>
+              <button className="cursor-pointer" onClick={() => onNavigate('analytics')}>Analytics</button>
             </li>
+          
+            <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('users')}>Users</button>
+            </li>
+
+ <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('transactions')}>Transactions</button>
+            </li>
+
+             <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('approvals')}>Approvals</button>
+            </li>
+
+             <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('payments')}>Payments</button>
+            </li>
+
+             <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('orders')}>Orders</button>
+            </li>
+
           </ul>
         </div>
       )}
@@ -270,9 +288,9 @@ const NavBar = ({ onNavigate }) => {
               <ul class="flex flex-col mt-4 font-medium md:flex-row lg:space-x-8 md:mt-0">
 
                 {/* Home */}
-                <li>
+                {/* <li>
                   <a href="/home" class="block py-2 pl-3 pr-4 hover:text-[#A020F0] rounded lg:bg-transparent text-gray-700  lg:p-0 dark:text-white" aria-current="page">Home</a>
-                </li>
+                </li> */}
 
 
               </ul>
