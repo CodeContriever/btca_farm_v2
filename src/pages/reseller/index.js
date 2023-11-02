@@ -3,7 +3,7 @@ import Sidebar from '../../components/reseller/Sidebar';
 import Footer from '../../components/footer/Footer';
 import NavBar from '../../components/reseller/Navbar';
 import Profile from '../../components/reseller/Profile';
-import Dashboard from '../../components/reseller/Dashboard';
+import Dashboard from '../../components/reseller/dashboard/Dashboard';
 
 const Reseller = () => {
   const [activeComponent, setActiveComponent] = useState('profile');
