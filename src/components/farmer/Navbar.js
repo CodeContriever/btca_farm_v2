@@ -36,15 +36,33 @@ function HamburgerMenu({ activeButton, handleHamburgerClick, onNavigate }) {
         <div className="items-center justify-start lg:hidden flex w-[100%] order-1 bg-gray-400" id="mobile-menu-2" tabIndex="-1">
           <ul className="bg-white w-64 absolute top-8 z-10 flex flex-col justify-center p-4 gap-4 mt-4 font-medium lg:flex-row lg-space-x-8 lg-mt-0">
             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer" onClick={() => onNavigate('profile')}>Profile</button>
-            </li>
-            <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('dashboard')}>Dashboard</button>
             </li>
-            {/* Add more menu items as needed */}
+          
             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer" onClick={() => onNavigate('support')}>Support</button>
+              <button className="cursor-pointer" onClick={() => onNavigate('users')}>Users</button>
             </li>
+
+ <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('transactions')}>Transactions</button>
+            </li>
+
+             <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('approvals')}>Approvals</button>
+            </li>
+
+             <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('payments')}>Payments</button>
+            </li>
+
+             <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('orders')}>Orders</button>
+            </li>
+
+                 <li onClick={() => handleHamburgerClick('menu')} className=' space-y-2 border-t border-gray-200'>
+              <button className="cursor-pointer" onClick={() => onNavigate('settings')}>Settings</button>
+            </li>
+
           </ul>
         </div>
       )}
@@ -64,7 +82,7 @@ function NotificationButton({ isActive = true, onClick, notificationCount }) {
       onClick={onClick}
       className={`inline-flex relative items-center px-4 py-2.5 text-sm font-medium text-center text-white bg-gray-400 rounded-lg ${isActive ? 'bg-gray-800 text-gray-400' : 'text-gray-500'}`}
     >
-      <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 21">
+      <svg class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 21">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C17 15.4 17 16 16.462 16H3.538C3 16 3 15.4 3 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 10 3.464ZM1.866 8.832a8.458 8.458 0 0 1 2.252-5.714m14.016 5.714a8.458 8.458 0 0 0-2.252-5.714M6.54 16a3.48 3.48 0 0 0 6.92 0H6.54Z" />
       </svg>
 
@@ -270,9 +288,9 @@ const NavBar = ({ onNavigate }) => {
               <ul class="flex flex-col mt-4 font-medium md:flex-row lg:space-x-8 md:mt-0">
 
                 {/* Home */}
-                <li>
+                {/* <li>
                   <a href="/home" class="block py-2 pl-3 pr-4 hover:text-[#A020F0] rounded lg:bg-transparent text-gray-700  lg:p-0 dark:text-white" aria-current="page">Home</a>
-                </li>
+                </li> */}
 
 
               </ul>

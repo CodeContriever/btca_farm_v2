@@ -38,6 +38,10 @@ function HamburgerMenu({ activeButton, handleHamburgerClick, onNavigate }) {
             <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('dashboard')}>Dashboard</button>
             </li>
+
+            {/* <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('analytics')}>Analytics</button>
+            </li> */}
           
             <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('users')}>Users</button>
@@ -57,10 +61,6 @@ function HamburgerMenu({ activeButton, handleHamburgerClick, onNavigate }) {
 
              <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('orders')}>Orders</button>
-            </li>
-
-                 <li onClick={() => handleHamburgerClick('menu')} className=' space-y-2 border-t border-gray-200'>
-              <button className="cursor-pointer" onClick={() => onNavigate('settings')}>Settings</button>
             </li>
 
           </ul>

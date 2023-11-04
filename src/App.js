@@ -13,14 +13,21 @@ import Signin from './pages/auth/Signin';
 import VerifyOTP from './pages/auth/VerifyOTP';
 import Role from './pages/auth/Role';
 import Reset from './pages/auth/Reset';
+
+import Farmer from './pages/farmer'
 import Franchisor from './pages/franchisor';
 import EditFranchisorProfile from './pages/franchisor/EditProfile';
+
 import Reseller from './pages/reseller'
 import EditResellerProfile from './pages/reseller/EditProfile'
 
 import Admin from './pages/admin/dashboard';
 import AdminSignup from './pages/admin/auth/Signup'
 import AdminSignin from './pages/admin/auth/Signin'
+
+import SuperAdmin from './pages/superAdmin/dashboard';
+import SuperAdminSignup from './pages/superAdmin/auth/Signup'
+import SuperAdminSignin from './pages/superAdmin/auth/Signin'
 
 
 const App = () => {
@@ -38,6 +45,16 @@ const App = () => {
               <Route path="/signin" element={<Signin />} />
               <Route path="/reset" element={<Reset />} />
 
+
+               {/* Catch-all route for /farmer and its children */}
+              <Route
+                path="/farmer/*"
+                element={<Navigate to="/farmer/dashboard" replace />}
+              />
+              <Route path="/farmer/dashboard" element={<Farmer />} />
+              <Route path="/farmer/edit_profile" element={<EditFranchisorProfile />} />
+
+
               {/* Catch-all route for /franchisor and its children */}
               <Route
                 path="/franchisor/*"
@@ -45,6 +62,7 @@ const App = () => {
               />
               <Route path="/franchisor/profile" element={<Franchisor />} />
               <Route path="/franchisor/edit_profile" element={<EditFranchisorProfile />} />
+
 
               {/* Catch-all route for /reseller and its children */}
               <Route
@@ -68,8 +86,19 @@ const App = () => {
                             <Route path="/admin/dashboard" element={<Admin />} />
 
 
+               {/* SuperAdmin */}
+              <Route path="/super_admin/signup" element={<SuperAdminSignup/>} />
+              <Route path="/super_admin/signin" element={<SuperAdminSignin />} />
+              
+                {/* Catch-all route for /admin and its children */}
+                <Route
+                path="/super_admin/*"
+                element={<Navigate to="/super_admin/dashboard" replace />}
+              />
+                            <Route path="/super_admin/dashboard" element={<SuperAdmin />} />
 
               <Route path="*" element={<NotFoundPage />} />
+
             </Routes>
           </Router>
         </Provider>

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../../components/admin/Sidebar'
-import Footer from '../../../components/footer/Footer';
-import NavBar from '../../../components/admin/Navbar';
-import Dashboard from '../../../components/admin/dashboard/Dashboard';
-import Users from '../../../components/admin/users/Users';
-import Transactions from '../../../components/admin/transactions/Transactions';
-import Approvals from '../../../components/admin/approvals/Approvals';
-import Payments from '../../../components/admin/payments/Payments';
-import Orders from '../../../components/admin/orders/Orders';
-import Settings from '../../../components/admin/settings/Settings';
+import NavBar from '../../components/farmer/Navbar';
+import Sidebar from '../../components/farmer/Sidebar';
+import Footer from '../../components/footer/Footer';
+import Dashboard from '../../components/farmer/dashboard/Dashboard'
+import Packages from '../../components/farmer/packages/Packages';
+import Mining from '../../components/farmer/mining/Mining';
+import Transactions from '../../components/farmer/transactions/Transactions'
+import Profile from '../../components/farmer/profile/Profile'
+import Settings from '../../components/farmer/settings/Settings';
 
-const Admin = () => {
+const Farmer = () => {
   const [activeComponent, setActiveComponent] = useState('dashboard');
 
   useEffect(() => {
@@ -18,12 +17,12 @@ const Admin = () => {
     const currentPath = window.location.pathname;
 
     // Check if the current path is '/franchisor' and update it to '/franchisor/profile'
-    if (currentPath === '/admin') {
-      window.history.replaceState({}, document.title, '/admin/dashboard');
+    if (currentPath === '/farmer') {
+      window.history.replaceState({}, document.title, '/farmer/dashboard');
     }
 
     // Check if the current path is '/franchisor/dashboard' and update the active component
-    if (currentPath === '/admin/dashboard') {
+    if (currentPath === '/farmer/dashboard') {
       setActiveComponent('dashboard');
     }
   }, []);
@@ -32,7 +31,7 @@ const Admin = () => {
   const handleNavigate = (path) => {
     // Update the URL and active component based on the path
     if (path === 'dashboard') {
-      window.history.replaceState({}, document.title, '/admin/dashboard');
+      window.history.replaceState({}, document.title, '/farmer/dashboard');
       setActiveComponent('dashboard');
     } else {
       window.history.replaceState({}, document.title, `/admin/${path}`);
@@ -43,16 +42,14 @@ const Admin = () => {
   const renderComponent = () => {
     if (activeComponent === 'dashboard') {
       return <Dashboard />;
-    } else if (activeComponent === 'users') {
-      return <Users />;
+    } else if (activeComponent === 'packages') {
+      return <Packages />;
+    } else if (activeComponent === 'mining') {
+      return <Mining />;
     } else if (activeComponent === 'transactions') {
-      return <Transactions />;
-    } else if (activeComponent === 'approvals') {
-      return <Approvals />;
-    } else if (activeComponent === 'payments') {
-      return <Payments />;
-    } else if (activeComponent === 'orders') {
-      return <Orders />;
+        return <Transactions />;
+        } else if (activeComponent === 'profile') {
+      return <Profile />;
     } else if (activeComponent === 'settings') {
       return <Settings />;
     }
@@ -94,4 +91,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default Farmer;

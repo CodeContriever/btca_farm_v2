@@ -26,35 +26,33 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
             </button>
           </li>
 
-            {/* Packages */}
+{/* Admins */}
           <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'packages' ? 'active' : ''}`}
-              onClick={() => onNavigate('packages')}
-            >
-              <FaUser className="w-6 h-6 text-gray-800 dark:text-white" />
-              <span className="ml-3">Packages</span>
-            </button>
-          </li>
-
-          {/* Mining */}
-          <li>
-            <button
-              type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'mining' ? 'active' : ''}`}
-              onClick={() => onNavigate('mining')}
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'admins' ? 'active' : ''}`}
+              onClick={() => onNavigate('admins')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
-              <span className="ml-3">Mining</span>
+              <span className="ml-3">Admins</span>
+            </button>
+          </li>
+
+          {/* Users */}
+          <li>
+            <button
+              type="button"
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'users' ? 'active' : ''}`}
+              onClick={() => onNavigate('users')}
+            >
+              <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
+              <span className="ml-3">Users</span>
             </button>
           </li>
 
 
-
-
-           {/* Transactions */}
-           <li>
+          {/* Transactions */}
+          <li>
             <button
               type="button"
               className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'transactions' ? 'active' : ''}`}
@@ -65,7 +63,43 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
             </button>
           </li>
 
-         
+
+           {/* Approvals */}
+           <li>
+            <button
+              type="button"
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'approvals' ? 'active' : ''}`}
+              onClick={() => onNavigate('approvals')}
+            >
+              <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
+              <span className="ml-3">Approvals</span>
+            </button>
+          </li>
+
+
+           {/* Payments */}
+           <li>
+            <button
+              type="button"
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'payments' ? 'active' : ''}`}
+              onClick={() => onNavigate('payments')}
+            >
+              <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
+              <span className="ml-3">Payments</span>
+            </button>
+          </li>
+
+            {/* Orders */}
+            <li>
+            <button
+              type="button"
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'orders' ? 'active' : ''}`}
+              onClick={() => onNavigate('orders')}
+            >
+              <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
+              <span className="ml-3">Orders</span>
+            </button>
+          </li>
 
           {/* Other sidebar items, such as Activation, License Key, etc. */}
           {/* ... */}
@@ -73,17 +107,6 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
 
 
         <ul className="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
-           <li>
-            <button
-              type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0] rounded-lg dark:text-white hover-bg-gray-100 dark:hover-bg-gray-700 group ${activeComponent === 'profile' ? 'active' : ''}`}
-              onClick={() => onNavigate('profile')}
-            >
-              <VscActivateBreakpoints className="w-6 h-6 text-gray-800 dark:text-white" />
-              <span className="ml-3">Profile</span>
-            </button>
-          </li>
-
           <li>
             <button
               type="button"
@@ -94,8 +117,6 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
               <span className="ml-3">Settings</span>
             </button>
           </li>
-
-
         </ul>
       </div>
     </aside>

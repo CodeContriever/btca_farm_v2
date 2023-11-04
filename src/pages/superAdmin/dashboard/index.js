@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../../components/admin/Sidebar'
+import Sidebar from '../../../components/superAdmin/Sidebar'
 import Footer from '../../../components/footer/Footer';
-import NavBar from '../../../components/admin/Navbar';
-import Dashboard from '../../../components/admin/dashboard/Dashboard';
-import Users from '../../../components/admin/users/Users';
-import Transactions from '../../../components/admin/transactions/Transactions';
-import Approvals from '../../../components/admin/approvals/Approvals';
-import Payments from '../../../components/admin/payments/Payments';
-import Orders from '../../../components/admin/orders/Orders';
-import Settings from '../../../components/admin/settings/Settings';
+import NavBar from '../../../components/superAdmin/Navbar';
+import Dashboard from '../../../components/superAdmin/dashboard/Dashboard';
+import Admins from '../../../components/superAdmin/admins/Admins';
+import Users from '../../../components/superAdmin/users/Users';
+import Transactions from '../../../components/superAdmin/transactions/Transactions';
+import Approvals from '../../../components/superAdmin/approvals/Approvals';
+import Payments from '../../../components/superAdmin/payments/Payments';
+import Orders from '../../../components/superAdmin/orders/Orders';
+import Settings from '../../../components/superAdmin/settings/Settings';
 
-const Admin = () => {
+const SuperAdmin = () => {
   const [activeComponent, setActiveComponent] = useState('dashboard');
 
   useEffect(() => {
@@ -18,12 +19,12 @@ const Admin = () => {
     const currentPath = window.location.pathname;
 
     // Check if the current path is '/franchisor' and update it to '/franchisor/profile'
-    if (currentPath === '/admin') {
-      window.history.replaceState({}, document.title, '/admin/dashboard');
+    if (currentPath === '/super_admin') {
+      window.history.replaceState({}, document.title, '/super_admin/dashboard');
     }
 
     // Check if the current path is '/franchisor/dashboard' and update the active component
-    if (currentPath === '/admin/dashboard') {
+    if (currentPath === '/super_admin/dashboard') {
       setActiveComponent('dashboard');
     }
   }, []);
@@ -32,10 +33,10 @@ const Admin = () => {
   const handleNavigate = (path) => {
     // Update the URL and active component based on the path
     if (path === 'dashboard') {
-      window.history.replaceState({}, document.title, '/admin/dashboard');
+      window.history.replaceState({}, document.title, '/super_admin/dashboard');
       setActiveComponent('dashboard');
     } else {
-      window.history.replaceState({}, document.title, `/admin/${path}`);
+      window.history.replaceState({}, document.title, `/super_admin/${path}`);
       setActiveComponent(path);
     }
   };
@@ -43,6 +44,8 @@ const Admin = () => {
   const renderComponent = () => {
     if (activeComponent === 'dashboard') {
       return <Dashboard />;
+    } else if (activeComponent === 'admins') {
+      return <Admins />;
     } else if (activeComponent === 'users') {
       return <Users />;
     } else if (activeComponent === 'transactions') {
@@ -94,4 +97,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default SuperAdmin;

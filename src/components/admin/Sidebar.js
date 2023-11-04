@@ -26,23 +26,11 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
             </button>
           </li>
 
-{/* Analytics */}
-          {/* <li>
-            <button
-              type="button"
-              className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
-              onClick={() => onNavigate('analytics')}
-            >
-              <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
-              <span className="ml-3">Analytics</span>
-            </button>
-          </li> */}
-
           {/* Users */}
           <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
               onClick={() => onNavigate('users')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -55,7 +43,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
           <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
               onClick={() => onNavigate('transactions')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -68,7 +56,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
            <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
               onClick={() => onNavigate('approvals')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -81,7 +69,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
            <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
               onClick={() => onNavigate('payments')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -93,7 +81,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
             <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
               onClick={() => onNavigate('orders')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
