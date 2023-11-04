@@ -204,7 +204,7 @@ const EditProfile = () => {
                 <div className="mb-4">
 
                   <h1 className="mb-0 mt-0 text-gray-800 text-base lg:text-2xl font-medium font-inter leading-6">
-                    Franchisor
+                   Reseller
                   </h1>
 
                 </div>

@@ -27,7 +27,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
           </li>
 
 {/* Analytics */}
-          <li>
+          {/* <li>
             <button
               type="button"
               className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
@@ -36,7 +36,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
               <span className="ml-3">Analytics</span>
             </button>
-          </li>
+          </li> */}
 
           {/* Users */}
           <li>

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Users from "./users/Users";
+import Transactions from "./transactions/Transactions";
 
 
 
@@ -17,7 +19,17 @@ const Dashboard = () => {
         </h1>
 
         <div className="bg-white rounded-md shadow-lg p-8  mt-4">
-
+  {/* Users */}
+      <div className="bg-white mt-4">
+  
+<Users />
+      </div>
+      
+ {/* Transactions */}
+          <div className="bg-white mt-8">
+            <Transactions
+            />
+      </div>
 
         </div>
 

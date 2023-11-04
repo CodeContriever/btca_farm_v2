@@ -39,9 +39,9 @@ function HamburgerMenu({ activeButton, handleHamburgerClick, onNavigate }) {
               <button className="cursor-pointer" onClick={() => onNavigate('dashboard')}>Dashboard</button>
             </li>
 
-            <li onClick={() => handleHamburgerClick('menu')}>
+            {/* <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('analytics')}>Analytics</button>
-            </li>
+            </li> */}
           
             <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('users')}>Users</button>
