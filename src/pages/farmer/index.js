@@ -34,7 +34,7 @@ const Farmer = () => {
       window.history.replaceState({}, document.title, '/farmer/dashboard');
       setActiveComponent('dashboard');
     } else {
-      window.history.replaceState({}, document.title, `/admin/${path}`);
+      window.history.replaceState({}, document.title, `/farmer/${path}`);
       setActiveComponent(path);
     }
   };

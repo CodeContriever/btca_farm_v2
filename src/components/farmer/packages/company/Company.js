@@ -1,13 +1,25 @@
-import React from 'react'
+import React from "react";
 
-const ActivatedPackages = () => {
+
+
+const Company = () => {
+
   return (
-      <div>
-          <h3 className='mb-6'>Activated Packages</h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              
-              {/* <!-- Packages --> */}
+    <div
+      className="container mx-auto px-6"
+    >
+
+      <div className="">
+
+        <h1 className="text-gray-800 text-2xl font-medium font-inter leading-6">
+          Packages
+        </h1>
+
+        <div className="bg-white rounded-md shadow-lg p-4  mt-4">
+
+          <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-4 lg:space-y-0 lg:space-x-2">
+           {/* <!-- Packages --> */}
               <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
                   {/* package name */}
                   <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
@@ -55,12 +67,14 @@ const ActivatedPackages = () => {
 
                   <hr />
 
-                
+                  <button>Activate</button>
                   
             
-              </div>
+                      </div>
+                      
 
-               <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                        {/* <!-- Packages 2--> */}
+              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
                   {/* package name */}
                   <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
 
@@ -106,12 +120,15 @@ const ActivatedPackages = () => {
                   </div>
 
                   <hr />
+
+                  <button>Activate</button>
                   
             
-              </div>
+                      </div>
+                      
 
-              
-               <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                        {/* <!-- Packages 3--> */}
+              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
                   {/* package name */}
                   <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
 
@@ -157,16 +174,27 @@ const ActivatedPackages = () => {
                   </div>
 
                   <hr />
+
+                  <button>Activate</button>
                   
             
               </div>
+          </div>
 
-              
+
+        </div>
+
+      </div>
 
 
-           </div>
+
+
+
     </div>
+
+
+
   )
 }
 
-export default ActivatedPackages
+export default Company

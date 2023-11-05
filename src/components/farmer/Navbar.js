@@ -40,23 +40,21 @@ function HamburgerMenu({ activeButton, handleHamburgerClick, onNavigate }) {
             </li>
           
             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer" onClick={() => onNavigate('users')}>Users</button>
+              <button className="cursor-pointer" onClick={() => onNavigate('packages')}>Packages</button>
+            </li>
+
+                 <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('mining')}>Mining</button>
             </li>
 
  <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('transactions')}>Transactions</button>
             </li>
 
-             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer" onClick={() => onNavigate('approvals')}>Approvals</button>
-            </li>
-
-             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer" onClick={() => onNavigate('payments')}>Payments</button>
-            </li>
-
-             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer" onClick={() => onNavigate('orders')}>Orders</button>
+            <hr />
+            
+              <li onClick={() => handleHamburgerClick('menu')} className=' space-y-2 border-t border-gray-200'>
+              <button className="cursor-pointer" onClick={() => onNavigate('profile')}>Profile</button>
             </li>
 
                  <li onClick={() => handleHamburgerClick('menu')} className=' space-y-2 border-t border-gray-200'>

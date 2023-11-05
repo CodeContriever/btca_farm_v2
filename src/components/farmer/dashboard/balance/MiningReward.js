@@ -12,7 +12,7 @@ const MiningReward = () => {
               <div className="flex flex-row justify-between mt-8">
                       
         <div className='flex flex-row gap-2'>
-                          <img className="h-12 w-12" alt="BTCA logo" src='' />
+                          <img className="h-6 w-6" alt="BTCA logo" src='/logo.png' />
                            <p className="text-gray-900 font-medium">25</p>
                       </div>
 

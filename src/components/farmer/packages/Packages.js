@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import TabButton from "../TabButton";
-import Company from './Company'
 import Franchisors from './franchisors/Franchisors'
 import Resellers from './resellers/Resellers'
+import Company from "./company/Company";
 
 
 

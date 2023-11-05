@@ -3,6 +3,7 @@ import AvailableBalance from "./balance/AvailableBalance";
 import TotalFarmedAmount from "./balance/TotalFarmedAmount";
 import ActivatedPackages from "./packages/ActivatedPackages";
 import MiningReward from "./balance/MiningReward";
+import FarmSpeed from "./farmSpeed/FarmSpeed";
 
 
 
@@ -29,7 +30,11 @@ const Dashboard = () => {
             <MiningReward />
           </div>
           
-
+           {/* Farming Speed */}
+          <div className="mt-12">
+            <FarmSpeed />
+          </div>
+          
           {/* Activated Packages */}
           <div className="mt-12">
             <ActivatedPackages />
