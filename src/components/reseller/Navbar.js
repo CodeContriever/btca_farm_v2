@@ -35,13 +35,17 @@ function HamburgerMenu({ activeButton, handleHamburgerClick, onNavigate }) {
       {activeButton === 'menu' && (
         <div className="items-center justify-start lg:hidden flex w-[100%] order-1 bg-gray-400" id="mobile-menu-2" tabIndex="-1">
           <ul className="bg-white w-64 absolute top-8 z-10 flex flex-col justify-center p-4 gap-4 mt-4 font-medium lg:flex-row lg-space-x-8 lg-mt-0">
-            <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer" onClick={() => onNavigate('profile')}>Profile</button>
-            </li>
+         
             <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('dashboard')}>Dashboard</button>
             </li>
             {/* Add more menu items as needed */}
+
+            <hr />
+               <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer" onClick={() => onNavigate('profile')}>Profile</button>
+            </li>
+            
             <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer" onClick={() => onNavigate('support')}>Support</button>
             </li>

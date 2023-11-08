@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { selectRoleData } from '../../../../store/role';
+import { selectRoleData } from '../../../../store/reseller/Role';
 import axios from 'axios';
 
 

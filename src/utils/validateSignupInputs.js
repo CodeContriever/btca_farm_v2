@@ -9,6 +9,11 @@ const validateSignupInputs = (formData, setFormErrors) => {
     isValid = false;
   }
 
+   if (formData.username.length < 3) {
+    errors.fullname = "Username must be at least 3 characters long.";
+    isValid = false;
+  }
+
   if (!/^\d{8,15}$/.test(formData.phoneNumber)) {
     errors.phoneNumber = "Phone Number must be between 8 and 15 digits.";
     isValid = false;

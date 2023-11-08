@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSelector } from "react-redux";
+import { selectSigninData } from "../../../store/superAdmin/Signin";
 
 const Orders = () => {
+      const signinData = useSelector(selectSigninData);
+  const { userId } = signinData?.data || {};
+
+  // Define state to store user data
+  const [orderData, setOrderData] = useState(null);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        // Make an API call to get the user's data
+        const response = await axios.get(`https://btca.afribook.world/account/user/${userId}`);
+        
+        if (response.status === 200) {
+          const data = response.data;
+          console.log('User data fetch successful:', data);
+          setOrderData(data); // Store the fetched data in the state
+        } else {
+          console.error('Error fetching data, please try again later.');
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        // Handle the error, e.g., display an error message to the user
+        console.error('Error, please check your connection');
+      }
+    };
+
+    // Call the fetchUser function when the component mounts
+    fetchOrders();
+  }, [userId]);
+  
   return (
     <div className="container mx-auto px-6">
       <div>

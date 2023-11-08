@@ -6,8 +6,8 @@ import { useAuth } from '../../../utils/auth';
 
 import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
-import { selectSigninData } from '../../../store/signin';
-import { setSigninData, } from '../../../store/signin';
+import { selectSigninData } from '../../../store/superAdmin/Signin';
+import { setSigninData, } from '../../../store/superAdmin/Signin';
 import Input from '../../../components/form/Input';
 import PwdInput from '../../../components/form/PwdInput';
 
@@ -34,11 +34,14 @@ const Signin = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const redirectPath = location.state?.path || '/'
+  const redirectPath = location.state?.path || '/super_admin/dashboard'
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+
     const { username, password, } = formData;
+
     if (!username || !password) {
       toast.error('Please fill in all the required fields correctly');
       return;
@@ -57,6 +60,7 @@ const Signin = () => {
 
       // Check if the response indicates a successful login
       if (response.status === 200) {
+
         // Parse the response to JSON format
         const data = await response.json();
         console.log("User logged in successfully:", data);
@@ -69,21 +73,23 @@ const Signin = () => {
         console.log("Signin Data from Redux Store:", signinData);
 
         // Log the entire data object in the console
-        console.log("Signin Data:", data);
+        // console.log("Signin Data:", data);
 
         if (data.success) {
           auth.login(data.user);
+
           if (redirectPath) {
             // If redirectPath is defined, navigate to it
             navigate(redirectPath, { replace: true });
+
           } else {
             // If redirectPath is not defined, navigate to /home
-            navigate('/admin/dashboard', { replace: true });
+            navigate('/super_admin/dashboard', { replace: true });
           }
         } else {
           // Display an error message and navigate to the verify_email page
           toast.error('You are not registered, please signup.');
-          navigate('/admin/signup');
+          navigate('/super_admin/signup');
         }
 
       } else {

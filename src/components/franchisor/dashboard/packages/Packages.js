@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineStar } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
-import { selectRoleData } from '../../../../store/role';
+import { selectRoleData } from '../../../../store/franchisor/Role';
 import axios from 'axios';
 
 

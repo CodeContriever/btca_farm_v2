@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AiFillCheckCircle, AiOutlineCheckCircle } from 'react-icons/ai';
 import { FaUser, FaUserTie } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
-import { selectRoleData } from '../../../../store/role';
+import { selectRoleData } from '../../../../store/reseller/Role';
 
 function PendingSales() {
   const [data, setData] = useState([]);

@@ -14,16 +14,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
     >
       <div className="w-full pt-8 pb-20 px-3 h-full bg-white dark-bg-gray-800">
         <ul className="space-y-6">
-          <li>
-            <button
-              type="button"
-              className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'profile' ? 'active' : ''}`}
-              onClick={() => onNavigate('profile')}
-            >
-              <FaUser className="w-6 h-6 text-gray-800 dark:text-white" />
-              <span className="ml-3">Profile</span>
-            </button>
-          </li>
+       
 
           <li>
             <button
@@ -39,7 +30,21 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
           {/* Other sidebar items, such as Activation, License Key, etc. */}
           {/* ... */}
         </ul>
+
         <ul className="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
+
+             <li>
+            <button
+              type="button"
+              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'profile' ? 'active' : ''}`}
+              onClick={() => onNavigate('profile')}
+            >
+              <FaUser className="w-6 h-6 text-gray-800 dark:text-white" />
+              <span className="ml-3">Profile</span>
+            </button>
+          </li>
+
+
           <li>
             <button
               type="button"

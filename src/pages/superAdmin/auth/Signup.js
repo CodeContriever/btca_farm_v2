@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { setSignupData } from '../../../store/signup';
+import { setSignupData } from '../../../store/superAdmin/Signup';
 import Input from '../../../components/form/Input';
 import PwdInput from '../../../components/form/PwdInput';
 import validateSignupInputs from '../../../utils/validateSignupInputs';
@@ -67,36 +67,45 @@ const Signup = () => {
         console.log('Signup Data:', data);
 
         dispatch(setSignupData(data));
-        console.log('Signup Data Dispatched:', data);
+        // console.log('Signup Data Dispatched:', data);
 
         handleRegistrationSuccess(data);
       } else if (response.status === 400) {
+
         const errorData = response.data;
+
         if (errorData && errorData.errors) {
           const validationErrors = errorData.errors;
+
           for (const key in validationErrors) {
             const errorMessage = validationErrors[key];
             toast.error(errorMessage);
           }
+
         } else {
           toast.error('Invalid request. Please check your input.');
         }
+
       } else if (response.status === 401) {
         toast.error('Unauthorized. Please check your credentials.');
+
       } else if (response.status === 403) {
         toast.error('Forbidden. You do not have permission to access this resource.');
+
       } else {
         toast.error('An error occurred, please try again later.');
       }
+
     } catch (error) {
       console.error('Error registering user:', error);
       toast.error('An error occurred, please try again later.');
     }
+    
   };
 
   const handleRegistrationSuccess = (data) => {
     if (data.success) {
-      navigate('/verify_OTP');
+      navigate('/super_admin/verify_OTP');
     } else if (data.error === 'User already exists') {
       toast.error('This email or phone number has already been used.');
     } else {

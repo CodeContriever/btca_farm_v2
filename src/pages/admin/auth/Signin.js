@@ -6,8 +6,8 @@ import { useAuth } from '../../../utils/auth';
 
 import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
-import { selectSigninData } from '../../../store/signin';
-import { setSigninData, } from '../../../store/signin';
+import { selectSigninData } from '../../../store/admin/Signin';
+import { setSigninData, } from '../../../store/admin/Signin';
 import Input from '../../../components/form/Input';
 import PwdInput from '../../../components/form/PwdInput';
 
@@ -34,7 +34,7 @@ const Signin = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const redirectPath = location.state?.path || '/'
+  const redirectPath = location.state?.path || '/admin/dashboard'
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,17 +69,21 @@ const Signin = () => {
         console.log("Signin Data from Redux Store:", signinData);
 
         // Log the entire data object in the console
-        console.log("Signin Data:", data);
+        // console.log("Signin Data:", data);
 
         if (data.success) {
+
           auth.login(data.user);
+
           if (redirectPath) {
             // If redirectPath is defined, navigate to it
             navigate(redirectPath, { replace: true });
+
           } else {
             // If redirectPath is not defined, navigate to /home
             navigate('/admin/dashboard', { replace: true });
           }
+
         } else {
           // Display an error message and navigate to the verify_email page
           toast.error('You are not registered, please signup.');
@@ -91,8 +95,10 @@ const Signin = () => {
         toast.error('Login failed. Please check your credentials and try again.');
       }
     } catch (error) {
+      
       // Handle any errors that might occur during the fetch process
       console.error('Error during login:', error);
+
       toast.error('An error occurred during login. Please try again later.');
     }
   };
