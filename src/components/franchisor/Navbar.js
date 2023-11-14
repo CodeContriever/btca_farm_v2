@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
+import { selectFranchisorProfileData } from '../../store/franchisor/Profile';
 
 
 // Create a Logo component
@@ -173,9 +174,9 @@ function NotificationItem({ avatarUrl, sender, message, timeAgo }) {
 function UserProfileDropdown() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   // Use useSelector to access 'franchisorData' from the Redux store
-  const franchisorData = useSelector((state) => state.franchisor.franchisorData);
+  const franchisorProfileData = useSelector((state) => state.franchisorProfile.franchisorProfileData);
 
-  const { fullname, email, role } = franchisorData?.data || {};
+  const { fullname, email, role } = franchisorProfileData?.data || {};
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -188,9 +189,9 @@ function UserProfileDropdown() {
         className="relative inline-flex items-center p-2 rounded-full cursor-pointer"
       >
         {/* Use a default SVG avatar when 'avatarUrl' is not available */}
-        {franchisorData?.avatarUrl ? (
+        {franchisorProfileData?.avatarUrl ? (
           <img
-            src={franchisorData.avatarUrl}
+            src={franchisorProfileData.avatarUrl}
             alt="User Avatar"
             className="w-8 h-8 rounded-full"
           />

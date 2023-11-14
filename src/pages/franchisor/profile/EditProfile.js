@@ -15,9 +15,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
-import { setFranchisorData, } from '../../../store/franchisor';
+import { setFranchisorProfileData, } from '../../../store/franchisor/Profile';
 
-import { selectSignupData } from '../../../store/franchisor/Signup';
+import { selectFranchisorSignupData } from '../../../store/franchisor/Signup';
 
 
 
@@ -28,7 +28,7 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const signupData = useSelector(selectSignupData);
+  const signupData = useSelector(selectFranchisorSignupData);
   const { fullname, phoneNumber } = signupData?.data || {};
   useEffect(() => {
     if (fullname && phoneNumber) {
@@ -129,7 +129,7 @@ const EditProfile = () => {
         console.log("Data submitted successfully:", data);
 
         // Dispatch the entire data object to store it in the Redux store
-        dispatch(setFranchisorData(data)); // Dispatch the action
+        dispatch(setFranchisorProfileData(data)); // Dispatch the action
 
         if (data.success) {
           setSuccessModalVisible(true);

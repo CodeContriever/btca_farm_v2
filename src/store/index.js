@@ -1,52 +1,63 @@
 // store.js (Redux store setup)
 
 import { createStore, combineReducers } from 'redux';
-import SuperAdminSignupReducer from './superAdmin/Signup';
-import SuperAdminSigninReducer from './superAdmin/Signin';
-import SuperAdminRoleReducer from './superAdmin/Role';
+import superAdminSignupReducer from './superAdmin/Signup';
+import superAdminSigninReducer from './superAdmin/Signin';
+import superAdminRoleReducer from './superAdmin/Role';
+import superAdminProfileReducer from './superAdmin/Profile';
 
-import AdminSignupReducer from './admin/Signup';
-import AdminSigninReducer from './admin/Signin';
-import AdminRoleReducer from './admin/Role';
+import adminSignupReducer from './admin/Signup';
+import adminSigninReducer from './admin/Signin';
+import adminRoleReducer from './admin/Role';
+import adminProfileReducer from './admin/Profile';
 
-import FarmerSignupReducer from './farmer/Signup';
-import FarmerSigninReducer from './farmer/Signin';
-import FarmerRoleReducer from './farmer/Role';
+import farmerSignupReducer from './farmer/Signup';
+import farmerSigninReducer from './farmer/Signin';
+import farmerRoleReducer from './farmer/Role';
+import farmerProfileReducer from './farmer/Profile';
 
-import FranchisorSignupReducer from './franchisor/Signup';
-import FranchisorSigninReducer from './franchisor/Signin';
-import FranchisorRoleReducer from './franchisor/Role';
+import franchisorSignupReducer from './franchisor/Signup';
+import franchisorSigninReducer from './franchisor/Signin';
+import franchisorRoleReducer from './franchisor/Role';
+import franchisorProfileReducer from './franchisor/Profile'
 
-import ResellerSignupReducer from './reseller/Signup';
-import ResellerSigninReducer from './reseller/Signin';
-import ResellerRoleReducer from './reseller/Role';
+import resellerSignupReducer from './reseller/Signup';
+import resellerSigninReducer from './reseller/Signin';
+import resellerRoleReducer from './reseller/Role';
+import resellerProfileReducer from './reseller/Profile'
+
 
 
 
 // Combine reducers
 const rootReducer = combineReducers({
 
-  superAdminSignup: SuperAdminSignupReducer,
-  superAdminSignin: SuperAdminSigninReducer,
-  superAdminRole: SuperAdminRoleReducer,
+  superAdminSignup: superAdminSignupReducer,
+  superAdminSignin: superAdminSigninReducer,
+  superAdminRole: superAdminRoleReducer,
+  superAdminProfile: superAdminProfileReducer,
 
 
-  AdminSignup:AdminSignupReducer,
-AdminSignin:AdminSigninReducer,
-  AdminRole: AdminRoleReducer,
+  adminSignup:adminSignupReducer,
+adminSignin:adminSigninReducer,
+  adminRole: adminRoleReducer,
+  adminProfile: adminProfileReducer,
 
   
-    FarmerSignup:FarmerSignupReducer,
-FarmerSignin:FarmerSigninReducer,
-  FarmerRole: FarmerRoleReducer,
+    farmerSignup:farmerSignupReducer,
+farmerSignin:farmerSigninReducer,
+  farmerRole: farmerRoleReducer,
+  farmerProfile: farmerProfileReducer,
 
-    FranchisorSignup:FranchisorSignupReducer,
-FranchisorSignin:FranchisorSigninReducer,
-  FranchisorRole: FranchisorRoleReducer,
+    franchisorSignup:franchisorSignupReducer,
+franchisorSignin:franchisorSigninReducer,
+  franchisorRole: franchisorRoleReducer,
+  franchisorProfile: franchisorProfileReducer,
 
-      ResellerSignup:ResellerSignupReducer,
-ResellerSignin:ResellerSigninReducer,
-ResellerRole:ResellerRoleReducer,
+      resellerSignup:resellerSignupReducer,
+resellerSignin:resellerSigninReducer,
+  resellerRole: resellerRoleReducer,
+ resellerProfile: resellerProfileReducer,
 
 
 });

@@ -1,51 +1,49 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSignupData } from "../../../store/farmer/Signup";
-import { setRoleData } from "../../../store/farmer/Role";
+import { selectFarmerSignupData } from "../../../store/farmer/Signup";
+import { setFarmerRoleData } from "../../../store/farmer/Role";
 import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 
 const Role = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const signupData = useSelector(selectSignupData);
-
-   // Ensure that signupData is correctly accessed
-  console.log("signupData:", signupData);
-
-  // Extract userId from signupData, or set it to null if not available
-  const { userId } = signupData?.data || { userId: null };
-
-  const [isUserIdAvailable, setIsUserIdAvailable] = useState(userId !== null);
+  const signupData = useSelector(selectFarmerSignupData);
 
   useEffect(() => {
-    setIsUserIdAvailable(userId !== null);
-  }, [userId]);
+    if (signupData && signupData.data) {
+      const { userId } = signupData.data;
+      if (!userId) {
+        toast.error('Please sign up before selecting a role.');
+        navigate("/farmer/signup");
+      }
+    } else {
+      console.error('Signup data is not available.');
+    }
+  }, [signupData, navigate]);
 
   const handleSelectChange = async (event) => {
     const selectedOption = event.target.value;
     if (selectedOption) {
       try {
-        if (!isUserIdAvailable) {
-          // Display a toast message to tell the user to sign up first
-          toast.error('Please sign up before selecting a role.');
-          return;
-        }
-
         // Set the user's role in the Redux store
-        dispatch(setRoleData(selectedOption));
+        dispatch(setFarmerRoleData(selectedOption));
         console.log('User role set in Redux store:', selectedOption);
 
         // Make an API call to set the user's role on the server
-        await axios.post("https://btca.afribook.world/account/assignRole", {
-          userId,
+        const response = await axios.post("https://btca.afribook.world/account/assignRole", {
+          userId: signupData.data.userId,
           role: selectedOption,
         });
-        console.log('API call to set user role succeeded');
 
-        // Navigate to the appropriate page based on the selected role
-        navigate(`/${selectedOption}`);
+        if (response.status === 200) {
+          console.log('API call to set user role succeeded');
+          // Navigate to the appropriate page based on the selected role
+          navigate(`/${selectedOption}`);
+        } else {
+          console.error('API call to set user role failed');
+        }
       } catch (error) {
         console.error("Error setting user role:", error);
         // Handle the error, e.g., display an error message to the user
@@ -72,7 +70,7 @@ const Role = () => {
           </div>
           <div className="flex items-center mt-0 lg:mt-16">
             <div
-              className="w-[100%] px-6 py-8  bg-[#F9FAFB] rounded-lg shadow dark:border  dark:bg-gray-800 dark:border-gray-700"
+              className="w-[100%] px-6 py-8 bg-[#F9FAFB] rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700"
             >
               <div>
                 <h1 className="text-xl font-bold font-Inter leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">

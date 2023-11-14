@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { selectRoleData } from '../../../../store/reseller/Role';
+import { selectResellerRoleData } from '../../../../store/reseller/Role';
 import axios from 'axios';
 
 
 
 const CurrentPackages = () => {
-  const roleData = useSelector(selectRoleData);
+  const roleData = useSelector(selectResellerRoleData);
   const { userId } = roleData?.data || {};
 
   const [packages, setPackages] = useState([]);

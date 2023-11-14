@@ -2,26 +2,26 @@
 
 // Initial state
 const initialState = {
-  roleData: null, // Initial state for signupData
+  franchiorRoleData: null, // Initial state for signupData
   // Other initial state properties...
 };
 
 // Action types
-const SET_ROLE_DATA = 'SET_ROLE_DATA';
+const SET_FRANCHISOR_ROLE_DATA = 'SET_FRANCHISOR_ROLE_DATA';
 
 // Action creators
-export const setRoleData = (data) => ({
-  type: SET_ROLE_DATA,
+export const setFranchisorRoleData = (data) => ({
+  type: SET_FRANCHISOR_ROLE_DATA,
   payload: data,
 });
 
 // Reducer function
-const roleReducer = (state = initialState, action) => {
+const franchisorRoleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_ROLE_DATA:
+    case SET_FRANCHISOR_ROLE_DATA:
       return {
         ...state,
-        roleData: action.payload,
+        franchisorRoleData: action.payload,
       };
     // Handle other action types if needed...
     default:
@@ -30,7 +30,7 @@ const roleReducer = (state = initialState, action) => {
 };
 
 // Selector function to get registrationData from the state
-export const selectRoleData = (state) => state.role.roleData; // Corrected selector
+export const selectFranchisorRoleData = (state) => state.franchisorRole.franchisorRoleData; // Corrected selector
 
 // Export the reducer and selector
-export default roleReducer;
+export default franchisorRoleReducer;

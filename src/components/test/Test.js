@@ -1,90 +1,122 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+// Role.js
+import React, {useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectSignupData } from "../../../store/franchisor/Signup";
+import { setRoleData } from "../../../store/franchisor/Role";
+import axios from "axios";
 
-const Nav1 = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const Role = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const signupData = useSelector(selectSignupData);
 
-  const handleMobileMenuToggle = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
+  useEffect(() => {
+    if (!signupData || !signupData.userId) {
+      navigate('/franchisor/signup');
+    }
+  }, [signupData, navigate]);
+
+   const { userId } = signupData?.data || {};
+
+  const handleSelectChange = async (event) => {
+    const selectedOption = event.target.value;
+    if (selectedOption) {
+      try {
+        // Set the user's role in the Redux store
+        dispatch(setRoleData(selectedOption));
+        console.log('User role set in Redux store:', selectedOption);
+
+        // Make an API call to set the user's role on the server
+        await axios.post("https://btca.afribook.world/account/assignRole", {
+          userId,
+          role: selectedOption,
+        });
+        console.log('API call to set user role succeeded');
+
+        // Navigate to the appropriate page based on the selected role
+        navigate(`/${selectedOption}`);
+      } catch (error) {
+        console.error("Error setting user role:", error);
+        // Handle the error, e.g., display an error message to the user
+      }
+    }
   };
 
-  const navLinks = [
-    { to: '/signin', label: 'Signin' },
-    { to: '/signup', label: 'Signup' },
-    // { to: '/statistics', label: 'Statistics' },
-  ];
+
 
   return (
-    <nav>
-      <div className="flex justify-between items-center">
-
-        <div className="flex justify-start items-center gap-4">
-          <Link to="/home" className="flex items-center justify-between mr-4">
-            <img src="/logo.png" className="mr-3 h-6 lg:h-8" alt="BTCA Logo" />
-            <span className="text-md lg:text-2xl font-semibold whitespace-nowrap dark:text-white">
+    <main className="bg-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">
+      <div className="">
+        {/* <Toaster position='top-center' reverseOrder={false}></Toaster> */}
+      </div>
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* First column: Register Form */}
+        <div className="bg-white rounded-md shadow-md p-4">
+          <div class="flex flex-col items-center">
+            {/* Logo */}
+            <a
+              href="/"
+              class="flex items-center mt-6 mb-6 text-2xl font-semibold font-Inter text-gray-900 dark:text-white"
+            >
+              <img class="w-8 h-8 mr-2" src="/logo.png" alt="logo" />
               BTCA_FARM
-            </span>
-          </Link>
-        </div>
-
-        <div className="hidden md:flex items-center">
-          {navLinks.map((link, index) => (
-            <Link
-              key={index}
-              to={link.to}
-              className={`${link.label === 'Signup'
-                ? 'text-white bg-[#A020F0] hover:bg-blue-800'
-                : 'text-gray-800'
-                } font-medium text-base px-4 lg:px-5 py-2 lg:py-2.5 mr-2 rounded-lg`}
+            </a>
+          </div>
+          {/* Form Column */}
+          <div className="flex items-center mt-0 lg:mt-16">
+            <div
+              className="w-[100%] px-6 py-8  bg-[#F9FAFB] rounded-lg shadow dark:border  dark:bg-gray-800 dark:border-gray-700"
             >
-              {link.label}
-            </Link>
-          ))}
+              {/* form heading */}
+              <div>
+                <h1 class="text-xl font-bold font-Inter leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+                  Select Role
+                </h1>
+              </div>
+              {/* Form */}
+              <form className="py-1 mt-4">
+                {/* Role */}
+                <div className="flex flex-col gap-0.5">
+                  <label
+                    for="register"
+                    className="text-sm font-medium text-white dark:text-white"
+                  >
+                    Register as
+                  </label>
+                  <select
+                    id="register"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    onChange={handleSelectChange}
+                  >
+                    <option value="">Select an option</option>
+                    <option value="farmer">Farmer</option>
+                    <option value="franchisor">Franchisor</option>
+                    <option value="reseller">Reseller</option>
+                  </select>
+                </div>
+                {/* Already register */}
+                <div className="py-4 flex flex-row gap-8">
+                  <span className="text-gray-500">
+                    Already Registered?
+                    <Link className="text-red-500 ml-2" to="/signin">
+                      Login Now
+                    </Link>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-
-        <div className="flex md:hidden cursor-pointer">
-          <button
-            onClick={handleMobileMenuToggle}
-            className="p-2 mr-2 text-gray-600 rounded-lg hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            <svg
-              aria-hidden="true"
-              className="w-6 h-6 bg-[#A020F0]"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* SVG Path */}
-            </svg>
-            <span className="sr-only">Toggle sidebar</span>
-          </button>
+        {/* Second column: BTCA logo */}
+        <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+          <div className="flex items-center justify-center p-4 md:p-8">
+            <img src="/logo.png" alt="logo" />
+          </div>
         </div>
       </div>
-
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white">
-          <ul className="flex flex-col p-4 gap-4 font-medium">
-            {navLinks.map((link, index) => (
-              <li key={index}>
-                <Link
-                  to={link.to}
-                  onClick={handleMobileMenuToggle}
-                  className={`${link.label === 'Signup'
-                    ? 'hover:text-[#A020F0]'
-                    : 'hover:text-gray-800'
-                    } text-md lg:text-base dark:text-white`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-            <hr />
-            {/* Other menu items */}
-          </ul>
-        </div>
-      )}
-    </nav>
+    </main>
   );
 };
 
-export default Nav1;
+export default Role;

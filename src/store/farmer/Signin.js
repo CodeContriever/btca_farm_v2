@@ -2,26 +2,26 @@
 
 // Initial state
 const initialState = {
-  signinData: null, // Initial state for signupData
+  farmerSigninData: null, // Initial state for signupData
   // Other initial state properties...
 };
 
 // Action types
-const SET_SIGNIN_DATA = 'SET_SIGNIN_DATA';
+const SET_FARMER_SIGNIN_DATA = 'SET_FARMER_SIGNIN_DATA';
 
 // Action creators
-export const setSigninData = (data) => ({
-  type: SET_SIGNIN_DATA,
+export const setFarmerSigninData = (data) => ({
+  type: SET_FARMER_SIGNIN_DATA,
   payload: data,
 });
 
 // Reducer function
-const signinReducer = (state = initialState, action) => {
+const farmerSigninReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_SIGNIN_DATA:
+    case SET_FARMER_SIGNIN_DATA:
       return {
         ...state,
-        signinData: action.payload,
+        farmerSigninData: action.payload,
       };
     // Handle other action types if needed...
     default:
@@ -30,7 +30,7 @@ const signinReducer = (state = initialState, action) => {
 };
 
 // Selector function to get signinData from the state
-export const selectSigninData = (state) => state.signin.signinData; // Corrected selector
+export const selectFarmerSigninData = (state) => state.farmerSignin.farmerSigninData; // Corrected selector
 
 // Export the reducer and selector
-export default signinReducer;
+export default farmerSigninReducer;

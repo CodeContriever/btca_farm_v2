@@ -6,12 +6,12 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 import {  useSelector } from "react-redux";
-import { selectSigninData } from "../../../store/admin/Signin";
+import { selectAdminSigninData } from "../../../store/admin/Signin";
 
 
 
 const Dashboard = () => {
-  const signinData = useSelector(selectSigninData);
+  const signinData = useSelector(selectAdminSigninData);
   
   const { userId } = signinData?.data || {};
   

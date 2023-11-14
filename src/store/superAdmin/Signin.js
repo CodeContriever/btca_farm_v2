@@ -2,26 +2,26 @@
 
 // Initial state
 const initialState = {
-  signinData: null, // Initial state for signupData
+  superAdminSigninData: null, // Initial state for signupData
   // Other initial state properties...
 };
 
 // Action types
-const SET_SIGNIN_DATA = 'SET_SIGNIN_DATA';
+const SET_SUPER_ADMIN_SIGNIN_DATA = 'SET_SUPER_ADMIN_SIGNIN_DATA';
 
 // Action creators
-export const setSigninData = (data) => ({
-  type: SET_SIGNIN_DATA,
+export const setSuperAdminSigninData = (data) => ({
+  type: SET_SUPER_ADMIN_SIGNIN_DATA,
   payload: data,
 });
 
 // Reducer function
-const signinReducer = (state = initialState, action) => {
+const superAdminSigninReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_SIGNIN_DATA:
+    case SET_SUPER_ADMIN_SIGNIN_DATA:
       return {
         ...state,
-        signinData: action.payload,
+        superAdminSigninData: action.payload,
       };
     // Handle other action types if needed...
     default:
@@ -30,7 +30,7 @@ const signinReducer = (state = initialState, action) => {
 };
 
 // Selector function to get signinData from the state
-export const selectSigninData = (state) => state.signin.signinData; // Corrected selector
+export const selectSuperAdminSigninData = (state) => state.superAdminSignin.superAdminSigninData; // Corrected selector
 
 // Export the reducer and selector
-export default signinReducer;
+export default superAdminSigninReducer;

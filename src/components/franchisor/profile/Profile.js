@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { selectFranchisorData } from '../../../store/franchisor';
+import { selectFranchisorProfileData } from '../../../store/franchisor/Profile';
 
 
 
@@ -31,7 +31,7 @@ const Profile = () => {
     handleSectionChange('form1');
   };
 
-  const franchisorData = useSelector(selectFranchisorData);
+  const franchisorData = useSelector(selectFranchisorProfileData);
   const {
     firstName,
     phoneNumber,

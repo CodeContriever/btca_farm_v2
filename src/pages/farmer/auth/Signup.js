@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { setSignupData } from '../../../store/farmer/Signup';
+import { setFarmerSignupData } from '../../../store/farmer/Signup';
 
 import Input from '../../../components/form/Input';
 import PwdInput from '../../../components/form/PwdInput';
@@ -70,7 +70,7 @@ const Signup = () => {
         console.log('User registered successfully:', data);
         console.log('Signup Data:', data);
 
-        dispatch(setSignupData(data));
+        dispatch(setFarmerSignupData(data));
         console.log('Signup Data Dispatched:', data);
 
         handleRegistrationSuccess(data);
@@ -95,8 +95,28 @@ const Signup = () => {
     } catch (error) {
       console.error('Error registering user:', error);
       toast.error('An error occurred, please try again later.');
+      if (error.response) {
+      // The request was made and the server responded with a status code
+      console.log('Data:', error.response.data);
+      console.log('Status:', error.response.status);
+        console.log('Headers:', error.response.headers);
+        
+      // Handle the error based on the response data or status code
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.log('Request:', error.request);
+      // Handle the error based on the request (e.g., retry the request)
+    } else {
+      // Something happened in setting up the request that triggered an error
+      console.log('Error:', error.message);
+      // Handle the error (e.g., display an error message to the user)
+    }
+    console.log('Config:', error.config);
+    // Handle the error based on the Axios configuration
     }
   };
+
+ 
 
   const handleRegistrationSuccess = (data) => {
     if (data.success) {

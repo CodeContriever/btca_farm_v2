@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
-import { selectSigninData } from "../../../../store/superAdmin/Signin";
+import { selectSuperAdminSigninData } from "../../../../store/superAdmin/Signin";
 
 const Users = () => {
-   const signinData = useSelector(selectSigninData);
+   const signinData = useSelector(selectSuperAdminSigninData);
   const { userId } = signinData?.data || {};
 
   // Define state to store user data

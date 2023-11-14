@@ -74,13 +74,7 @@ const Dashboard = () => {
               <div className="">
 
                 {/* Farm Packages  */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 px-4">
-                  <Packages
-                    title="Package Title"
-                    value="Package Value"
-                    description="Package Description"
-                  />
-                </div>
+             
 
 
               </div>
@@ -88,20 +82,14 @@ const Dashboard = () => {
             )}
 
 
-            {/* Current packagescontent */}
+            {/* Current/Activated packages content */}
             {activeButton === 'current_packages' && (
 
 
               <div className="">
 
                 {/* Farm Packages  */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 px-4">
-                  <CurrentPackages
-                    title="Package Title"
-                    value="Package Value"
-                    description="Package Description"
-                  />
-                </div>
+               
 
 
               </div>

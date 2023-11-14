@@ -4,14 +4,16 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 import { useSelector } from "react-redux";
-import { selectSignupData } from '../../../store/farmer/Signup';
+import { selectFarmerSignupData } from '../../../store/farmer/Signup';
 
 const VerifyOTP = () => {
   const navigate = useNavigate();
   const reduxState = useSelector((state) => state); // Log the entire state
   console.log("Redux State:", reduxState);
+
+
   // Retrieve 'signupData' from the Redux store
-  const signupData = useSelector(selectSignupData);
+  const signupData = useSelector(selectFarmerSignupData);
   const { userId } = signupData?.data || {};
 
   console.log(userId)
@@ -33,7 +35,7 @@ const VerifyOTP = () => {
     if (!userId) {
       // If userId is not available, navigate back to the login page
       toast.error('Please signup first.');
-      navigate('/franchisor/signup');
+      navigate('/farmer/signup');
       return;
     }
 

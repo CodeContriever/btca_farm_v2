@@ -4,14 +4,14 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 import { useSelector } from "react-redux";
-import { selectSignupData } from '../../../store/admin/Signup';
+import { selectAdminSignupData } from '../../../store/admin/Signup';
 
 const VerifyOTP = () => {
   const navigate = useNavigate();
   const reduxState = useSelector((state) => state); // Log the entire state
   console.log("Redux State:", reduxState);
   // Retrieve 'signupData' from the Redux store
-  const signupData = useSelector(selectSignupData);
+  const signupData = useSelector(selectAdminSignupData);
   const { userId } = signupData?.data || {};
 
   console.log(userId)

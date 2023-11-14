@@ -2,14 +2,14 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSignupData } from "../../../store/reseller/Signup";
-import { setRoleData } from "../../../store/reseller/Role";
+import { selectResellerSignupData } from "../../../store/reseller/Signup";
+import { setResellerRoleData } from "../../../store/reseller/Role";
 import axios from "axios";
 
 const Role = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const signupData = useSelector(selectSignupData);
+  const signupData = useSelector(selectResellerSignupData);
 
   const { userId } = signupData?.data || {};
 
@@ -18,7 +18,7 @@ const Role = () => {
     if (selectedOption) {
       try {
         // Set the user's role in the Redux store
-        dispatch(setRoleData(selectedOption));
+        dispatch(setResellerRoleData(selectedOption));
         console.log('User role set in Redux store:', selectedOption);
 
         // Make an API call to set the user's role on the server

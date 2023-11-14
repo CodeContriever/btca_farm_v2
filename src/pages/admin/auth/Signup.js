@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { setSignupData } from '../../../store/admin/Signup';
+import { setAdminSignupData } from '../../../store/admin/Signup';
 import Input from '../../../components/form/Input';
 import PwdInput from '../../../components/form/PwdInput';
 import validateSignupInputs from '../../../utils/validateSignupInputs';
@@ -66,7 +66,7 @@ const Signup = () => {
         console.log('User registered successfully:', data);
         console.log('Signup Data:', data);
 
-        dispatch(setSignupData(data));
+        dispatch(setAdminSignupData(data));
         console.log('Signup Data Dispatched:', data);
 
         handleRegistrationSuccess(data);

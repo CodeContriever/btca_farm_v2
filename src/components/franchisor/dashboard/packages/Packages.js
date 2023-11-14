@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineStar } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
-import { selectRoleData } from '../../../../store/franchisor/Role';
+import { selectFranchisorRoleData } from '../../../../store/franchisor/Role';
 import axios from 'axios';
 
 
 
 const Packages = () => {
-  const roleData = useSelector(selectRoleData);
+  const roleData = useSelector(selectFranchisorRoleData);
   const { userId } = roleData?.data || {};
 
   const [packages, setPackages] = useState([]);
@@ -72,40 +72,174 @@ const Packages = () => {
   }, [roleData, userId]);
 
   return (
-    <div className="bg-[#A020F0] rounded-lg overflow-hidden py-4 px-2 text-center text-white space-y-8">
-      <hr />
+   <div className="bg-white rounded-md shadow-lg p-4  mt-4">
 
-      {/* Package item */}
-      <div className="space-y-4">
-        {packages.map((packageItem) => (
-          <div key={packageItem.id}>
-            {/* Render package details */}
-            <h3 className="font-medium text-base">{packageItem.packageName}</h3>
-            {/* Other package details here */}
+      <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-4 lg:space-y-0 lg:space-x-2">
+        
+           {/* <!-- Packages --> */}
+              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                  {/* package name */}
+                  <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
 
-            {/* Radio button to select the package */}
-            <input
-              type="radio"
-              name="selectedPackage"
-              value={packageItem.id}
-              onChange={() => setSelectedPackage(packageItem)}
-            />
+                  <hr />
+
+                  {/* Freezing MAX Load */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>Up to 0.125BTCA</p>
+                      <p>Freezing MAX Load</p>
+                  </div>
+
+                  <hr />
+
+                   {/* Mining Reward */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>0.5BTCA</p>
+                      <p>Mining Reward per month</p>
+                  </div>
+
+                  <hr />
+
+
+                   {/* Expected Mining */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>4.8BTCA</p>
+                      <p>Expected Mining</p>
+                  </div>
+
+                  <hr />
+
+                   {/* Validity */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>1 year</p>
+                      <p>Validity</p>
+                  </div>
+
+                  <hr />
+
+                    {/* Unfreezing Term */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>$10</p>
+                      <p>Unfreezing Term</p>
+                  </div>
+
+                  <hr />
+
+                  <button>Activate</button>
+                  
+            
+                      </div>
+                      
+
+                        {/* <!-- Packages 2--> */}
+              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                  {/* package name */}
+                  <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
+
+                  <hr />
+
+                  {/* Freezing MAX Load */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>Up to 0.125BTCA</p>
+                      <p>Freezing MAX Load</p>
+                  </div>
+
+                  <hr />
+
+                   {/* Mining Reward */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>0.5BTCA</p>
+                      <p>Mining Reward per month</p>
+                  </div>
+
+                  <hr />
+
+
+                   {/* Expected Mining */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>4.8BTCA</p>
+                      <p>Expected Mining</p>
+                  </div>
+
+                  <hr />
+
+                   {/* Validity */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>1 year</p>
+                      <p>Validity</p>
+                  </div>
+
+                  <hr />
+
+                    {/* Unfreezing Term */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>$10</p>
+                      <p>Unfreezing Term</p>
+                  </div>
+
+                  <hr />
+
+                  <button>Activate</button>
+                  
+            
+                      </div>
+                      
+
+                        {/* <!-- Packages 3--> */}
+              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+                  {/* package name */}
+                  <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
+
+                  <hr />
+
+                  {/* Freezing MAX Load */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>Up to 0.125BTCA</p>
+                      <p>Freezing MAX Load</p>
+                  </div>
+
+                  <hr />
+
+                   {/* Mining Reward */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>0.5BTCA</p>
+                      <p>Mining Reward per month</p>
+                  </div>
+
+                  <hr />
+
+
+                   {/* Expected Mining */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>4.8BTCA</p>
+                      <p>Expected Mining</p>
+                  </div>
+
+                  <hr />
+
+                   {/* Validity */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>1 year</p>
+                      <p>Validity</p>
+                  </div>
+
+                  <hr />
+
+                    {/* Unfreezing Term */}
+                  <div className='flex flex-col gpa-2'>
+                      <p>$10</p>
+                      <p>Unfreezing Term</p>
+                  </div>
+
+                  <hr />
+
+                  <button>Activate</button>
+                  
+            
+              </div>
           </div>
-        ))}
-      </div>
 
-      <hr />
 
-      <div className="flex justify-center">
-        <button
-          className="flex flex-col items-center justify-center gap-2 px-20 py-1 font-medium text-base outline otline-1 outline-white"
-          onClick={activatePackage}
-        >
-          <AiOutlineStar />
-          Activate
-        </button>
-      </div>
-    </div>
+        </div>
   );
 };
 

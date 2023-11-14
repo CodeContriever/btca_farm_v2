@@ -6,15 +6,15 @@ import { useAuth } from '../../../utils/auth';
 
 import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
-import { selectSigninData } from '../../../store/admin/Signin';
-import { setSigninData, } from '../../../store/admin/Signin';
+// import { selectAdminSigninData } from '../../../store/admin/Signin';
+import { setAdminSigninData, } from '../../../store/admin/Signin';
 import Input from '../../../components/form/Input';
 import PwdInput from '../../../components/form/PwdInput';
 
 
 const Signin = () => {
   const dispatch = useDispatch();
-  const signinData = useSelector(selectSigninData);
+  // const signinData = useSelector(selectSigninData);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -62,7 +62,7 @@ const Signin = () => {
         console.log("User logged in successfully:", data);
 
         // Dispatch the entire data object to store it in the Redux store
-        dispatch(setSigninData(data));
+        dispatch(setAdminSigninData(data));
         console.log("Signin Data Dispatched:", data);
 
         // Log the entire data object in the console

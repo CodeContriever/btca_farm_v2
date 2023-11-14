@@ -2,26 +2,26 @@
 
 // Initial state
 const initialState = {
-  signupData: null, // Initial state for signupData
+  adminSignupData: null, // Initial state for signupData
   // Other initial state properties...
 };
 
 // Action types
-const SET_SIGNUP_DATA = 'SET_SIGNUP_DATA';
+const SET_ADMIN_SIGNUP_DATA = 'SET_ADMIN_SIGNUP_DATA';
 
 // Action creators
-export const setSignupData = (data) => ({
-  type: SET_SIGNUP_DATA,
+export const setAdminSignupData = (data) => ({
+  type: SET_ADMIN_SIGNUP_DATA,
   payload: data,
 });
 
 // Reducer function
-const signupReducer = (state = initialState, action) => {
+const adminSignupReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_SIGNUP_DATA:
+    case SET_ADMIN_SIGNUP_DATA:
       return {
         ...state,
-        signupData: action.payload,
+        adminSignupData: action.payload,
       };
     // Handle other action types if needed...
     default:
@@ -30,7 +30,7 @@ const signupReducer = (state = initialState, action) => {
 };
 
 // Selector function to get registrationData from the state
-export const selectSignupData = (state) => state.signup.signupData; // Corrected selector
+export const selectAdminSignupData = (state) => state.adminSignup.adminSignupData; // Corrected selector
 
 // Export the reducer and selector
-export default signupReducer;
+export default adminSignupReducer;

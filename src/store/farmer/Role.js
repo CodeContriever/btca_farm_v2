@@ -2,26 +2,27 @@
 
 // Initial state
 const initialState = {
-  roleData: [], // Set an initial value as an empty array
+  farmerRoleData: [], // Set an initial value as an empty array
   // Other initial state properties...
 };
 
 // Action types
-const SET_ROLE_DATA = 'SET_ROLE_DATA';
+const SET_FARMER_ROLE_DATA = 'SET_FARMER_ROLE_DATA';
 
 // Action creators
-export const setRoleData = (data) => ({
-  type: SET_ROLE_DATA,
+export const setFarmerRoleData = (data) => ({
+  type: SET_FARMER_ROLE_DATA,
   payload: data,
 });
 
+
 // Reducer function
-const roleReducer = (state = initialState, action) => {
+const farmerRoleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_ROLE_DATA:
+    case SET_FARMER_ROLE_DATA:
       return {
         ...state,
-        roleData: action.payload,
+        farmerRoleData: action.payload,
       };
     // Handle other action types if needed...
     default:
@@ -29,8 +30,9 @@ const roleReducer = (state = initialState, action) => {
   }
 };
 
+
 // Selector function to get roleData from the state
-export const selectRoleData = (state) => state.role.roleData;
+export const selectFarmerRoleData = (state) => state.farmerRole.farmerRoleData;
 
 // Export the reducer and selector
-export default roleReducer;
+export default farmerRoleReducer;

@@ -1,27 +1,27 @@
-// registration.js (Reducer file)
+// signin.js (Reducer file)
 
 // Initial state
 const initialState = {
-  roleData: null, // Initial state for signupData
+  superAdminRoleData: null, // Initial state for signupData
   // Other initial state properties...
 };
 
 // Action types
-const SET_ROLE_DATA = 'SET_ROLE_DATA';
+const SET_SUPER_ADMIN_ROLE_DATA = 'SET_SUPER_ADMIN_ROLE_DATA';
 
 // Action creators
-export const setRoleData = (data) => ({
-  type: SET_ROLE_DATA,
+export const setSuperAdminRoleData = (data) => ({
+  type: SET_SUPER_ADMIN_ROLE_DATA,
   payload: data,
 });
 
 // Reducer function
-const roleReducer = (state = initialState, action) => {
+const superAdminRoleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_ROLE_DATA:
+    case SET_SUPER_ADMIN_ROLE_DATA:
       return {
         ...state,
-        roleData: action.payload,
+        superAdminRoleData: action.payload,
       };
     // Handle other action types if needed...
     default:
@@ -29,8 +29,8 @@ const roleReducer = (state = initialState, action) => {
   }
 };
 
-// Selector function to get registrationData from the state
-export const selectRoleData = (state) => state.role.roleData; // Corrected selector
+// Selector function to get signinData from the state
+export const selectSuperAdminRoleData = (state) => state.superAdminRole.superAdminRoleData; // Corrected selector
 
 // Export the reducer and selector
-export default roleReducer;
+export default superAdminRoleReducer;
