@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState
+} from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectAdminSigninData } from "../../../store/admin/Signin";
 
 
+import UserProfile from './Profiles';
+import { Button } from 'flowbite-react';
+
 
 const Users = () => {
+  const [viewProfile, setViewProfile] = useState(false);
+  
     const signinData = useSelector(selectAdminSigninData);
   const { userId } = signinData?.data || {};
 
   // Define state to store user data
-  const [userData, setUserData] = useState(null);
+  // const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -21,7 +29,8 @@ const Users = () => {
         if (response.status === 200) {
           const data = response.data;
           console.log('User data fetch successful:', data);
-          setUserData(data); // Store the fetched data in the state
+
+          // setUserData(data); 
         } else {
           console.error('Error fetching data, please try again later.');
         }
@@ -74,8 +83,13 @@ const Users = () => {
                             <td className="px-4 py-3 border-r">Franchisor</td>
                             <td className="px-4 py-3 border-r">Active</td>
                   <td className="px-4 py-3 border-r">20 Nov 2022</td>
-                  <td className="px-4 py-3 border-r"> <a href="/1" className="flex py-3 px-4 border-b hover-bg-gray-100 dark-hover-bg-gray-600 dark-border-gray-600">View</a>
-                  </td>
+
+                        {/* Profile */}
+<td className="px-4 py-3 border-r">
+                <Button size='sm' color='teal' onClick={() => setViewProfile(true)} >View Profile</Button>
+           <UserProfile viewProfile={viewProfile} setViewProfile={setViewProfile} />
+               
+              </td>
                         
                             
                         </tr>

@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  // useState
+} from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectAdminSigninData } from "../../../store/admin/Signin";
@@ -8,7 +11,7 @@ const Approvals = () => {
   const { userId } = signinData?.data || {};
 
   // Define state to store user data
-  const [approvalData, setApprovalData] = useState(null);
+  // const [approvalData, setApprovalData] = useState(null);
 
   useEffect(() => {
     const fetchApprovals = async () => {
@@ -19,7 +22,8 @@ const Approvals = () => {
         if (response.status === 200) {
           const data = response.data;
           console.log('User data fetch successful:', data);
-          setApprovalData(data); // Store the fetched data in the state
+
+          // setApprovalData(data); 
         } else {
           console.error('Error fetching data, please try again later.');
         }
@@ -58,7 +62,6 @@ const Approvals = () => {
                             <th scope="col" className="px-4 py-3 border-r">ROLE</th>
                   <th scope="col" className="px-4 py-3 border-r">DATE</th>
                   <th scope="col" className="px-4 py-3 border-r">STATUS</th>
-                    <th scope="col" className="px-4 py-3 border-r">CONFIRM</th>
                 </tr>
                 
               </thead>
@@ -75,15 +78,6 @@ const Approvals = () => {
                   <td className="px-4 py-3 border-r">Investor</td>
                     <td className="px-4 py-3 border-r">12 Aug 2023</td>
                   <td className="px-4 py-3 border-r">Pending</td>
-                  <td className="px-4 py-3 border-r">
-                    <label htmlFor="confirm" className="cursor-pointer">
-            <input
-              type="checkbox"
-              id="confirm"
-              className="form-checkbox h-6 w-6 text-blue-500"
-            />
-                  </label>
-                  </td>
                            
                         </tr>
                 

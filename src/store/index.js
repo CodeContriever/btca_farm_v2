@@ -27,6 +27,8 @@ import resellerRoleReducer from './reseller/Role';
 import resellerProfileReducer from './reseller/Profile'
 
 
+import userRoleReducer from './role/Role';
+
 
 
 // Combine reducers
@@ -57,7 +59,9 @@ franchisorSignin:franchisorSigninReducer,
       resellerSignup:resellerSignupReducer,
 resellerSignin:resellerSigninReducer,
   resellerRole: resellerRoleReducer,
- resellerProfile: resellerProfileReducer,
+  resellerProfile: resellerProfileReducer,
+ 
+  userRole: userRoleReducer,
 
 
 });

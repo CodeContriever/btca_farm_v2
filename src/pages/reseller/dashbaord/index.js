@@ -4,6 +4,12 @@ import Footer from '../../../components/footer/Footer';
 import NavBar from '../../../components/reseller/Navbar';
 import Profile from '../../../components/reseller/profile/Profile';
 import Dashboard from '../../../components/reseller/dashboard/Dashboard';
+import Transactions from '../../../components/reseller/transactions/Transactions';
+import Approvals from '../../../components/reseller/approvals/Approvals';
+import Payments from '../../../components/reseller/payments/Payments';
+import Orders from '../../../components/reseller/orders/Orders';
+import Settings from '../../../components/reseller/settings/Settings';
+import PendingSales from '../../../components/reseller/pendingSales/PendingSales';
 
 const Reseller = () => {
   const [activeComponent, setActiveComponent] = useState('profile');
@@ -36,10 +42,22 @@ const Reseller = () => {
   };
 
   const renderComponent = () => {
-    if (activeComponent === 'profile') {
-      return <Profile />;
-    } else if (activeComponent === 'dashboard') {
+    if (activeComponent === 'dashboard') {
       return <Dashboard />;
+    } else if (activeComponent === 'transactions') {
+      return <Transactions />;
+       } else if (activeComponent === 'pendingSales') {
+      return <PendingSales />;
+    } else if (activeComponent === 'approvals') {
+      return <Approvals />;
+    } else if (activeComponent === 'payments') {
+      return <Payments />;
+    } else if (activeComponent === 'orders') {
+      return <Orders />;
+      } else if (activeComponent === 'profile') {
+      return <Profile />;
+    } else if (activeComponent === 'settings') {
+      return <Settings />;
     }
     // You can add more conditions for other components if needed.
   };

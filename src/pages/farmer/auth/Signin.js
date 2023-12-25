@@ -34,7 +34,7 @@ const Signin = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const redirectPath = location.state?.path || '/franchisor'
+  const redirectPath = location.state?.path || '/farmer'
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +46,7 @@ const Signin = () => {
 
     try {
       // Send the POST request to the server
-      const response = await fetch('https://btca.afribook.world/account/loginWithPasswordAndEmail', {
+      const response = await fetch('https://api.afribook.world/account/loginWithPasswordAndEmail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -78,12 +78,12 @@ const Signin = () => {
             navigate(redirectPath, { replace: true });
           } else {
             // If redirectPath is not defined, navigate to /home
-            navigate('/franchisor', { replace: true });
+            navigate('/farmer', { replace: true });
           }
         } else {
           // Display an error message and navigate to the verify_email page
           toast.error('You are not registered, please signup.');
-          navigate('/franchisor/signup');
+          navigate('/farmer/role');
         }
 
       } else {
@@ -207,7 +207,7 @@ const Signin = () => {
           </div>
 
           {/* Second column: BTCA logo */}
-          <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+          <div className="hidden md:flex bg-gray-200 rounded-md shadow-md">
 
             <div className="flex items-center justify-center p-4 md:p-8" >
               <img src="/logo.png" alt="logo"

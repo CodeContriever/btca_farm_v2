@@ -40,7 +40,7 @@ const VerifyOTP = () => {
     if (formData.OTP) {
       try {
         const response = await axios.post(
-          'https://btca.afribook.world/account/verifyEmail',
+          'https://api.afribook.world/account/verifyEmail',
           {
             userId,
             OTP: formData.OTP,
@@ -70,11 +70,13 @@ const VerifyOTP = () => {
   return (
     <>
       <main className="bg-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">
+
         <div className="">
           <Toaster position='top-center' reverseOrder={false}></Toaster>
         </div>
 
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+
           {/* First column: Register Form */}
           <div className="bg-white rounded-md shadow-md p-4">
             <div className="flex flex-col items-center">
@@ -145,12 +147,14 @@ const VerifyOTP = () => {
           </div>
 
           {/* Second column: BTCA logo */}
-          <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+          <div className="hidden md:flex bg-gray-200 rounded-md shadow-md">
             <div className="flex items-center justify-center p-4 md:p-8">
               <img src="/logo.png" alt="logo" />
             </div>
           </div>
+
         </div>
+        
       </main>
     </>
   )

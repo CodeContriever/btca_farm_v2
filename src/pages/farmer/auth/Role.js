@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFarmerSignupData } from "../../../store/farmer/Signup";
+import { selectFarmerSigninData } from "../../../store/farmer/Signin";
 import { setFarmerRoleData } from "../../../store/farmer/Role";
 import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
@@ -10,39 +11,45 @@ const Role = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const signupData = useSelector(selectFarmerSignupData);
+  const signinData = useSelector(selectFarmerSigninData);
 
   useEffect(() => {
-    if (signupData && signupData.data) {
-      const { userId } = signupData.data;
-      if (!userId) {
-        toast.error('Please sign up before selecting a role.');
-        navigate("/farmer/signup");
-      }
-    } else {
-      console.error('Signup data is not available.');
-    }
-  }, [signupData, navigate]);
+    // Check if userId is available in either signup or signin data
+    const userId = signupData?.data?.userId || signinData?.data?.userId;
 
-  const handleSelectChange = async (event) => {
+    if (!userId) {
+      toast.error('Please sign up or sign in before selecting a role.');
+      navigate("/farmer/signup"); // Redirect to signup page
+    }
+  }, [signupData, signinData, navigate]);
+
+ const handleSelectChange = async (event) => {
     const selectedOption = event.target.value;
+
     if (selectedOption) {
       try {
+        const userId = signupData?.data?.userId || signinData?.data?.userId;
+
+        if (!userId) {
+          console.error('User ID is not available, please signin or signup.');
+          return;
+        }
+
         // Set the user's role in the Redux store
         dispatch(setFarmerRoleData(selectedOption));
         console.log('User role set in Redux store:', selectedOption);
 
         // Make an API call to set the user's role on the server
-        const response = await axios.post("https://btca.afribook.world/account/assignRole", {
-          userId: signupData.data.userId,
+        const response = await axios.post("https://api.afribook.world/account/assignRole", {
+          userId: userId,
           role: selectedOption,
         });
 
         if (response.status === 200) {
-          console.log('API call to set user role succeeded');
           // Navigate to the appropriate page based on the selected role
           navigate(`/${selectedOption}`);
         } else {
-          console.error('API call to set user role failed');
+          console.error('Failed to set user role');
         }
       } catch (error) {
         console.error("Error setting user role:", error);
@@ -50,6 +57,7 @@ const Role = () => {
       }
     }
   };
+
 
   return (
     <main className="bg-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">

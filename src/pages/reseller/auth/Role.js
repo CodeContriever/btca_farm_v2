@@ -22,7 +22,7 @@ const Role = () => {
         console.log('User role set in Redux store:', selectedOption);
 
         // Make an API call to set the user's role on the server
-        await axios.post("https://btca.afribook.world/account/assignRole", {
+        await axios.post("https://api.afribook.world/account/assignRole", {
           userId,
           role: selectedOption,
         });
@@ -39,10 +39,13 @@ const Role = () => {
 
   return (
     <main className="bg-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">
+
       <div className="">
         {/* <Toaster position='top-center' reverseOrder={false}></Toaster> */}
       </div>
+
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+
         {/* First column: Register Form */}
         <div className="bg-white rounded-md shadow-md p-4">
           <div class="flex flex-col items-center">
@@ -100,13 +103,16 @@ const Role = () => {
             </div>
           </div>
         </div>
+
         {/* Second column: BTCA logo */}
-        <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+        <div className="hidden md:flex bg-gray-200 rounded-md shadow-md">
           <div className="flex items-center justify-center p-4 md:p-8">
             <img src="/logo.png" alt="logo" />
           </div>
         </div>
+
       </div>
+      
     </main>
   );
 };

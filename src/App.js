@@ -21,6 +21,7 @@ import FarmerSignin from './pages/farmer/auth/Signin'
 import FarmerRole from './pages/farmer/auth/Role'
 import FarmerResetPassword from './pages/farmer/auth/Reset'
 import FarmerDashbaord from './pages/farmer/dashboard'
+import EditFarmerProfile from './pages/farmer/profile/EditProfile';
 
 import FranchisorSignup from './pages/franchisor/auth/Signup'
 import FranchisorVerifyOTP from './pages/franchisor/auth/VerifyOTP'
@@ -78,7 +79,7 @@ const App = () => {
                 element={<Navigate to="/farmer/dashboard" replace />}
               />
               <Route path="/farmer/dashboard" element={<FarmerDashbaord />} />
-              {/* <Route path="/farmer/edit_profile" element={<EditFarmerProfile />} /> */}
+              <Route path="/farmer/edit_profile" element={<EditFarmerProfile />} />
 
               
 

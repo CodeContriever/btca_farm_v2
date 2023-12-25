@@ -30,7 +30,7 @@ const franchisorSigninReducer = (state = initialState, action) => {
 };
 
 // Selector function to get signinData from the state
-export const selectFranchiosrSigninData = (state) => state.franchisorSignin.franchisorSigninData; // Corrected selector
+export const selectFranchisorSigninData = (state) => state.franchisorSignin.franchisorSigninData; // Corrected selector
 
 // Export the reducer and selector
 export default franchisorSigninReducer;

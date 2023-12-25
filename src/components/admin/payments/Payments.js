@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  // useState
+} from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectAdminSigninData } from "../../../store/admin/Signin";
@@ -10,7 +13,7 @@ const Payments = () => {
   const { userId } = signinData?.data || {};
 
   // Define state to store user data
-  const [paymentData, setPaymentData] = useState(null);
+  // const [paymentData, setPaymentData] = useState(null);
 
   useEffect(() => {
     const fetchPayments = async () => {
@@ -21,7 +24,8 @@ const Payments = () => {
         if (response.status === 200) {
           const data = response.data;
           console.log('User data fetch successful:', data);
-          setPaymentData(data); // Store the fetched data in the state
+
+          // setPaymentData(data); 
         } else {
           console.error('Error fetching data, please try again later.');
         }

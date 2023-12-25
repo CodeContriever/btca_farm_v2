@@ -46,7 +46,7 @@ const Signin = () => {
 
     try {
       // Send the POST request to the server
-      const response = await fetch('https://btca.afribook.world/account/loginWithPasswordAndEmail', {
+      const response = await fetch('https://api.afribook.world/account/loginWithPasswordAndEmail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -66,7 +66,7 @@ const Signin = () => {
         console.log("Signin Data Dispatched:", data);
 
         // Log the entire data object in the console
-        console.log("Signin Data from Redux Store:", signinData);
+        // console.log("Signin Data from Redux Store:", signinData);
 
         // Log the entire data object in the console
         console.log("Signin Data:", data);
@@ -207,7 +207,7 @@ const Signin = () => {
           </div>
 
           {/* Second column: BTCA logo */}
-          <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+          <div className="hidden md:flex bg-gray-200 rounded-md shadow-md">
 
             <div className="flex items-center justify-center p-4 md:p-8" >
               <img src="/logo.png" alt="logo"

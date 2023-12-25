@@ -9,6 +9,8 @@ import Approvals from '../../../components/admin/approvals/Approvals';
 import Payments from '../../../components/admin/payments/Payments';
 import Orders from '../../../components/admin/orders/Orders';
 import Settings from '../../../components/admin/settings/Settings';
+import PendingSales from '../../../components/admin/pendingSales/PendingSales'
+import Packages from '../../../components/admin/packages/Packages';
 
 const Admin = () => {
   const [activeComponent, setActiveComponent] = useState('dashboard');
@@ -45,8 +47,12 @@ const Admin = () => {
       return <Dashboard />;
     } else if (activeComponent === 'users') {
       return <Users />;
+    } else if (activeComponent === 'packages') {
+      return <Packages />;
     } else if (activeComponent === 'transactions') {
       return <Transactions />;
+      } else if (activeComponent === 'pendingSales') {
+      return <PendingSales />;
     } else if (activeComponent === 'approvals') {
       return <Approvals />;
     } else if (activeComponent === 'payments') {

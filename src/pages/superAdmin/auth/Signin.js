@@ -213,7 +213,7 @@ const Signin = () => {
           </div>
 
           {/* Second column: BTCA logo */}
-          <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+          <div className="hidden md:flex bg-gray-200 rounded-md shadow-md">
 
             <div className="flex items-center justify-center p-4 md:p-8" >
               <img src="/logo.png" alt="logo"

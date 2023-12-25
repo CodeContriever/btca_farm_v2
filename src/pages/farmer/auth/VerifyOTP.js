@@ -8,17 +8,19 @@ import { selectFarmerSignupData } from '../../../store/farmer/Signup';
 
 const VerifyOTP = () => {
   const navigate = useNavigate();
-  const reduxState = useSelector((state) => state); // Log the entire state
-  console.log("Redux State:", reduxState);
+  // const reduxState = useSelector((state) => state); // Log the entire state
+  // console.log("Redux State:", reduxState);
 
 
   // Retrieve 'signupData' from the Redux store
   const signupData = useSelector(selectFarmerSignupData);
   const { userId } = signupData?.data || {};
 
+  
   console.log(userId)
+
   const [formData, setFormData] = useState({
-    OTP: "",
+    otp: "",
   });
 
   const handleInputChange = (e) => {
@@ -39,25 +41,32 @@ const VerifyOTP = () => {
       return;
     }
 
-    if (formData.OTP) {
+    console.log(formData)
+    
+    if (formData.otp) {
       try {
         const response = await axios.post(
-          'https://btca.afribook.world/account/verifyEmail',
+          'https://api.afribook.world/account/verifyEmail',
           {
             userId,
-            OTP: formData.OTP,
+            otp: formData.otp,
           }
         );
-
+        // console.log(userId)
+        // console.log(OTP)
         console.log('Response from server:', response);
 
+
         if (response.status === 200 && response.data.valid) {
+           console.log('Verification successful. Navigating to /farmer/role...');
           navigate('/farmer/role');
         } else {
-          toast.error('OTP validation failed. Pleas enter a valid OTP.');
+          toast.error('OTP validation failed. Please enter a valid OTP.');
+           console.log(userId)
           // Log the error message if it's available in the response data
           if (response.data.error) {
             console.error('Error validating OTP:', response.data.error);
+             console.log(userId)
           }
         }
       } catch (error) {
@@ -72,11 +81,13 @@ const VerifyOTP = () => {
   return (
     <>
       <main className="bg-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">
+
         <div className="">
           <Toaster position='top-center' reverseOrder={false}></Toaster>
         </div>
 
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+
           {/* First column: Register Form */}
           <div className="bg-white rounded-md shadow-md p-4">
             <div className="flex flex-col items-center">
@@ -147,12 +158,14 @@ const VerifyOTP = () => {
           </div>
 
           {/* Second column: BTCA logo */}
-          <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+          <div className="hidden md:flex bg-gray-200 rounded-md shadow-md">
             <div className="flex items-center justify-center p-4 md:p-8">
               <img src="/logo.png" alt="logo" />
             </div>
           </div>
+
         </div>
+        
       </main>
     </>
   )

@@ -112,7 +112,7 @@ const EditProfile = () => {
     try {
       // Send the POST request to the server
       const response = await axios.post(
-        "https://btca.afribook.world/reseller/applyReseller",
+        "https://api.afribook.world/reseller/applyReseller",
         formData,
         {
           headers: {

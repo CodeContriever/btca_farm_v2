@@ -235,7 +235,7 @@ const Signup = () => {
 
                 <div className="py-4 flex flex-row gap-8">
                   <span className="text-gray-500">
-                    Already Registered? <Link className="text-red-500 ml-2" to="/admin/signin">Login Now</Link>
+                    Already Registered? <Link className="text-red-500 ml-2" to="/super_admin/signin">Login Now</Link>
                   </span>
                 </div>
 
@@ -245,7 +245,7 @@ const Signup = () => {
 
           </div>
 
-          <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+          <div className="hidden md:flex bg-gray-200 rounded-md shadow-md">
             <div className="flex items-center justify-center p-4 md:p-8">
               <img src="/logo.png" alt="logo" />
             </div>

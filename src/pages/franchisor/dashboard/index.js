@@ -4,6 +4,12 @@ import Footer from '../../../components/footer/Footer';
 import NavBar from '../../../components/franchisor/Navbar';
 import Profile from '../../../components/franchisor/profile/Profile';
 import Dashboard from '../../../components/franchisor/dashboard/Dashboard';
+import Transactions from '../../../components/franchisor/transactions/Transactions';
+import Approvals from '../../../components/franchisor/approvals/Approvals';
+import Payments from '../../../components/franchisor/payments/Payments';
+import Orders from '../../../components/franchisor/orders/Orders';
+import Settings from '../../../components/franchisor/settings/Settings';
+import PendingSales from '../../../components/franchisor/pendingSales/PendingSales';
 
 const Franchisor = () => {
   const [activeComponent, setActiveComponent] = useState('profile');
@@ -14,7 +20,7 @@ const Franchisor = () => {
 
     // Check if the current path is '/franchisor' and update it to '/franchisor/profile'
     if (currentPath === '/franchisor') {
-      window.history.replaceState({}, document.title, '/franchisor/dashboard');
+      window.history.replaceState({}, document.title, '/franchisor/profile');
     }
 
     // Check if the current path is '/franchisor/dashboard' and update the active component
@@ -38,8 +44,20 @@ const Franchisor = () => {
   const renderComponent = () => {
     if (activeComponent === 'dashboard') {
       return <Dashboard />;
-    } else if (activeComponent === 'profile') {
+    } else if (activeComponent === 'transactions') {
+      return <Transactions />;
+       } else if (activeComponent === 'pendingSales') {
+      return <PendingSales />;
+    } else if (activeComponent === 'approvals') {
+      return <Approvals />;
+    } else if (activeComponent === 'payments') {
+      return <Payments />;
+    } else if (activeComponent === 'orders') {
+      return <Orders />;
+      } else if (activeComponent === 'profile') {
       return <Profile />;
+    } else if (activeComponent === 'settings') {
+      return <Settings />;
     }
     // You can add more conditions for other components if needed.
   };

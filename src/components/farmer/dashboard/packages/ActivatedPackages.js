@@ -3,12 +3,12 @@ import React from 'react'
 const ActivatedPackages = () => {
   return (
       <div>
-          <h3 className='mb-6'>Activated Packages</h3>
+          <h3 className='mb-6 text-gray-800 text-2xl font-medium font-inter leading-6'>Activated Packages</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               
               {/* <!-- Packages --> */}
-              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
                   {/* package name */}
                   <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
 

@@ -18,7 +18,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
           <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
               onClick={() => onNavigate('dashboard')}
             >
               <FaUser className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -30,7 +30,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
           <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'admins' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'admins' ? 'active' : ''}`}
               onClick={() => onNavigate('admins')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -42,7 +42,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
           <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'users' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'users' ? 'active' : ''}`}
               onClick={() => onNavigate('users')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -55,7 +55,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
           <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'transactions' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'transactions' ? 'active' : ''}`}
               onClick={() => onNavigate('transactions')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -68,7 +68,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
            <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'approvals' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'approvals' ? 'active' : ''}`}
               onClick={() => onNavigate('approvals')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -81,7 +81,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
            <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'payments' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'payments' ? 'active' : ''}`}
               onClick={() => onNavigate('payments')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -93,7 +93,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
             <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'orders' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'orders' ? 'active' : ''}`}
               onClick={() => onNavigate('orders')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
@@ -110,7 +110,7 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
           <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-900 hover:text-[#A020F0] rounded-lg dark:text-white hover-bg-gray-100 dark:hover-bg-gray-700 group ${activeComponent === 'settings' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] rounded-lg dark:text-white hover-bg-gray-100 dark:hover-bg-gray-700 group ${activeComponent === 'settings' ? 'active' : ''}`}
               onClick={() => onNavigate('settings')}
             >
               <VscActivateBreakpoints className="w-6 h-6 text-gray-800 dark:text-white" />

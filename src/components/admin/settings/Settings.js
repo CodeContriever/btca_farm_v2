@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  // useState
+} from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { selectAdminSigninData } from "../../../store/admin/Signin";
@@ -10,7 +13,7 @@ const Settings = () => {
   const { userId } = signinData?.data || {};
 
   // Define state to store user data
-  const [settings, setSettings] = useState(null);
+  // const [settings, setSettings] = useState(null);
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -21,7 +24,8 @@ const Settings = () => {
         if (response.status === 200) {
           const data = response.data;
           console.log('User data fetch successful:', data);
-          setSettings(data); // Store the fetched data in the state
+
+          // setSettings(data);
         } else {
           console.error('Error fetching data, please try again later.');
         }

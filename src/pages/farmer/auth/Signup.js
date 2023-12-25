@@ -55,7 +55,7 @@ const Signup = () => {
       }
 
       const response = await axios.post(
-        'https://btca.afribook.world/account/createUserAccount',
+        'https://api.afribook.world/account/createUserAccount',
         formData,
         {
           headers: {
@@ -99,7 +99,7 @@ const Signup = () => {
       // The request was made and the server responded with a status code
       console.log('Data:', error.response.data);
       console.log('Status:', error.response.status);
-        console.log('Headers:', error.response.headers);
+        // console.log('Headers:', error.response.headers);
         
       // Handle the error based on the response data or status code
     } else if (error.request) {
@@ -120,7 +120,7 @@ const Signup = () => {
 
   const handleRegistrationSuccess = (data) => {
     if (data.success) {
-      navigate('/franchisor/verify_OTP');
+      navigate('/farmer/verify_OTP');
     } else if (data.error === 'User already exists') {
       toast.error('This email or phone number has already been used.');
     } else {
@@ -142,10 +142,13 @@ const Signup = () => {
   return (
     <>
       <main className="bg-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">
+
         <div className="">
           <Toaster position="bottom-center" reverseOrder={false}></Toaster>
         </div>
+
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+
           <div className="bg-white rounded-md shadow-md p-4">
             <div class="flex flex-col items-center">
               <a
@@ -283,12 +286,15 @@ const Signup = () => {
               </form>
             </div>
           </div>
-          <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+
+          <div className="hidden md:flex bg-gray-200 rounded-md shadow-md">
             <div className="flex items-center justify-center p-4 md:p-8">
               <img src="/logo.png" alt="logo" />
             </div>
           </div>
+
         </div>
+        
       </main>
     </>
   );

@@ -4,7 +4,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from '../../../utils/auth';
 
 
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
 // import { selectAdminSigninData } from '../../../store/admin/Signin';
 import { setAdminSigninData, } from '../../../store/admin/Signin';
@@ -66,7 +66,7 @@ const Signin = () => {
         console.log("Signin Data Dispatched:", data);
 
         // Log the entire data object in the console
-        console.log("Signin Data from Redux Store:", signinData);
+        // console.log("Signin Data from Redux Store:", signinData);
 
         // Log the entire data object in the console
         // console.log("Signin Data:", data);
@@ -213,7 +213,7 @@ const Signin = () => {
           </div>
 
           {/* Second column: BTCA logo */}
-          <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+          <div className="hidden md:flex bg-gray-200 rounded-md shadow-md">
 
             <div className="flex items-center justify-center p-4 md:p-8" >
               <img src="/logo.png" alt="logo"

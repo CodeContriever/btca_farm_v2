@@ -20,7 +20,7 @@ const Company = () => {
 
           <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-4 lg:space-y-0 lg:space-x-2">
            {/* <!-- Packages --> */}
-              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
                   {/* package name */}
                   <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
 
