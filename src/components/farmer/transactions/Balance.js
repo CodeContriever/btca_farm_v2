@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { selectFarmerSigninData } from '../../../store/farmer/Signin';
 
 const Balance = () => {
+    const signinData = useSelector(selectFarmerSigninData);
+  const { userId } = signinData?.data || {};
+
   const [walletBalance, setWalletBalance] = useState(0);
 
-  useEffect(() => {
-    // Replace 'your-api-endpoint' with the actual API endpoint to fetch the wallet balance
-    axios.get('your-api-endpoint')
-      .then(response => {
-        // Assuming the API response has a property 'balance'
-        setWalletBalance(response.data.balance);
-      })
-      .catch(error => {
-        console.error('Error fetching wallet balance:', error);
-      });
-  }, []); // Empty dependency array to run the effect only once on component mount
+ useEffect(() => {
+  const fetchWalletBalance = async () => {
+    try {
+      // Replace 'your-api-endpoint' with the actual API endpoint to fetch the wallet balance
+      const response = await axios.get(`https://api.afribook.world/account/getWalletBalance/${userId}`);
+
+      // Assuming the API response has a property 'balance'
+      setWalletBalance(response.data.balance);
+    } catch (error) {
+      console.error('Error fetching wallet balance:', error);
+    }
+  };
+
+  // Call the async function
+  fetchWalletBalance();
+}, [userId]);
 
   return (
     <div className="container mx-auto p-4">

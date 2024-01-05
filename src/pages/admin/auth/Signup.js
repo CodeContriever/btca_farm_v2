@@ -6,39 +6,40 @@ import { useDispatch } from 'react-redux';
 import { setAdminSignupData } from '../../../store/admin/Signup';
 import Input from '../../../components/form/Input';
 import PwdInput from '../../../components/form/PwdInput';
-import validateSignupInputs from '../../../utils/validateSignupInputs';
+import validateAdminSignupInputs from '../../../utils/validateAdmin/validateSignupInputs';
 
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    fullname: '',
+    full_name: '',
     username: '',
     password: '',
     cpassword: '',
   });
 
   const [formErrors, setFormErrors] = useState({
-    fullname: '',
+    full_name: '',
     username: '',
     password: '',
     cpassword: '',
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prevData) => ({
+    ...prevData,
+    [name]: value,
+  }));
+};
+
 
   const handleRegister = async () => {
-    const isValid = validateSignupInputs(formData, setFormErrors);
+    const isSignupDataValid = validateAdminSignupInputs(formData, setFormErrors);
 
     try {
-      if (!isValid) {
+      if (!isSignupDataValid) {
         console.log('Validation failed');
         toast.error('Invalid inputs');
         return;
@@ -51,7 +52,7 @@ const Signup = () => {
       }
 
       const response = await axios.post(
-        'https://btca.afribook.world/account/createUserAccount',
+        'https://api.afribook.world/admin/createAdminAccount',
         formData,
         {
           headers: {
@@ -70,6 +71,7 @@ const Signup = () => {
         console.log('Signup Data Dispatched:', data);
 
         handleRegistrationSuccess(data);
+        
       } else if (response.status === 400) {
         const errorData = response.data;
 
@@ -104,7 +106,7 @@ const Signup = () => {
 
   const handleRegistrationSuccess = (data) => {
     if (data.success) {
-      navigate('/super_admin/verify_OTP');
+      navigate('/admin/signin');
 
     } else if (data.error === 'User already exists') {
       toast.error('This email or phone number has already been used.');
@@ -162,15 +164,15 @@ const Signup = () => {
                   <div className="flex flex-col gap-1">
                     <Input
                       type="text"
-                      name="fullname"
-                      id="fullname"
-                      value={formData.fullname}
+                      name="full_name"
+                      id="full_name"
+                      value={formData.full_name}
                       onChange={handleInputChange}
                       label="Full Name"
                       required
                     />
-                    {formErrors.fullname && (
-                      <span className="text-red-500">{formErrors.fullname}</span>
+                    {formErrors.full_name && (
+                      <span className="text-red-500">{formErrors.full_name}</span>
                     )}
                   </div>
 

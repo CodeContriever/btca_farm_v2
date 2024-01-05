@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../components/superAdmin/Sidebar'
 import Footer from '../../../components/footer/Footer';
-import NavBar from '../../../components/superAdmin/Navbar';
+import NavBar from '../../../components/admin/navbar/Navbar';
 import Dashboard from '../../../components/superAdmin/dashboard/Dashboard';
 import Admins from '../../../components/superAdmin/admins/Admins';
 import Users from '../../../components/superAdmin/users/Users';
 import Transactions from '../../../components/superAdmin/transactions/Transactions';
-import Approvals from '../../../components/superAdmin/approvals/Approvals';
-import Payments from '../../../components/superAdmin/payments/Payments';
-import Orders from '../../../components/superAdmin/orders/Orders';
-import Settings from '../../../components/superAdmin/settings/Settings';
+// import Approvals from '../../../components/superAdmin/approvals/Approvals';
+// import Payments from '../../../components/superAdmin/payments/Payments';
+// import Orders from '../../../components/superAdmin/orders/Orders';
+import Signout from '../../../components/superAdmin/signout/Signout'
 
 const SuperAdmin = () => {
   const [activeComponent, setActiveComponent] = useState('dashboard');
@@ -50,14 +50,14 @@ const SuperAdmin = () => {
       return <Users />;
     } else if (activeComponent === 'transactions') {
       return <Transactions />;
-    } else if (activeComponent === 'approvals') {
-      return <Approvals />;
-    } else if (activeComponent === 'payments') {
-      return <Payments />;
-    } else if (activeComponent === 'orders') {
-      return <Orders />;
-    } else if (activeComponent === 'settings') {
-      return <Settings />;
+    // } else if (activeComponent === 'approvals') {
+    //   return <Approvals />;
+    // } else if (activeComponent === 'payments') {
+    //   return <Payments />;
+    // } else if (activeComponent === 'orders') {
+    //   return <Orders />;
+    } else if (activeComponent === 'signout') {
+      return <Signout />;
     }
     // You can add more conditions for other components if needed.
   };

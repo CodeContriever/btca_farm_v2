@@ -10,6 +10,7 @@ import Payments from '../../../components/franchisor/payments/Payments';
 import Orders from '../../../components/franchisor/orders/Orders';
 import Settings from '../../../components/franchisor/settings/Settings';
 import PendingSales from '../../../components/franchisor/pendingSales/PendingSales';
+import Packages from '../../../components/franchisor/packages/Packages';
 
 const Franchisor = () => {
   const [activeComponent, setActiveComponent] = useState('profile');
@@ -44,6 +45,8 @@ const Franchisor = () => {
   const renderComponent = () => {
     if (activeComponent === 'dashboard') {
       return <Dashboard />;
+    } else if (activeComponent === 'packages') {
+      return <Packages />;
     } else if (activeComponent === 'transactions') {
       return <Transactions />;
        } else if (activeComponent === 'pendingSales') {

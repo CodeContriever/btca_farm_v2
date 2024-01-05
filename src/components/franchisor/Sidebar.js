@@ -26,6 +26,19 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
             </button>
           </li>
 
+
+            {/* Packages */}
+          <li>
+            <button
+              type="button"
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
+              onClick={() => onNavigate('packages')}
+            >
+              <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
+              <span className="ml-3">Packages</span>
+            </button>
+          </li>
+
           {/* Transactions */}
           <li>
             <button

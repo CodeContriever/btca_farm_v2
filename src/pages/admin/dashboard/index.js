@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../components/admin/Sidebar'
 import Footer from '../../../components/footer/Footer';
-import NavBar from '../../../components/admin/Navbar';
+import NavBar from '../../../components/admin/navbar/Navbar';
 import Dashboard from '../../../components/admin/dashboard/Dashboard';
+import Admins from '../../../components/admin/admins/Admins';
 import Users from '../../../components/admin/users/Users';
-import Transactions from '../../../components/admin/transactions/Transactions';
-import Approvals from '../../../components/admin/approvals/Approvals';
-import Payments from '../../../components/admin/payments/Payments';
-import Orders from '../../../components/admin/orders/Orders';
-import Settings from '../../../components/admin/settings/Settings';
-import PendingSales from '../../../components/admin/pendingSales/PendingSales'
 import Packages from '../../../components/admin/packages/Packages';
+import Transactions from '../../../components/admin/transactions/Transactions';
+import Signout from '../../../components/admin/signout/Signout';
+
+// import PendingSales from '../../../components/admin/pendingSales/PendingSales'
+// import Approvals from '../../../components/admin/approvals/Approvals';
+// import Payments from '../../../components/admin/payments/Payments';
+// import Orders from '../../../components/admin/orders/Orders';
+
 
 const Admin = () => {
   const [activeComponent, setActiveComponent] = useState('dashboard');
@@ -45,22 +48,24 @@ const Admin = () => {
   const renderComponent = () => {
     if (activeComponent === 'dashboard') {
       return <Dashboard />;
+       } else if (activeComponent === 'admins') {
+      return <Admins />;
     } else if (activeComponent === 'users') {
       return <Users />;
     } else if (activeComponent === 'packages') {
       return <Packages />;
     } else if (activeComponent === 'transactions') {
       return <Transactions />;
-      } else if (activeComponent === 'pendingSales') {
-      return <PendingSales />;
-    } else if (activeComponent === 'approvals') {
-      return <Approvals />;
-    } else if (activeComponent === 'payments') {
-      return <Payments />;
-    } else if (activeComponent === 'orders') {
-      return <Orders />;
-    } else if (activeComponent === 'settings') {
-      return <Settings />;
+      // } else if (activeComponent === 'pendingSales') {
+      // return <PendingSales />;
+    // } else if (activeComponent === 'approvals') {
+    //   return <Approvals />;
+    // } else if (activeComponent === 'payments') {
+    //   return <Payments />;
+    // } else if (activeComponent === 'orders') {
+    //   return <Orders />;
+    } else if (activeComponent === 'signout') {
+      return <Signout />;
     }
     // You can add more conditions for other components if needed.
   };

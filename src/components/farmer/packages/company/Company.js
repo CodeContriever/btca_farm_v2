@@ -1,200 +1,126 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
+import { useSelector } from "react-redux";
+import { selectFarmerSigninData } from "../../../../store/farmer/Signin";
+
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const Company = () => {
 
+  const signinData = useSelector(selectFarmerSigninData);
+  const { userId } = signinData?.data || {};
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [farmerPackages, setFarmerPackages] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://api.afribook.world/package/getPackages/${userId}`, {
+          headers: {
+            Authorization: 'Bearer YOUR_ACCESS_TOKEN', // Replace with your actual access token
+          },
+            params: {
+            page: currentPage,
+            pageSize: 10, // Adjust this based on your desired page size
+          },
+        });
+
+        if (response.status === 200) {
+          const data = response.data;
+          console.log('User packages fetch successful:', data);
+
+        setFarmerPackages(response.data);
+        } else {
+          console.error('Error fetching packages, please try again later.');
+           toast.error('Transactions are not available, please try again later.')
+        }
+
+        
+      } catch (error) {
+          console.error('Error fetching user packages:', error);
+        // Handle the error, e.g., display an error message to the user
+        toast.error('Error, please check your connection');
+      }
+    };
+
+    fetchData();
+  }, [userId, currentPage]); // The empty dependency array ensures that the effect runs once when the component mounts
+
   return (
+    <div className="container mx-auto px-6">
 
-    <div
-      className="container mx-auto px-6"
-    >
+        <div className="">
+          <Toaster position='top-center' reverseOrder={false}></Toaster>
+      </div>
+      
+      <div>
+        <h1 className="text-gray-800 text-2xl font-medium font-inter leading-6">Packages</h1>
 
-      <div className="">
+        <div className="bg-white rounded-md shadow-lg p-4 mt-4">
 
-        <h1 className="text-gray-800 text-2xl font-medium font-inter leading-6">
-          Packages
-        </h1>
+          <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-4 lg:space-y-0 lg:space-x-2">
 
-        <div className="bg-white rounded-md shadow-lg p-4  mt-4">
-
-          <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-4 lg:space-y-0 lg:space-x-2">
-           {/* <!-- Packages --> */}
-              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                  {/* package name */}
-                  <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
-
-                  <hr />
-
-                  {/* Freezing MAX Load */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>Up to 0.125BTCA</p>
-                      <p>Freezing MAX Load</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Mining Reward */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>0.5BTCA</p>
-                      <p>Mining Reward per month</p>
-                  </div>
-
-                  <hr />
-
-
-                   {/* Expected Mining */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>4.8BTCA</p>
-                      <p>Expected Mining</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Validity */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>1 year</p>
-                      <p>Validity</p>
-                  </div>
-
-                  <hr />
-
-                    {/* Unfreezing Term */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>$10</p>
-                      <p>Unfreezing Term</p>
-                  </div>
-
-                  <hr />
-
-                  <button>Activate</button>
-                  
-            
-                      </div>
-                      
-
-                        {/* <!-- Packages 2--> */}
-              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                  {/* package name */}
-                  <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
-
-                  <hr />
-
-                  {/* Freezing MAX Load */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>Up to 0.125BTCA</p>
-                      <p>Freezing MAX Load</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Mining Reward */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>0.5BTCA</p>
-                      <p>Mining Reward per month</p>
-                  </div>
-
-                  <hr />
-
-
-                   {/* Expected Mining */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>4.8BTCA</p>
-                      <p>Expected Mining</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Validity */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>1 year</p>
-                      <p>Validity</p>
-                  </div>
-
-                  <hr />
-
-                    {/* Unfreezing Term */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>$10</p>
-                      <p>Unfreezing Term</p>
-                  </div>
-
-                  <hr />
-
-                  <button>Activate</button>
-                  
-            
-                      </div>
-                      
-
-                        {/* <!-- Packages 3--> */}
-              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                  {/* package name */}
-                  <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
-
-                  <hr />
-
-                  {/* Freezing MAX Load */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>Up to 0.125BTCA</p>
-                      <p>Freezing MAX Load</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Mining Reward */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>0.5BTCA</p>
-                      <p>Mining Reward per month</p>
-                  </div>
-
-                  <hr />
-
-
-                   {/* Expected Mining */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>4.8BTCA</p>
-                      <p>Expected Mining</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Validity */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>1 year</p>
-                      <p>Validity</p>
-                  </div>
-
-                  <hr />
-
-                    {/* Unfreezing Term */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>$10</p>
-                      <p>Unfreezing Term</p>
-                  </div>
-
-                  <hr />
-
-                  <button>Activate</button>
-                  
-            
+            {farmerPackages.map((pkg, index) => (
+              <div
+                key={index}
+                className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+              >
+                <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3>
+                <hr />
+                {/* Display other package details */}
+                {/* ... */}
+                <hr />
+                <button className="bg-white p-2 rounded-md text-black">Activate</button>
               </div>
+            ))}
           </div>
 
+          {/* Pagination */}
+          <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
+
+             <div className="flex items-center space-x-1">
+
+             <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border rounded text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+              >
+                Prev
+              </button>
+            
+            <div>
+                <span className="text-sm font-normal text-gray-500 dark:text-gray-400 space-x-2">
+              Showing
+              <span className="font-semibold text-gray-900 dark:text-white mx-2">{1 + (currentPage - 1) * 10}</span>
+              of
+              <span className="font-semibold text-gray-900 dark:text-white">{farmerPackages.length}</span>
+            </span>
+            </div>
+            
+          
+
+           
+             
+              <button
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                disabled={farmerPackages.length < 10}
+                className="px-3 py-1 border rounded text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+              >
+                Next
+              </button>
+            </div>
+
+          </nav>
 
         </div>
 
       </div>
 
-
-
-
-
     </div>
+  );
+};
 
-
-
-  )
-}
-
-export default Company
+export default Company;

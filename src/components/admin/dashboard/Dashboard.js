@@ -12,6 +12,7 @@ import { selectAdminSigninData } from "../../../store/admin/Signin";
 
 const Dashboard = () => {
   const signinData = useSelector(selectAdminSigninData);
+  console.log(signinData)
   
   const { userId } = signinData?.data || {};
   

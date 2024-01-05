@@ -1,185 +1,123 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'flowbite-react';
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
-const ResellerPackages = ({ viewPackages, setViewPackages }) => {
+const ResellerPackages = ({ viewPackages, setViewPackages, selectedResellerId = null }) => {
+  const [resellerPackages, setResellerPackages] = useState(null);
+  const [activationStatus, setActivationStatus] = useState({});
+
+  useEffect(() => {
+    const fetchResellerPackages = async () => {
+      try {
+        if (!selectedResellerId) {
+          console.error('Selected reseller ID is missing.');
+          return;
+        }
+
+        const response = await axios.get(`https://api.afribook.world/franchisor/getPackages/${selectedResellerId}`);
+
+        if (response.status === 200) {
+          const data = response.data;
+          console.log('Reseller packages fetch successful:', data);
+
+          // Initialize activation status for each package
+          const initialActivationStatus = {};
+          data.forEach(packageItem => {
+            initialActivationStatus[packageItem.id] = 'Activate';
+          });
+
+          setActivationStatus(initialActivationStatus);
+          setResellerPackages(data);
+        } else {
+          console.error('Error fetching reseller packages, please try again later.');
+        }
+      } catch (error) {
+        console.error('Error fetching reseller packages:', error);
+        // Handle the error, e.g., display an error message to the user
+      }
+    };
+
+    // Fetch the packages data when the component mounts or when selectedFranchisorId changes
+    if (viewPackages && selectedResellerId) {
+      fetchResellerPackages();
+    }
+  }, [viewPackages, selectedResellerId]);
+
+  const handleActivate = async (packageId) => {
+    try {
+      // Assuming you have an endpoint for activating packages
+      const response = await axios.post(`https://api.afribook.world/franchisor/activatePackage`, {
+        resellerId: selectedResellerId,
+        packageId: packageId,
+      });
+
+      if (response.status === 200) {
+        // Update the activation status for the specific package
+        setActivationStatus(prevStatus => ({
+          ...prevStatus,
+          [packageId]: 'Pending',
+        }));
+      } else {
+        console.error('Error activating package, please try again later.');
+        toast.error('Error activating package, please try again later.');
+      }
+    } catch (error) {
+      console.error('Error activating package:', error);
+      // Handle the error, e.g., display an error message to the user
+        toast.error('Error activating package, please try again later.');
+    }
+  };
 
   return (
-      <div>
-                 <Modal dismissible show={viewPackages} onClose={() => setViewPackages(false)}>
+    <div>
+          <div>
+        <Toaster position="top-center" reverseOrder={false}></Toaster>
+      </div>
+
+      <Modal dismissible show={viewPackages} onClose={() => setViewPackages(false)}>
         <Modal.Header>Packages</Modal.Header>
         <Modal.Body>
-          <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0 lg:space-x-2">              
-           {/* <!-- Packages --> */}
-              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                  {/* package name */}
-                  <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
+          <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0 lg:space-x-2">
+            {/* Packages */}
+            {resellerPackages &&
+              resellerPackages.map((packageItem, index) => (
+                <div key={index} className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+                  {/* Package name */}
+                  <h3 className="mb-2 text-2xl font-semibold">{packageItem.name}</h3>
 
                   <hr />
 
-                  {/* Freezing MAX Load */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>Up to 0.125BTCA</p>
-                      <p>Freezing MAX Load</p>
-                  </div>
+                  {/* Package details */}
+                  {packageItem.details.map((detail, detailIndex) => (
+                    <div key={detailIndex} className="flex flex-col gap-2">
+                      <p>{detail.value}</p>
+                      <p>{detail.label}</p>
+                    </div>
+                  ))}
 
                   <hr />
 
-                   {/* Mining Reward */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>0.5BTCA</p>
-                      <p>Mining Reward per month</p>
-                  </div>
-
-                  <hr />
-
-
-                   {/* Expected Mining */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>4.8BTCA</p>
-                      <p>Expected Mining</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Validity */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>1 year</p>
-                      <p>Validity</p>
-                  </div>
-
-                  <hr />
-
-                    {/* Unfreezing Term */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>$10</p>
-                      <p>Unfreezing Term</p>
-                  </div>
-
-                  <hr />
-
-                  <button>Activate</button>
-                  
-            
-                      </div>
-                      
-
-                        {/* <!-- Packages 2--> */}
-              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                  {/* package name */}
-                  <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
-
-                  <hr />
-
-                  {/* Freezing MAX Load */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>Up to 0.125BTCA</p>
-                      <p>Freezing MAX Load</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Mining Reward */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>0.5BTCA</p>
-                      <p>Mining Reward per month</p>
-                  </div>
-
-                  <hr />
-
-
-                   {/* Expected Mining */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>4.8BTCA</p>
-                      <p>Expected Mining</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Validity */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>1 year</p>
-                      <p>Validity</p>
-                  </div>
-
-                  <hr />
-
-                    {/* Unfreezing Term */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>$10</p>
-                      <p>Unfreezing Term</p>
-                  </div>
-
-                  <hr />
-
-                  <button>Activate</button>
-                  
-            
-                      </div>
-                      
-
-                        {/* <!-- Packages 3--> */}
-              <div class="flex flex-col gap-8 p-6 mx-auto max-w-lg text-center  bg-[#00247E] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                  {/* package name */}
-                  <h3 class="mb-4 text-2xl font-semibold">Starter</h3>
-
-                  <hr />
-
-                  {/* Freezing MAX Load */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>Up to 0.125BTCA</p>
-                      <p>Freezing MAX Load</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Mining Reward */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>0.5BTCA</p>
-                      <p>Mining Reward per month</p>
-                  </div>
-
-                  <hr />
-
-
-                   {/* Expected Mining */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>4.8BTCA</p>
-                      <p>Expected Mining</p>
-                  </div>
-
-                  <hr />
-
-                   {/* Validity */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>1 year</p>
-                      <p>Validity</p>
-                  </div>
-
-                  <hr />
-
-                    {/* Unfreezing Term */}
-                  <div className='flex flex-col gpa-2'>
-                      <p>$10</p>
-                      <p>Unfreezing Term</p>
-                  </div>
-
-                  <hr />
-
-                  <button>Activate</button>
-                  
-            
-              </div>
-           
-          
-         
-      </div>
+                  <button
+                    className="bg-white p-2 rounded-md text-black"
+                    onClick={() => handleActivate(packageItem.id)}
+                    disabled={activationStatus[packageItem.id] !== 'Activate'}
+                  >
+                    {activationStatus[packageItem.id]}
+                  </button>
+                </div>
+              ))}
+          </div>
         </Modal.Body>
+
         <Modal.Footer>
-          <Button color='gray' onClick={() => setViewPackages(false)}>Ok</Button>
+          <Button color="gray" onClick={() => setViewPackages(false)}>
+            Ok
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default ResellerPackages
+export default ResellerPackages;

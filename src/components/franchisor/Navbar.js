@@ -39,6 +39,11 @@ function HamburgerMenu({ activeButton, handleHamburgerClick, onNavigate }) {
             <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('dashboard')}>Dashboard</button>
             </li>
+
+                {/* Packages */}
+            <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('packages')}>Packages</button>
+            </li>
           
               {/* Transactions */}
            <li onClick={() => handleHamburgerClick('menu')}>
