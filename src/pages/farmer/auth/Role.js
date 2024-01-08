@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFarmerSignupData } from "../../../store/farmer/Signup";
@@ -13,56 +13,49 @@ const Role = () => {
   const signupData = useSelector(selectFarmerSignupData);
   const signinData = useSelector(selectFarmerSigninData);
 
-  useEffect(() => {
-    // Check if userId is available in either signup or signin data
-    const userId = signupData?.data?.userId || signinData?.data?.userId;
+const setRoleAndNavigate =  useCallback(async (userId) => {
+  try {
+    const response = await axios.post("https://api.afribook.world/account/assignRole", {
+      userId: userId,
+      role: "farmer",
+    });
 
-    if (!userId) {
-      toast.error('Please sign up or sign in before selecting a role.');
-      navigate("/farmer/signup"); // Redirect to signup page
+    if (response.status === 200) {
+      dispatch(setFranchisorRoleData("farmer"));
+      console.log('User role set in Redux store: farmer');
+
+      navigate("/farmer/edit_profile"); // Navigate to the farmer page
+      toast.success('Role set successfully!');
+    } else {
+      console.error('Failed to set user role');
+      toast.error('Failed to set user role. Please try again.');
     }
-  }, [signupData, signinData, navigate]);
+  } catch (error) {
+    console.error("Error setting user role:", error);
+    toast.error('Error setting user role. Please try again.');
+  }
+}, [navigate, dispatch]);
 
- const handleSelectChange = async (event) => {
-    const selectedOption = event.target.value;
+useEffect(() => {
+  const userId = signupData?.data?.userId || signinData?.data?.userId;
 
-    if (selectedOption) {
-      try {
-        const userId = signupData?.data?.userId || signinData?.data?.userId;
+  if (!userId) {
+    toast.error('Please sign up or sign in before selecting a role.');
+    navigate("/farmer/signup");
+  }  else {
+      // Delay the server request by 10 seconds
+      const timeoutId = setTimeout(() => {
+        setRoleAndNavigate(userId);
+      }, 10000);
 
-        if (!userId) {
-          console.error('User ID is not available, please signin or signup.');
-          return;
-        }
-
-        // Set the user's role in the Redux store
-        dispatch(setFarmerRoleData(selectedOption));
-        console.log('User role set in Redux store:', selectedOption);
-
-        // Make an API call to set the user's role on the server
-        const response = await axios.post("https://api.afribook.world/account/assignRole", {
-          userId: userId,
-          role: selectedOption,
-        });
-
-        if (response.status === 200) {
-          // Navigate to the appropriate page based on the selected role
-          navigate(`/${selectedOption}`);
-        } else {
-          console.error('Failed to set user role');
-        }
-      } catch (error) {
-        console.error("Error setting user role:", error);
-        // Handle the error, e.g., display an error message to the user
-      }
+      // Clear the timeout if the component unmounts before 10 seconds
+      return () => clearTimeout(timeoutId);
     }
-  };
-
+}, [signupData, signinData, navigate, setRoleAndNavigate]);
 
   return (
     <main className="bg-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">
       <div className="">
-        {/* ... your toast component setup ... */}
         <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
       </div>
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -83,9 +76,9 @@ const Role = () => {
               <div>
                 <h1 className="text-xl font-bold font-Inter leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
                   Select Role
-                </h1>
+                </h1>               
               </div>
-              <form className="py-1 mt-4">
+                <form className="py-1 mt-4">
                 <div className="flex flex-col gap-0.5">
                   <label
                     htmlFor="register"
@@ -93,35 +86,40 @@ const Role = () => {
                   >
                     Register as
                   </label>
-                  <select
-                    id="register"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    onChange={handleSelectChange}
-                  >
-                    <option value="">Select an option</option>
-                    <option value="farmer">Farmer</option>
-                    <option value="franchisor">Franchisor</option>
-                    <option value="reseller">Reseller</option>
-                  </select>
+              <select
+  id="register"
+  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+  value="farmer"  
+  disabled  
+>
+  <option value="farmer">Farmer</option>
+</select>
                 </div>
+
                 <div className="py-4 flex flex-row gap-8">
                   <span className="text-gray-500">
                     Already Registered?
-                    <Link className="text-red-500 ml-2" to="/signin">
+                    <Link className="text-red-500 ml-2" to="/farmer/signin">
                       Login Now
                     </Link>
                   </span>
                 </div>
+
               </form>
+
             </div>
+
           </div>
+
         </div>
+
         <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
           <div className="flex items-center justify-center p-4 md:p-8">
             <img src="/logo.png" alt="logo" />
           </div>
         </div>
       </div>
+
     </main>
   );
 };

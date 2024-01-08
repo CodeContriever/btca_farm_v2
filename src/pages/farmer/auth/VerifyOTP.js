@@ -8,20 +8,52 @@ import { selectFarmerSignupData } from '../../../store/farmer/Signup';
 
 const VerifyOTP = () => {
   const navigate = useNavigate();
-  // const reduxState = useSelector((state) => state); // Log the entire state
-  // console.log("Redux State:", reduxState);
-
 
   // Retrieve 'signupData' from the Redux store
   const signupData = useSelector(selectFarmerSignupData);
   const { userId } = signupData?.data || {};
-
-  
-  console.log(userId)
+  // const accessToken = signupData?.accessToken || '';
 
   const [formData, setFormData] = useState({
     otp: "",
   });
+
+ const handleVerifyOTP = async (e) => {
+   e.preventDefault();
+    console.log('handleVerifyOTP triggered');
+
+  try {
+    console.log("Verifying OTP...");
+    console.log("OTP userId:", userId);
+    // console.log("accessToken:", accessToken);
+    
+    const response = await axios.post(
+      'https://api.afribook.world/account/verifyEmail',
+      {
+        userId: userId,
+        otp: formData.otp,
+      },
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // }
+    );
+
+    if (response.data.success) {
+      console.log('Verification successful:', response.data);
+      toast.success('Email verification successful');
+      navigate('/farmer/role');
+    } else {
+      console.error('Verification failed:', response.data.error);
+      toast.error(response.data.message);
+    }
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    toast.error('Error verifying OTP. Please try again.');
+  }
+};
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,63 +63,14 @@ const VerifyOTP = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!userId) {
-      // If userId is not available, navigate back to the login page
-      toast.error('Please signup first.');
-      navigate('/farmer/signup');
-      return;
-    }
-
-    console.log(formData)
-    
-    if (formData.otp) {
-      try {
-        const response = await axios.post(
-          'https://api.afribook.world/account/verifyEmail',
-          {
-            userId,
-            otp: formData.otp,
-          }
-        );
-        // console.log(userId)
-        // console.log(OTP)
-        console.log('Response from server:', response);
-
-
-        if (response.status === 200 && response.data.valid) {
-           console.log('Verification successful. Navigating to /farmer/role...');
-          navigate('/farmer/role');
-        } else {
-          toast.error('OTP validation failed. Please enter a valid OTP.');
-           console.log(userId)
-          // Log the error message if it's available in the response data
-          if (response.data.error) {
-            console.error('Error validating OTP:', response.data.error);
-             console.log(userId)
-          }
-        }
-      } catch (error) {
-        toast.error('An error occurred, please try again later.');
-        console.error('Error validating OTP:', error);
-      }
-    } else {
-      toast.error('Please enter a valid OTP.');
-    }
-  };
-
   return (
     <>
       <main className="bg-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">
-
         <div className="">
           <Toaster position='top-center' reverseOrder={false}></Toaster>
         </div>
 
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-
           {/* First column: Register Form */}
           <div className="bg-white rounded-md shadow-md p-4">
             <div className="flex flex-col items-center">
@@ -111,16 +94,16 @@ const VerifyOTP = () => {
                 </div>
 
                 {/* Form */}
-                <form className='py-1 mt-4' onSubmit={handleSubmit}>
+                <form className='py-1 mt-4' onSubmit={handleVerifyOTP}>
                   {/* Verify input fields */}
                   <div className="">
                     {/* Email field */}
                     <div className="flex flex-col gap-1">
                       <input
                         type="number"
-                        name="OTP"
-                        id="OTP"
-                        value={formData.OTP}
+                        name="otp"
+                        id="otp"
+                        value={formData.otp}
                         onChange={handleInputChange}
                         placeholder="OTP"
                         required
@@ -149,7 +132,7 @@ const VerifyOTP = () => {
                       className='text-gray-500'
                     >
                       Already Registered?
-                      <Link className='text-red-500 ml-2' to="/farmer/signin">Login Now</Link>
+                      <Link className='text-red-500 ml-2' to="/login">Login Now</Link>
                     </span>
                   </div>
                 </form>
@@ -165,10 +148,9 @@ const VerifyOTP = () => {
           </div>
 
         </div>
-        
       </main>
     </>
-  )
+  );
 }
 
 export default VerifyOTP;

@@ -29,7 +29,9 @@ const EditProfile = () => {
   const dispatch = useDispatch();
 
   const signupData = useSelector(selectFarmerSignupData);
+   const accessToken = signinData?.accessToken || '';
   const { fullname, phoneNumber } = signupData?.data || {};
+  
   useEffect(() => {
     if (fullname && phoneNumber) {
       setFormData((prevData) => ({
@@ -109,6 +111,7 @@ const EditProfile = () => {
 
 
   const handleSubmit = async () => {
+
     try {
       // Send the POST request to the server
       const response = await axios.post(

@@ -3,11 +3,9 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from '../../../utils/auth';
 
-
-// import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
-// import { selectSigninData } from '../../../store/franchisor/Signin';
 import { setFranchisorSigninData, } from '../../../store/franchisor/Signin';
+
 import Input from '../../../components/form/Input';
 import PwdInput from '../../../components/form/PwdInput';
 
@@ -76,13 +74,25 @@ const Signin = () => {
           if (redirectPath) {
             // If redirectPath is defined, navigate to it
             navigate(redirectPath, { replace: true });
+
           } else {
             // If redirectPath is not defined, navigate to /home
             navigate('/franchisor', { replace: true });
           }
-        } else {
+
+        } else if (data.data && data.data.message === 'Your Account is yet to be activated, try again later') {
+          
+          // If the login is not successful with a specific message, handle it
+          console.log('Your Account is yet to be activated, try again later', data);
+          toast.error('Your Account is yet to be activated, try again later');
+          
+        }  else {
           // Display an error message and navigate to the verify_email page
           toast.error('You are not registered, please signup.');
+
+          // // Wait for 15 seconds before navigating to the signup page
+          // await new Promise(resolve => setTimeout(resolve, 15000));
+
           navigate('/franchisor/signup');
         }
 

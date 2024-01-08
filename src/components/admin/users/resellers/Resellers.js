@@ -47,7 +47,7 @@ const Resellers = () => {
       } catch (error) {
         console.error('Error fetching user:', error);
 
-        if (error.response && error.response.data && error.response.data.message === 'No users found') {
+        if (error.response && error.response.data && error.response.data.message === 'No resellers found') {
           console.log('No users found.');
           setResellers([]);
         }

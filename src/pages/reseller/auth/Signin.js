@@ -65,21 +65,23 @@ const Signin = () => {
         dispatch(setResellerSigninData(data));
         console.log("Signin Data Dispatched:", data);
 
-        // Log the entire data object in the console
-        // console.log("Signin Data from Redux Store:", signinData);
-
-        // Log the entire data object in the console
-        console.log("Signin Data:", data);
 
         if (data.success) {
           auth.login(data.user);
           if (redirectPath) {
             // If redirectPath is defined, navigate to it
             navigate(redirectPath, { replace: true });
+
           } else {
             // If redirectPath is not defined, navigate to /home
-            navigate('/reseller', { replace: true });
+            navigate('/farmer', { replace: true });
           }
+          
+         } else if (data.data && data.data.message === 'Your Account is yet to be activated, try again later') {
+          // If the login is not successful with a specific message, handle it
+          console.log('Your Account is yet to be activated, try again later', data);
+          toast.error('Your Account is yet to be activated, try again later');
+          
         } else {
           // Display an error message and navigate to the verify_email page
           toast.error('You are not registered, please signup.');

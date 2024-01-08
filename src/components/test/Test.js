@@ -1,159 +1,133 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { selectAdminSigninData } from '../../../../store/admin/Signin';
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectFarmerSignupData } from "../../../store/farmer/Signup";
+import { selectFarmerSigninData } from "../../../store/farmer/Signin";
+import { setFarmerRoleData } from "../../../store/farmer/Role";
+import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
 
-const CreatePackages = ({ createdPackages, setCreatedPackages }) => {
-  const signinData = useSelector(selectAdminSigninData);
-  
-  const [showInputFields, setShowInputFields] = useState(false);
-  const [packageName, setPackageName] = useState('');
-  const [price, setPrice] = useState('');
-  const [initialReward, setInitialReward] = useState('');
-  const [monthlyReward, setMonthlyReward] = useState('');
-  const [yearlyReward, setYearlyReward] = useState('');
-  const [description, setDescription] = useState('');
-  const [duration, setDuration] = useState('');
+const Role = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const signupData = useSelector(selectFarmerSignupData);
+  const signinData = useSelector(selectFarmerSigninData);
 
-  const handleCreatePackage = async () => {
+  useEffect(() => {
+    // Check if userId is available in either signup or signin data
+    const userId = signupData?.data?.userId || signinData?.data?.userId;
+
+    if (!userId) {
+      toast.error('Please sign up or sign in before selecting a role.');
+      navigate("/farmer/signup"); // Redirect to signup page
+    }
+  }, [signupData, signinData, navigate]);
+
+const handleSelectChange = async (event) => {
+  const selectedOption = event.target.value;
+
+  if (selectedOption) {
     try {
-       const accessToken = signinData?.accessToken || '';
-      // Make a POST request to submit package details to the backend
-      const response = await axios.post('https://api.afribook.world/package/createPackage', {
-        price,
-        packageName,
-        initialReward,
-        monthlyReward,
-        yearlyReward,
-        description,
-        duration,
-      }, {
-        headers: {
- Authorization: `Bearer ${accessToken}`,
-        },
+      const userId = signupData?.data?.userId || signinData?.data?.userId;
+
+      if (!userId) {
+        console.error('User ID is not available, please signin or signup.');
+        return;
+      }
+
+      // Make an API call to set the user's role on the server
+      const response = await axios.post("https://api.afribook.world/account/assignRole", {
+        userId: userId,
+        role: selectedOption,
       });
 
-      // Check if the request was successful
       if (response.status === 200) {
-        const newPackage = response.data; // Assuming the backend returns the created package
-        
-        console.log(newPackage)
+        // Update the Redux store only after the API call is successful
+        dispatch(setFarmerRoleData(selectedOption));
+        console.log('User role set in Redux store:', selectedOption);
 
-        setCreatedPackages([...createdPackages, newPackage]);
-        // Reset input fields after creating a package
-        setPackageName('');
-        setPrice('');
-        setInitialReward('');
-        setMonthlyReward('');
-        setYearlyReward('');
-        setDescription('');
-        setDuration('');
-        // Hide input fields after creating a package
-        setShowInputFields(false);
+        // Navigate to the appropriate page based on the selected role
+        navigate(`/${selectedOption}`);
+        toast.success('Role set successfully!');
+      } else {
+        console.error('Failed to set user role');
+        toast.error('Failed to set user role. Please try again.');
       }
     } catch (error) {
-      console.error('Error creating package:', error);
-      // Handle error (e.g., show an error message to the user)
+      console.error("Error setting user role:", error);
+      // Handle the error, e.g., display an error message to the user
+      toast.error('Error setting user role. Please try again.');
     }
-  };
+  }
+};
+
+
+
 
   return (
-    <div>
-      {showInputFields ? (
-        <div className="flex flex-col gap-8 p-4 mx-auto max-w-sm text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white">
-          <button onClick={() => setShowInputFields(false)} className="self-end text-sm text-gray-300 hover:text-gray-100">
-            Cancel
-          </button>
-
-          <div className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border-none shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white">
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Package Name</label>
-              <input
-                className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
-                type="text"
-                value={packageName}
-                onChange={(e) => setPackageName(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Description</label>
-              <input
-                className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Price</label>
-              <input
-                className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
-                type="text"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Initial Reward</label>
-              <input
-                className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
-                type="text"
-                value={initialReward}
-                onChange={(e) => setInitialReward(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Monthly Reward</label>
-              <input
-                className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
-                type="text"
-                value={monthlyReward}
-                onChange={(e) => setMonthlyReward(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Yearly Reward</label>
-              <input
-                className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
-                type="text"
-                value={yearlyReward}
-                onChange={(e) => setYearlyReward(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Duration</label>
-              <input
-                className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
-                type="text"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-              />
-            </div>
-
-            <button
-              onClick={handleCreatePackage}
-              className="bg-white text-black p-2 rounded-md focus:outline-none"
+    <main className="bg-gray-100 min-h-screen flex items-center justify-center p-4 md:p-8">
+      <div className="">
+        {/* ... your toast component setup ... */}
+        <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
+      </div>
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-white rounded-md shadow-md p-4">
+          <div className="flex flex-col items-center">
+            <a
+              href="/"
+              className="flex items-center mt-6 mb-6 text-2xl font-semibold font-Inter text-gray-900 dark:text-white"
             >
-              Create
-            </button>
+              <img className="w-8 h-8 mr-2" src="/logo.png" alt="logo" />
+              BTCA_FARM
+            </a>
+          </div>
+          <div className="flex items-center mt-0 lg:mt-16">
+            <div
+              className="w-[100%] px-6 py-8 bg-[#F9FAFB] rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700"
+            >
+              <div>
+                <h1 className="text-xl font-bold font-Inter leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+                  Select Role
+                </h1>
+              </div>
+              <form className="py-1 mt-4">
+                <div className="flex flex-col gap-0.5">
+                  <label
+                    htmlFor="register"
+                    className="text-sm font-medium text-white dark:text-white"
+                  >
+                    Register as
+                  </label>
+              <select
+  id="register"
+  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+  value="farmer"  // Set the value to "farmer" so that it's always selected
+  onChange={handleSelectChange}
+  disabled  // Disable the select so that it cannot be changed
+>
+  <option value="farmer">Farmer</option>
+</select>
+                </div>
+                <div className="py-4 flex flex-row gap-8">
+                  <span className="text-gray-500">
+                    Already Registered?
+                    <Link className="text-red-500 ml-2" to="/signin">
+                      Login Now
+                    </Link>
+                  </span>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      ) : (
-        <button
-          onClick={() => setShowInputFields(true)}
-          className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Create Package
-        </button>
-      )}
-    </div>
+        <div className="hidden lg:flex bg-gray-200 rounded-md shadow-md">
+          <div className="flex items-center justify-center p-4 md:p-8">
+            <img src="/logo.png" alt="logo" />
+          </div>
+        </div>
+      </div>
+    </main>
   );
 };
 
-export default CreatePackages;
+export default Role;

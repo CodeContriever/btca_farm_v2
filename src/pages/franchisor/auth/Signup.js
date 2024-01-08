@@ -67,35 +67,66 @@ const Signup = () => {
         const data = response.data;
 
         console.log('User registered successfully:', data);
-        console.log('Signup Data:', data);
+        // console.log('Signup Data:', data);
 
         dispatch(setFranchisorSignupData(data));
-        console.log('Signup Data Dispatched:', data);
+        // console.log('Signup Data Dispatched:', data);
 
         handleRegistrationSuccess(data);
+
       } else if (response.status === 400) {
         const errorData = response.data;
+
         if (errorData && errorData.errors) {
           const validationErrors = errorData.errors;
+
           for (const key in validationErrors) {
             const errorMessage = validationErrors[key];
             toast.error(errorMessage);
           }
+
         } else {
           toast.error('Invalid request. Please check your input.');
         }
+
       } else if (response.status === 401) {
         toast.error('Unauthorized. Please check your credentials.');
+
       } else if (response.status === 403) {
         toast.error('Forbidden. You do not have permission to access this resource.');
+
       } else {
         toast.error('An error occurred, please try again later.');
       }
+
     } catch (error) {
       console.error('Error registering user:', error);
+
       toast.error('An error occurred, please try again later.');
+
+      if (error.response) {
+      // The request was made and the server responded with a status code
+      console.log('Data:', error.response.data);
+        // console.log('Headers:', error.response.headers);
+
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.log('Request:', error.request);
+        // Handle the error based on the request (e.g., retry the request)
+        toast.error('Try again')
+        
+    } else {
+      // Something happened in setting up the request that triggered an error
+      console.log('Error:', error.message);
+      // Handle the error (e.g., display an error message to the user)
+      }
+      
+    console.log('Config:', error.config);
+    // Handle the error based on the Axios configuration
     }
   };
+
+ 
 
   const handleRegistrationSuccess = (data) => {
     if (data.success) {

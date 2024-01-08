@@ -1,4 +1,3 @@
-// UserProfile.js
 import React, { useState } from 'react';
 import { Button, Modal } from 'flowbite-react';
 import axios from 'axios';
@@ -39,8 +38,13 @@ const ResellerProfile = ({ viewProfile, setViewProfile, userId, resellerDetails 
   };
 
   return (
-    <div>
-      <Modal dismissible show={viewProfile} onClose={() => setViewProfile(false)}>
+    <div className='flex justify-center items-center'>
+      <Modal
+        dismissible
+        show={viewProfile}
+        onClose={() => setViewProfile(false)}
+       position={'center'}
+      >
         <Modal.Header>
           Profile
         </Modal.Header>

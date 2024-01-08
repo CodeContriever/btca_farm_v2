@@ -47,7 +47,7 @@ const Franchisors = () => {
       } catch (error) {
         console.error('Error fetching user:', error);
 
-        if (error.response && error.response.data && error.response.data.message === 'No users found') {
+        if (error.response && error.response.data && error.response.data.message === 'No franchisors found') {
           console.log('No users found.');
           setFranchisors([]);
         }
@@ -74,7 +74,7 @@ const Franchisors = () => {
 
         <div className="overflow-x-auto mt-12">
           {franchisors.length === 0 ? (
-            <div className="text-center text-gray-500 dark:text-gray-400">No users found</div>
+            <div className="text-center text-gray-500 dark:text-gray-400">No franchisors found</div>
           ) : (
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" style={{ whiteSpace: 'nowrap' }}>
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

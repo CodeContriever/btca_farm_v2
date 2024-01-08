@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from '../../../components/farmer/Navbar';
+import NavBar from '../../../components/farmer/navbar/Navbar';
 import Sidebar from '../../../components/farmer/Sidebar';
 import Footer from '../../../components/footer/Footer';
 import Dashboard from '../../../components/farmer/dashboard/Dashboard'
@@ -7,7 +7,7 @@ import Packages from '../../../components/farmer/packages/Packages';
 import Mining from '../../../components/farmer/mining/Mining';
 import Transactions from '../../../components/farmer/transactions/Transactions'
 import Profile from '../../../components/farmer/profile/Profile'
-import Settings from '../../../components/farmer/settings/Settings';
+import Signout from '../../../components/farmer/signout/Signout';
 
 const Farmer = () => {
   const [activeComponent, setActiveComponent] = useState('dashboard');
@@ -50,8 +50,8 @@ const Farmer = () => {
         return <Transactions />;
         } else if (activeComponent === 'profile') {
       return <Profile />;
-    } else if (activeComponent === 'settings') {
-      return <Settings />;
+    } else if (activeComponent === 'signout') {
+      return <Signout />;
     }
     // You can add more conditions for other components if needed.
   };

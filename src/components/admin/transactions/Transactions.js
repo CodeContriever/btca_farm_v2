@@ -8,6 +8,7 @@ const Transactions = () => {
   const signinData = useSelector(selectAdminSigninData);
   const [transactionData, setTransactionData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
   const transactionsPerPage = 10;
 
    const startIndex = (currentPage - 1) * transactionsPerPage;
@@ -123,6 +124,7 @@ const Transactions = () => {
               >
                 Prev
               </button>
+
               <div>
                 {transactionData.length > 0 && (
                 <span className="text-sm font-normal text-gray-500 dark:text-gray-400 space-x-2">
@@ -141,6 +143,7 @@ const Transactions = () => {
                 </span>
               )}
               </div>
+
               <button
                 onClick={() => setCurrentPage((prev) => prev + 1)}
                      disabled={transactionData.length <= endIndex}
@@ -148,6 +151,7 @@ const Transactions = () => {
               >
                 Next
               </button>
+              
             </div>
           </nav>
 
