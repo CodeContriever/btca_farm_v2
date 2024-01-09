@@ -7,22 +7,36 @@ import toast, { Toaster } from 'react-hot-toast';
 const Transactions = () => {
   const signinData = useSelector(selectFranchisorSigninData);
   const { userId } = signinData?.data || {};
+  const accessToken = signinData?.accessToken || '';
+  
   const [transactionData, setTransactionData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await axios.get(`https://btca.afribook.world/account/user/${userId}`, {
+        const response = await axios.get(`https://api.afribook.world/transaction/getUserTransactionHistory/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
           params: {
             page: currentPage,
             pageSize: 10, // Adjust this based on your desired page size
           },
         });
         if (response.status === 200) {
-          const data = response.data;
-          console.log('User data fetch successful:', data);
-          setTransactionData(data.transactions);
+          const responseData = response.data;
+          console.log('User data fetch successful:', responseData);
+
+          if (responseData.data && Array.isArray(responseData.data)) {
+            // Check if transactions property exists in responseData.data
+            const transactions = responseData.data || [];
+
+            setTransactionData(transactions);
+          } else {
+            console.error('Invalid data format. Expected an array.');
+            toast.error('Error: Invalid data format.');
+          }
         } else {
           console.error('Error fetching data, please try again later.');
           toast.error('Transactions are not available, please try again later.');
@@ -34,7 +48,7 @@ const Transactions = () => {
     };
 
     fetchTransactions();
-  }, [userId, currentPage]);
+  }, [userId, accessToken, currentPage]);
 
   return (
     <div className="container mx-auto px-6">

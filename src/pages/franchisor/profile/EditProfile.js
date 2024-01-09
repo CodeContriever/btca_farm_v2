@@ -17,19 +17,26 @@ import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
 import { setFranchisorProfileData, } from '../../../store/franchisor/Profile';
 
-import { selectFranchisorSignupData } from '../../../store/franchisor/Signup';
-
-
-
-
+import { selectFranchisorSigninData } from '../../../store/franchisor/Signin';
 
 
 const EditProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const signupData = useSelector(selectFranchisorSignupData);
-  const { fullname, phoneNumber } = signupData?.data || {};
+    const handlePageNavigation = (page) => {
+    // Handle navigation logic
+     console.log(`Navigating to ${page}`);
+     
+      navigate(`/franchisor/${page}`);
+  };
+
+  const signinData = useSelector(selectFranchisorSigninData);
+  const { fullname, phoneNumber } = signinData?.data || {};
+
+    // const { userId } = signinData?.data || {};
+  const accessToken = signinData?.accessToken || '';
+
   useEffect(() => {
     if (fullname && phoneNumber) {
       setFormData((prevData) => ({
@@ -115,9 +122,9 @@ const EditProfile = () => {
         "https://api.afribook.world/franchisor/applyFranchisor",
         formData,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+           headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
         }
       );
 
@@ -135,7 +142,7 @@ const EditProfile = () => {
           setSuccessModalVisible(true);
 
           // Navigate to the franchisor_profile page upon success
-          navigate('/franchisor/profile'); // Adjust the path as needed
+          navigate('/franchisor/dashboard'); // Adjust the path as needed
         } else {
           toast.error("An error occurred, please try again later.");
         }
@@ -147,10 +154,6 @@ const EditProfile = () => {
       console.error("Error submitting form:", error);
     }
   };
-
-
-
-
 
 
   const [successModalVisible, setSuccessModalVisible] = useState(false);
@@ -171,7 +174,7 @@ const EditProfile = () => {
         {/* Wrapper */}
         <div className="container mx-auto px-4">
 
-          <Navbar />
+               <Navbar onNavigate={handlePageNavigation} />
 
         </div>
 
@@ -711,7 +714,8 @@ const EditProfile = () => {
                         </button>
                       </div>
 
-                    </div>
+                      </div>
+                      
 
                   </form>
                 )

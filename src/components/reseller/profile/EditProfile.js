@@ -15,27 +15,19 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useSelector } from "react-redux";
 import { useDispatch, } from 'react-redux';
-import { setFarmerProfileData, } from '../../../store/farmer/Profile';
 
-import { selectFarmerSigninData } from '../../../store/farmer/Signin';
-
+import { selectResellerSigninData } from '../../../store/reseller/Signin';
 
 const EditProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-   const handlePageNavigation = (page) => {
-    // Handle navigation logic
-     console.log(`Navigating to ${page}`);
-     
-      navigate(`/farmer/${page}`);
-  };
-
-  const signinData = useSelector(selectFarmerSigninData);
-  
-  //  const accessToken = signinData?.accessToken || '';
+  const signinData = useSelector(selectResellerSigninData);
   const { fullname, phoneNumber } = signinData?.data || {};
-  
+
+    const { userId } = signinData?.data || {};
+  const accessToken = signinData?.accessToken || '';
+
   useEffect(() => {
     if (fullname && phoneNumber) {
       setFormData((prevData) => ({
@@ -114,46 +106,7 @@ const EditProfile = () => {
   };
 
 
-  const handleSubmit = async () => {
 
-    try {
-      // Send the POST request to the server
-      const response = await axios.post(
-        "https://api.afribook.world/franchisor/applyFranchisor",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log("Axios Response:", response);
-
-      if (response.status === 200) {
-        // Handle successful submission
-        const data = response.data;
-        console.log("Data submitted successfully:", data);
-
-        // Dispatch the entire data object to store it in the Redux store
-        dispatch(setFarmerProfileData(data)); // Dispatch the action
-
-        if (data.success) {
-          setSuccessModalVisible(true);
-
-          // Navigate to the franchisor_profile page upon success
-          navigate('/farmer/profile'); // Adjust the path as needed
-        } else {
-          toast.error("An error occurred, please try again later.");
-        }
-      } else {
-        console.error("Error submitting form: Unexpected response status code", response.status);
-      }
-    } catch (error) {
-      // Handle errors, e.g., show an error message
-      console.error("Error submitting form:", error);
-    }
-  };
 
 
 
@@ -178,7 +131,7 @@ const EditProfile = () => {
         {/* Wrapper */}
         <div className="container mx-auto px-4">
 
-       <Navbar onNavigate={handlePageNavigation} />
+          <Navbar />
 
         </div>
 
@@ -211,7 +164,7 @@ const EditProfile = () => {
                 <div className="mb-4">
 
                   <h1 className="mb-0 mt-0 text-gray-800 text-base lg:text-2xl font-medium font-inter leading-6">
-                    Farmer
+                   Reseller
                   </h1>
 
                 </div>
@@ -712,9 +665,9 @@ const EditProfile = () => {
                         <button
                           type="submit"
                           className="flex justify-center items-center bg-[#A020F0] rounded-lg text-base px-3 py-2.5  text-white font-medium "
-                          onSubmit={handleSubmit}
+                          onSubmit={handleUpdateProfile}
                         >
-                          Submit
+                       Update Profile
                         </button>
                       </div>
 

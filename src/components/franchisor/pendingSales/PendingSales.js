@@ -6,6 +6,7 @@ import { selectFranchisorSigninData } from '../../../store/franchisor/Signin';
 const PendingSales = () => {
   const signinData = useSelector(selectFranchisorSigninData);
   const { userId } = signinData?.data || {};
+  const accessToken = signinData?.accessToken || '';
 
   const [pendingSales, setPendingSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +18,7 @@ const PendingSales = () => {
           `https://api.afribook.world/franchisor/getFranchisorPendingPackageSales`,
           {
             headers: {
-              Authorization: 'Bearer YOUR_ACCESS_TOKEN', // Replace with your actual access token
+              Authorization: `Bearer ${accessToken}`,
             },
             params: {
               page: currentPage,
@@ -40,9 +41,9 @@ const PendingSales = () => {
     };
 
     fetchPendingSales();
-  }, [userId, currentPage]);
+  }, [userId, currentPage, accessToken]);
 
-  const handleConfirmSales = async (applicantId, role) => {
+  const handleConfirmSales = async (userId, role, rpi) => {
     try {
       let endpoint = '';
       if (role === 'farmer') {
@@ -54,11 +55,12 @@ const PendingSales = () => {
       const response = await axios.put(
         endpoint,
         {
-          userId: applicantId, // Update this with the actual user ID
+          rpi: role === 'reseller' ? rpi : undefined, // Include rpi only for resellers
+          userId,
         },
         {
           headers: {
-            Authorization: 'Bearer YOUR_ACCESS_TOKEN', // Replace with your actual access token
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -82,88 +84,92 @@ const PendingSales = () => {
         <h1 className="text-gray-800 text-2xl font-medium font-inter leading-6">Pending Sales</h1>
 
         <div className="bg-white rounded-md shadow-lg p-8 mt-4">
-          
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" style={{ whiteSpace: 'nowrap' }}>
-                {/* Table header */}
-                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                  <th scope="col" className="px-4 py-3 border-r">PACKAGE</th>
-                   <th scope="col" className="px-4 py-3 border-r">DESCRIPTION</th>
-                  <th scope="col" className="px-4 py-3 border-r">PRICE</th>
-                        <th scope="col" className="px-4 py-3 border-r">APPLICANT</th>
-                            <th scope="col" className="px-4 py-3 border-r">ROLE</th>
-                  <th scope="col" className="px-4 py-3 border-r">DATE</th>
-                  <th scope="col" className="px-4 py-3 border-r">STATUS</th>
-                    <th scope="col" className="px-4 py-3 border-r">CONFIRM</th>
-                </tr>
-                
-                  </thead>
-                  
-              <tbody>
-     {pendingSales.length === 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" style={{ whiteSpace: 'nowrap' }}>
+              {/* Table header */}
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <td colSpan="8" className="my-4 px-4 py-3 border-r text-xl text-center text-gray-500 dark:text-gray-400">
-                    Pending sales not available, please check back later.
-                  </td>
+                  <th scope="col" className="px-4 py-3 border-r">
+                    PACKAGE
+                  </th>
+                  <th scope="col" className="px-4 py-3 border-r">
+                    DESCRIPTION
+                  </th>
+                  <th scope="col" className="px-4 py-3 border-r">
+                    PRICE
+                  </th>
+                  <th scope="col" className="px-4 py-3 border-r">
+                    APPLICANT
+                  </th>
+                  <th scope="col" className="px-4 py-3 border-r">
+                    ROLE
+                  </th>
+                  <th scope="col" className="px-4 py-3 border-r">
+                    DATE
+                  </th>
+                  <th scope="col" className="px-4 py-3 border-r">
+                    STATUS
+                  </th>
+                  <th scope="col" className="px-4 py-3 border-r">
+                    CONFIRM
+                  </th>
                 </tr>
-              ) : (
+              </thead>
+              <tbody>
+                {pendingSales.length === 0 ? (
+                  <tr>
+                    <td colSpan="8" className="my-4 px-4 py-3 border-r text-xl text-center text-gray-500 dark:text-gray-400">
+                      Pending sales not available, please check back later.
+                    </td>
+                  </tr>
+                ) : (
                   pendingSales.map((sale, index) => (
                     <tr key={index} className="border-b dark:border-gray-700">
                       {/* Table row data */}
-                        <th scope="row" className="px-4 py-3 border-r font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                 {sale.package}
-                  </th>
-                    <td className="px-4 py-3 border-r">{sale.description}</td>
-                            <td className="px-4 py-3 border-r">{sale.price}</td>
-                            <td className="px-4 py-3 border-r">{sale.applicant}</td>
-                  <td className="px-4 py-3 border-r">{sale.role}</td>
-                    <td className="px-4 py-3 border-r">{sale.date}</td>
+                      <th scope="row" className="px-4 py-3 border-r font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {sale.package}
+                      </th>
+                      <td className="px-4 py-3 border-r">{sale.description}</td>
+                      <td className="px-4 py-3 border-r">{sale.price}</td>
+                      <td className="px-4 py-3 border-r">{sale.applicant}</td>
+                      <td className="px-4 py-3 border-r">{sale.role}</td>
+                      <td className="px-4 py-3 border-r">{sale.date}</td>
                       <td className="px-4 py-3 border-r">{sale.status}</td>
-                      
                       <td className="px-4 py-3 border-r">
                         <button
                           className="bg-blue-500 p-2 rounded-md text-white"
-                          onClick={() => handleConfirmSales(sale.applicantId, sale.role)}
+                          onClick={() => handleConfirmSales(sale.userId, sale.role, sale.rpi)}
                         >
                           {sale.status === 'Confirmed' ? 'Confirmed' : 'Confirm'}
                         </button>
                       </td>
                     </tr>
-                    
-                      ))
-              )}
-                  </tbody>
-                  
-                </table>
-                
-            </div>
-       
-
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
           {/* Pagination */}
           <nav
             className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
             aria-label="Table navigation"
           >
-             <div className="flex items-center space-x-1">
-
-             <button
+            <div className="flex items-center space-x-1">
+              <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
                 className="px-3 py-1 border rounded text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
               >
                 Prev
               </button>
-            
-            <div>
+              <div>
                 <span className="text-sm font-normal text-gray-500 dark:text-gray-400 space-x-2">
-              Showing
-              <span className="font-semibold text-gray-900 dark:text-white mx-2">{1 + (currentPage - 1) * 10}</span>
-              of
-              <span className="font-semibold text-gray-900 dark:text-white">{pendingSales.length}</span>
-            </span>
-            </div>
-             
+                  Showing
+                  <span className="font-semibold text-gray-900 dark:text-white mx-2">{1 + (currentPage - 1) * 10}</span>
+                  of
+                  <span className="font-semibold text-gray-900 dark:text-white">{pendingSales.length}</span>
+                </span>
+              </div>
               <button
                 onClick={() => setCurrentPage((prev) => prev + 1)}
                 disabled={pendingSales.length < 10}
@@ -172,7 +178,6 @@ const PendingSales = () => {
                 Next
               </button>
             </div>
-
           </nav>
         </div>
       </div>

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../components/franchisor/Sidebar';
 import Footer from '../../../components/footer/Footer';
-import NavBar from '../../../components/franchisor/Navbar';
+import NavBar from '../../../components/franchisor/navbar/Navbar';
 import Profile from '../../../components/franchisor/profile/Profile';
 import Dashboard from '../../../components/franchisor/dashboard/Dashboard';
-import Transactions from '../../../components/franchisor/transactions/Transactions';
-import Approvals from '../../../components/franchisor/approvals/Approvals';
-import Payments from '../../../components/franchisor/payments/Payments';
-import Orders from '../../../components/franchisor/orders/Orders';
-import Settings from '../../../components/franchisor/settings/Settings';
-import PendingSales from '../../../components/franchisor/pendingSales/PendingSales';
 import Packages from '../../../components/franchisor/packages/Packages';
+import PendingSales from '../../../components/franchisor/pendingSales/PendingSales';
+import Transactions from '../../../components/franchisor/transactions/Transactions';
+import Signout from '../../../components/franchisor/signout/Signout';
+// import Approvals from '../../../components/franchisor/approvals/Approvals';
+// import Payments from '../../../components/franchisor/payments/Payments';
+// import Orders from '../../../components/franchisor/orders/Orders';
+
+
 
 const Franchisor = () => {
   const [activeComponent, setActiveComponent] = useState('profile');
@@ -51,16 +53,16 @@ const Franchisor = () => {
       return <Transactions />;
        } else if (activeComponent === 'pendingSales') {
       return <PendingSales />;
-    } else if (activeComponent === 'approvals') {
-      return <Approvals />;
-    } else if (activeComponent === 'payments') {
-      return <Payments />;
-    } else if (activeComponent === 'orders') {
-      return <Orders />;
+    // } else if (activeComponent === 'approvals') {
+    //   return <Approvals />;
+    // } else if (activeComponent === 'payments') {
+    //   return <Payments />;
+    // } else if (activeComponent === 'orders') {
+    //   return <Orders />;
       } else if (activeComponent === 'profile') {
       return <Profile />;
-    } else if (activeComponent === 'settings') {
-      return <Settings />;
+    } else if (activeComponent === 'signout') {
+      return <Signout />;
     }
     // You can add more conditions for other components if needed.
   };

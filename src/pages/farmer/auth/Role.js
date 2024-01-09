@@ -10,6 +10,7 @@ import { toast, ToastContainer } from 'react-toastify';
 const Role = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const signupData = useSelector(selectFarmerSignupData);
   const signinData = useSelector(selectFarmerSigninData);
 
@@ -21,10 +22,10 @@ const setRoleAndNavigate =  useCallback(async (userId) => {
     });
 
     if (response.status === 200) {
-      dispatch(setFranchisorRoleData("farmer"));
+      dispatch(setFarmerRoleData("farmer"));
       console.log('User role set in Redux store: farmer');
 
-      navigate("/farmer/edit_profile"); // Navigate to the farmer page
+      navigate("/farmer/signin"); // Navigate to the farmer page
       toast.success('Role set successfully!');
     } else {
       console.error('Failed to set user role');

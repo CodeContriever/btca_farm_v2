@@ -1,13 +1,22 @@
 import React from "react";
+// import { useNavigate } from 'react-router-dom';
+
 import AvailableBalance from "./balance/AvailableBalance";
 import TotalFarmedAmount from "./balance/TotalFarmedAmount";
 import ActivatedPackages from "./packages/ActivatedPackages";
 import MiningReward from "./balance/MiningReward";
 import FarmSpeed from "./farmSpeed/FarmSpeed";
 
-
+import { useSelector } from "react-redux";
+import { selectFarmerSigninData } from '../../../store/farmer/Signin';
 
 const Dashboard = () => {
+    // const navigate = useNavigate();
+  const signinData = useSelector(selectFarmerSigninData);
+  
+const isAccountVerified = signinData?.user?.isAccountVerified || {};
+console.log('isAccountVerified:', isAccountVerified);
+
 
   return (
 

@@ -1,80 +1,40 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
-import toast, { Toaster } from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
-import Navbar from '../../../components/franchisor/Navbar';
+import Navbar from "../../../components/reseller/navbar/Navbar";
 import Footer from "../../../components/footer/Footer2";
-import Input from "../../../components/form/Input"
-
-import { Label, Select } from 'flowbite-react';
-
+import Input from "../../../components/form/Input";
+import { Label, Select } from "flowbite-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import { useSelector } from "react-redux";
-import { useDispatch, } from 'react-redux';
-import { setResellerProfileData, } from '../../../store/reseller/Profile';
 
-import { selectResellerSignupData } from '../../../store/reseller/Signup';
-
-
-
-
-
+import {
+  selectResellerSigninData,
+} from "../../../store/reseller/Signin";
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const signupData = useSelector(selectResellerSignupData);
-  const { fullname, phoneNumber } = signupData?.data || {};
-  useEffect(() => {
-    if (fullname && phoneNumber) {
-      setFormData((prevData) => ({
-        ...prevData,
-        firstName: fullname,
-        phoneNumber: phoneNumber,
-      }));
-    }
-  }, [fullname, phoneNumber]);
+ const handlePageNavigation = (page) => {
+    // Handle navigation logic
+     console.log(`Navigating to ${page}`);
+     
+      navigate(`/reseller/${page}`);
+  };
+
+  const signinData = useSelector(selectResellerSigninData);
+  const accessToken = signinData?.accessToken || "";
 
   const [activeSection, setActiveSection] = useState("form1");
-
-  const handleSectionChange = (section) => {
+   const handleSectionChange = (section) => {
     setActiveSection(section);
   };
 
-  const isForm1Active = activeSection === "form1";
-
-  const handleNext = () => {
-    if (isForm1Active) {
-      handleSectionChange("form2");
-    } else {
-      handleSubmit();
-    }
-  };
-
-  const handleBack = () => {
-    handleSectionChange("form1");
-  };
-
-  const [date, setDate] = useState(new Date());
-  // Function to handle when a day is clicked in the date picker
-  const handleDateSelect = (selectedDate) => {
-    // Update the selected date in the state
-    setDate(selectedDate);
-  };
-  // Function to handle when the value of the date picker has changed
-  const handleDateChange = (selectedDate) => {
-    // Check if the selected date is different from the current date in the state
-    if (selectedDate !== date) {
-      // Update the selected date in the state
-      setDate(selectedDate);
-    }
-  };
-
+    const isForm1Active = activeSection === "form1";
+  
   const [formData, setFormData] = useState({
     "dob": "",
     "gender": "",
@@ -96,8 +56,45 @@ const EditProfile = () => {
     "id_link": "",
     "account_number": "",
     "bank": ""
-
   });
+
+  const [originalFormData, setOriginalFormData] = useState({});
+
+  const [date, setDate] = useState(new Date());
+
+  
+  // eslint-disable-next-line no-unused-vars
+  const [isFormEditable, setIsFormEditable] = useState(false);
+
+  useEffect(() => {
+    const fetchResellerProfile = async () => {
+      try {
+        const response = await axios.get('https://api.afribook.world/reseller/getResellerProfile', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        console.log('Reseller profile data:', response.data);
+
+        if (response.data.message === 'Reseller does not have a Profile yet') {
+          // Show toast for the specific message
+          toast.error('Reseller does not have a Profile yet');
+        } else {
+          setFormData(response.data);
+          setOriginalFormData(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching reseller profile:', error);
+        // Show a generic error message for other errors
+        toast.error('Error fetching reseller profile. Please try again later.');
+      }
+    };
+
+    fetchResellerProfile();
+  }, [accessToken]);
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -105,61 +102,64 @@ const EditProfile = () => {
       ...prevData,
       [name]: value,
     }));
+    setIsFormEditable(true);
   };
 
+  const handleDateSelect = (selectedDate) => {
+    setDate(selectedDate);
+    setIsFormEditable(true);
+  };
 
-  const handleSubmit = async () => {
-    try {
-      // Send the POST request to the server
-      const response = await axios.post(
-        "https://api.afribook.world/reseller/applyReseller",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log("Axios Response:", response);
-
-      if (response.status === 200) {
-        // Handle successful submission
-        const data = response.data;
-        console.log("Data submitted successfully:", data);
-
-        // Dispatch the entire data object to store it in the Redux store
-        dispatch(setResellerProfileData(data)); // Dispatch the action
-
-        if (data.success) {
-          setSuccessModalVisible(true);
-
-          // Navigate to the franchisor_profile page upon success
-          navigate('/reseller/profile'); // Adjust the path as needed
-        } else {
-          toast.error("An error occurred, please try again later.");
-        }
-      } else {
-        console.error("Error submitting form: Unexpected response status code", response.status);
-      }
-    } catch (error) {
-      // Handle errors, e.g., show an error message
-      console.error("Error submitting form:", error);
+  const handleDateChange = (selectedDate) => {
+    if (selectedDate !== date) {
+      setDate(selectedDate);
+      setIsFormEditable(true);
     }
   };
 
+   const handleNext = () => {
+    if (isForm1Active) {
+      handleSectionChange("form2");
+    } else {
+      handleUpdateProfile();
+    }
+  };
 
+  const handleBack = () => {
+    handleSectionChange("form1");
+  };
 
+  const handleUpdateProfile = () => {
+    const isDataEdited = Object.keys(formData).some(
+      (key) => formData[key] !== originalFormData[key]
+    );
 
-
-
-  const [successModalVisible, setSuccessModalVisible] = useState(false);
-  const handleCloseSuccessModal = () => {
-    setSuccessModalVisible(false); // Close the success modal
+    if (isDataEdited) {
+      axios
+        .put(
+          "https://api.afribook.world/reseller/updateResellerProfile",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          toast.success("Profile updated successfully!");
+          navigate("/reseller/profile");
+        })
+        .catch((error) => {
+          console.error("Error updating profile:", error);
+          toast.error("Error updating profile. Please try again.");
+        });
+    } else {
+      toast.success("No changes were made.");
+    }
   };
 
   return (
-
+ 
     <div
       className="">
 
@@ -171,13 +171,11 @@ const EditProfile = () => {
         {/* Wrapper */}
         <div className="container mx-auto px-4">
 
-          <Navbar />
+         <Navbar onNavigate={handlePageNavigation} />
 
         </div>
 
       </header>
-
-
 
       <main
         className="bg-[#F9FAFB]"
@@ -193,7 +191,7 @@ const EditProfile = () => {
           <div className="grid grid-cols-3 gap-4">
 
 
-            {/* Franchise form */}
+            {/* Reseller form */}
             <div className="col-span-3 w-[100%]">
 
               <div
@@ -236,8 +234,8 @@ const EditProfile = () => {
                               type="text"
                               name="firstName"
                               id="firstName"
-                              value={fullname}
-                              // disable
+                              value={originalFormData.firstName}
+                              // disable 
                               onChange={handleInputChange}
                               label="First Name"
                               required
@@ -255,7 +253,7 @@ const EditProfile = () => {
                               type="tel"
                               name="phoneNumber"
                               id="phoneNumber"
-                              value={phoneNumber}
+                              value={originalFormData.phoneNumber}
                               onChange={handleInputChange}
                               label="Phone Number"
                               required
@@ -282,7 +280,7 @@ const EditProfile = () => {
                               id="gender"
                               required
                               className=""
-                              {...formData.gender}
+                              {...originalFormData.gender}
                             >
                               <option>
                                 Male
@@ -323,7 +321,7 @@ const EditProfile = () => {
                               type="text"
                               name="address_1"
                               id="address_1"
-                              value={formData.address_1}
+                              value={originalFormData.address_1}
                               onChange={handleInputChange}
                               label="Address_1"
                               required
@@ -340,7 +338,7 @@ const EditProfile = () => {
                               type="text"
                               name="address_2"
                               id="address_2"
-                              value={formData.address_2}
+                              value={originalFormData.address_2}
                               onChange={handleInputChange}
                               label="Address 2"
                               required
@@ -357,7 +355,7 @@ const EditProfile = () => {
                               type="text"
                               name="landmark"
                               id="landmark"
-                              value={formData.landmark}
+                              value={originalFormData.landmark}
                               onChange={handleInputChange}
                               label="Landmark"
                               required
@@ -374,7 +372,7 @@ const EditProfile = () => {
                               type="text"
                               name="city"
                               id="city"
-                              value={formData.city}
+                              value={originalFormData.city}
                               onChange={handleInputChange}
                               label="City"
                               required
@@ -391,7 +389,7 @@ const EditProfile = () => {
                               type="text"
                               name="state"
                               id="state"
-                              value={formData.state}
+                              value={originalFormData.state}
                               onChange={handleInputChange}
                               label="State"
                               required
@@ -408,7 +406,7 @@ const EditProfile = () => {
                               type="text"
                               name="country"
                               id="country"
-                              value={formData.country}
+                              value={originalFormData.country}
                               onChange={handleInputChange}
                               label="Country"
                               required
@@ -466,7 +464,7 @@ const EditProfile = () => {
                               type="text"
                               name="means_of_id"
                               id="means_of_id"
-                              value={formData.means_of_id}
+                              value={originalFormData.means_of_id}
                               onChange={handleInputChange}
                               label="ID"
                               required
@@ -484,7 +482,7 @@ const EditProfile = () => {
                               type="number"
                               name="id_number"
                               id="id_number"
-                              value={formData.id_number}
+                              value={originalFormData.id_number}
                               onChange={handleInputChange}
                               label="ID Number"
                               required
@@ -543,7 +541,7 @@ const EditProfile = () => {
                               type="text"
                               name="kin_full_name"
                               id="kin_full_name"
-                              value={formData.kin_full_name}
+                              value={originalFormData.kin_full_name}
                               onChange={handleInputChange}
                               label="Full Name"
                               required
@@ -560,7 +558,7 @@ const EditProfile = () => {
                               type="text"
                               name="kin_address"
                               id="kin_address"
-                              value={formData.kin_address}
+                              value={originalFormData.kin_address}
                               onChange={handleInputChange}
                               label="Adress"
                               required
@@ -578,7 +576,7 @@ const EditProfile = () => {
                               type="tel"
                               name="Kin_phone"
                               id="Kin_phone"
-                              value={formData.kin_phone}
+                              value={originalFormData.kin_phone}
                               onChange={handleInputChange}
                               label="Phone Number"
                               required
@@ -616,7 +614,7 @@ const EditProfile = () => {
                               type="text"
                               name="g_full_name"
                               id="g_full_name"
-                              value={formData.g_full_name}
+                              value={originalFormData.g_full_name}
                               onChange={handleInputChange}
                               label="Full Name"
                               required
@@ -633,7 +631,7 @@ const EditProfile = () => {
                               type="tel"
                               name="g_phone"
                               id="g_phone"
-                              value={formData.g_phone}
+                              value={originalFormData.g_phone}
                               onChange={handleInputChange}
                               label="Phone Number"
                               required
@@ -651,7 +649,7 @@ const EditProfile = () => {
                               type="tel"
                               name="g_address"
                               id="g_address"
-                              value={formData.g_address}
+                              value={originalFormData.g_address}
                               onChange={handleInputChange}
                               label="Address"
                               required
@@ -668,7 +666,7 @@ const EditProfile = () => {
                               type="number"
                               name="g_user_id"
                               id="g_user_id"
-                              value={formData.g_user_id}
+                              value={originalFormData.g_user_id}
                               onChange={handleInputChange}
                               label="ID"
                               required
@@ -692,24 +690,26 @@ const EditProfile = () => {
 
                       <div>
                         <button
-                          type="text"
+                          type="button"
                           className="flex justify-center items-center text-base text-black font-medium focus:outline-none px-3 py-2.5"
                           style={{ border: "none", outline: "none" }}
                           onClick={handleBack}
                         >
                           Back
                         </button>
-                      </div>
-
-                      <div>
-                        <button
-                          type="submit"
-                          className="flex justify-center items-center bg-[#A020F0] rounded-lg text-base px-3 py-2.5  text-white font-medium "
-                          onSubmit={handleSubmit}
-                        >
-                          Submit
-                        </button>
-                      </div>
+                        </div>
+                        
+                        
+                          <div>
+                            <button
+                              type="submit"
+                              className="flex justify-center items-center bg-[#A020F0] rounded-lg text-base px-3 py-2.5  text-white font-medium "
+                              onSubmit={handleUpdateProfile}
+                            >
+                              Update Profile
+                            </button>
+                          </div>
+                  
 
                     </div>
 
@@ -726,42 +726,7 @@ const EditProfile = () => {
         </div>
       </main>
 
-      {/* Success Modal */}
-      {successModalVisible && (
-        <div
-          id="deleteModal"
-          tabIndex="-1"
-          aria-hidden="true"
-          className="fixed top-0 right-0 left-0 bottom-0 flex items-center justify-center"
-        >
-          <div className="relative p-4 w-full max-w-md">
-            <div className="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-              <button
-                type="button"
-                className="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                onClick={handleCloseSuccessModal}
-              >
-                <svg
-                  aria-hidden="true"
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-              <h2>Success!</h2>
-              <p>Your form has been submitted successfully.</p>
-            </div>
-          </div>
-        </div>
-      )}
+   
 
       {/* Footer */}
       < footer
@@ -780,10 +745,7 @@ const EditProfile = () => {
 
 
     </div>
+  );
+};
 
-
-
-  )
-}
-
-export default EditProfile
+export default EditProfile;

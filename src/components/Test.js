@@ -1,352 +1,260 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { selectResellerSigninData } from '../../../store/franchisor/Signin';
+import toast, { Toaster } from 'react-hot-toast';
 
-import Notification from './admin/navbar/Notification';
+const UnactivatedPackages = () => {
+  const signinData = useSelector(selectResellerSigninData);
+  const { userId } = signinData?.data || {};
+  const accessToken = signinData?.accessToken || '';
 
-// import { selectAdminProfileData } from '../../store/admin/Profile';
-
-
-// Create a Logo component
-function Logo() {
-  return (
-    <a href="/home" className="flex items-center justify-between mr-4">
-      <img src="/logo.png" className="mr-3 h-6 lg:h-8" alt="BTCA Logo" />
-      <span className="self-center text-md lg:text-2xl font-semibold whitespace-nowrap dark:text-white">
-        BTCA_FARM
-      </span>
-    </a>
-  );
-}
-
-
-
-
-// Create a HamburgerMenu component
-function HamburgerMenu({ activeButton, handleHamburgerClick, onNavigate }) {
-  return (
-    <div className="order-1 box-border relative cursor-pointer transition duration-300" tabIndex="0">
-      <button
-        onClick={() => handleHamburgerClick('menu')}
-        data-drawer-target="drawer-navigation"
-        data-drawer-toggle="drawer-navigation"
-        aria-controls="drawer-navigation"
-        className="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer lg:hidden hover:text-gray-900 hover-bg-gray-100 focus:bg-gray-100 dark-focus-bg-gray-700 focus-ring-2 focus-ring-gray-100 dark-focus-ring-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white"
-      >
-        {/* Hamburger icon */}
-        <div>☰</div>
-      </button>
-
-      {activeButton === 'menu' && (
-        <div className="items-center justify-start lg:hidden flex w-[100%] order-1 bg-gray-400" id="mobile-menu-2" tabIndex="-1">
-
-          <ul className="bg-white w-64 absolute top-8 z-10 flex flex-col justify-center p-4 gap-4 mt-4 font-medium lg:flex-row lg-space-x-8 lg-mt-0">
-
-            {/* Dashboard */}
-            <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('dashboard')}>Dashboard</button>
-            </li>
-
-              {/* Admins */}
-            <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('admins')}>Admins</button>
-            </li>
-
-            {/* Users */}
-            <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('users')}>Users</button>
-            </li>
-
-
-             {/* Packages */}
-            <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('packages')}>Packages</button>
-            </li>
-
-            {/* Transactions */}
-
- <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('transactions')}>Transactions</button>
-            </li>
-
-            {/* Pending Sales */}
-
-             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('pendingSales')}>Pending Sales</button>
-            </li>
-
-            {/* Approved Sales */}
-             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('approvals')}>Approved Sales</button>
-            </li>
-
-            {/* Payments */}
-             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('payments')}>Payments</button>
-            </li>
-            
-
-            {/* Orders */}
-             <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('orders')}>Orders</button>
-            </li>
-
-            {/* Settings */}
-                 <li onClick={() => handleHamburgerClick('menu')} className=' space-y-2 border-t border-gray-200'>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('settings')}>Settings</button>
-            </li>
-
-
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-}
-
-
-
-
-
-
-function NotificationButton({ isActive = true, onClick, notificationCount }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`inline-flex relative items-center px-4 py-2.5 text-sm font-medium text-center text-white bg-gray-400 rounded-lg ${isActive ? 'bg-gray-800 text-gray-400' : 'text-gray-500'}`}
-    >
-      <svg class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 21">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C17 15.4 17 16 16.462 16H3.538C3 16 3 15.4 3 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 10 3.464ZM1.866 8.832a8.458 8.458 0 0 1 2.252-5.714m14.016 5.714a8.458 8.458 0 0 0-2.252-5.714M6.54 16a3.48 3.48 0 0 0 6.92 0H6.54Z" />
-      </svg>
-
-      {isActive && notificationCount > 0 && (
-        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">
-          {notificationCount}
-        </div>
-      )}
-    </button>
-  );
-}
-
-
-function NotificationDropdown() {
-  const [notifications, setNotifications] = useState([]);
-  const [showAllNotifications, setShowAllNotifications] = useState(false);
-
-  // Sample JSONPlaceholder API endpoint for posts
-  const NOTIFICATIONS_API_URL = 'https://jsonplaceholder.typicode.com/posts';
+  const [currentPage, setCurrentPage] = useState(1);
+  const [resellerPackages, setResellerPackages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [activationStatus, setActivationStatus] = useState('');
+  const [selectedPackage, setSelectedPackage] = useState(null);
 
   useEffect(() => {
-    const fetchNotifications = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(NOTIFICATIONS_API_URL);
-        if (!response.ok) {
-          throw new Error('Failed to fetch notifications');
+        setLoading(true);
+
+        const response = await axios.get(`https://api.afribook.world/package/getResellerPackages/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            page: currentPage,
+            pageSize: 10,
+          },
+        });
+
+        if (response.status === 200) {
+          const data = response.data;
+          console.log('Reseller Unactivated packages fetch successful:', data);
+          setResellerPackages(response.data);
+        } else {
+          console.error('Error fetching packages, please try again later.');
+          toast.error('Error fetching packages, please try again later.');
         }
-        const data = await response.json();
-        setNotifications(data);
       } catch (error) {
-        console.error('Error fetching notifications:', error);
+        console.error('Error fetching user packages:', error);
+        toast.error('Error, please check your connection');
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchNotifications();
-  }, []);
+    fetchData();
+  }, [userId, currentPage, accessToken]);
 
-  const toggleShowAllNotifications = () => {
-    setShowAllNotifications(!showAllNotifications);
+  const handleActivate = async (packageId) => {
+    try {
+      setLoading(true);
+
+      // Set the selected package
+      const selectedPackage = resellerPackages.find((pkg) => pkg.packageId === packageId);
+      setSelectedPackage(selectedPackage);
+
+      // Now you can show a modal or a dropdown to let the user choose between buying directly or subscribing from a franchisor
+    } catch (error) {
+      console.error('Error activating package:', error);
+      setActivationStatus('error');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const displayedNotifications = showAllNotifications ? notifications : notifications.slice(0, 5);
+  const handleBuyDirectly = async () => {
+    try {
+      setLoading(true);
 
-  return (
-    <div className="w-64 lg:w-90 absolute top-12 right-8 z-10 overflow-hidden my-4 text-base list-none bg-gray-400 divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark-bg-gray-700 rounded-xl" id="notification-dropdown" tabIndex="-1">
-      {/* Notifications title */}
-      <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark-bg-gray-600 dark:text-gray-300">
-        Notifications
-      </div>
-      {/* Notifications */}
-      {displayedNotifications.map((notification, index) => (
-        <NotificationItem
-          key={index}
-          avatarUrl={notification.avatarUrl}
-          sender={notification.sender}
-          message={notification.message}
-          timeAgo={notification.timeAgo}
-        />
-      ))}
-      {notifications.length > 5 && !showAllNotifications && (
-        <button onClick={toggleShowAllNotifications} className="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover-bg-gray-100 dark-bg-gray-600 dark-text-white dark-hover:underline">
-          <div className="inline-flex items-center">
-            <svg aria-hidden="true" className="mr-2 w-4 h-4 text-gray-500 dark-text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              {/* View all icon */}
-              <path fillRule="evenodd" d="M3 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3zm0 2v8h12V5H3z" />
-            </svg>
-            View all
-          </div>
-        </button>
+      const response = await axios.post(
+        'https://api.afribook.world/reseller/buyPackage',
+        {
+          userId,
+          packageId: selectedPackage.packageId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-      )}
-    </div>
-  );
-}
+      if (response.status === 200) {
+        console.log('Package activated successfully');
+        setActivationStatus('success');
+      } else {
+        console.error('Error activating package, please try again later.');
+        setActivationStatus('error');
+      }
+    } catch (error) {
+      console.error('Error activating package:', error);
+      setActivationStatus('error');
+    } finally {
+      setLoading(false);
+      setSelectedPackage(null);
+    }
+  };
 
+  const handleSubscribeFromFranchisor = async (franchisorId) => {
+    try {
+      setLoading(true);
 
-function NotificationItem({ avatarUrl, sender, message, timeAgo }) {
-  return (
-    <a href="/1" className="flex py-3 px-4 border-b hover-bg-gray-100 dark-hover-bg-gray-600 dark-border-gray-600">
-      <div className="flex-shrink-0">
-        <img className="w-11 h-11 rounded-full" src={avatarUrl} alt="Avatar" />
-        <div className="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 rounded-full border border-white bg-primary-700 dark-border-gray-700">
-          <svg aria-hidden="true" className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            {/* Sender icon */}
-            <path fillRule="evenodd" d="M3.293 12.293a1 1 0 0 1 0-1.414l3-3a1 1 0 0 1 1.414 0l1 1a1 1 0 0 1 0 1.414l-3 3a1 1 0 0 1-1.414 0l-1-1z" />
-          </svg>
-        </div>
-      </div>
-      <div className="pl-3 w-full">
-        <div className="text-gray-500 font-normal text-sm mb-1.5 dark-text-gray-400">
-          New message from <span className="font-semibold text-gray-900 dark-text-white">{sender}</span>: "{message}"
-        </div>
-        <div className="text-xs font-medium text-primary-600 dark-text-primary-500">
-          {timeAgo}
-        </div>
-      </div>
-    </a>
-  );
-}
+      const response = await axios.post(
+        'https://api.afribook.world/subscription/resellerSubscribeToPackageFromFranchisor',
+        {
+          fpi: franchisorId,
+          packageId: selectedPackage.packageId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-
-function UserProfileDropdown() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  // Use useSelector to access 'franchisorData' from the Redux store
-  const adminProfileData = useSelector((state) => state.adminProfile.adminProfileData);
-
-  const { fullname, email, role } = adminProfileData?.data || {};
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+      if (response.status === 200) {
+        console.log('Package activated successfully through franchisor');
+        setActivationStatus('success');
+      } else {
+        console.error('Error activating package through franchisor, please try again later.');
+        setActivationStatus('error');
+      }
+    } catch (error) {
+      console.error('Error activating package through franchisor:', error);
+      setActivationStatus('error');
+    } finally {
+      setLoading(false);
+      setSelectedPackage(null);
+    }
   };
 
   return (
-    <div className="relative flex flex-col justify-center items-center" tabIndex="0">
-      <button
-        onClick={toggleDropdown}
-        className="relative inline-flex items-center p-2 rounded-full cursor-pointer"
-      >
-        {/* Use a default SVG avatar when 'avatarUrl' is not available */}
-        {adminProfileData?.avatarUrl ? (
-          <img
-            src={adminProfileData.avatarUrl}
-            alt="User Avatar"
-            className="w-8 h-8 rounded-full"
-          />
-        ) : (
-          <img
-            class="w-8 h-8 rounded-full"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
-            alt=""
-          />
-        )}
-      </button>
-      {isDropdownOpen && (
-        <div className="absolute right-0 mt-64 p-2 bg-white border border-gray-300 shadow-lg rounded-md">
-          <div className="text-sm text-gray-600 mb-2">
-            <div>
-              <strong>Name:</strong> {fullname || 'John Doe'}
+    <div className="container mx-auto px-6">
+      <div className="">
+        <Toaster position="top-center" reverseOrder={false}></Toaster>
+      </div>
+
+      <div>
+        <h1 className="text-gray-800 text-xl font-medium font-inter leading-6">Unactivated Packages</h1>
+
+        <div className="bg-white rounded-md shadow-lg p-4 mt-4">
+          {resellerPackages.length === 0 ? (
+            <p className="text-center text-gray-500 dark:text-gray-400">Packages not available, please check back later.</p>
+          ) : (
+            <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-4 lg:space-y-0 lg:space-x-2">
+              {resellerPackages.map((pkg, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                >
+                  <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3>
+                  <p>Description: {pkg.description}</p>
+                  <p>Price: {pkg.price}</p>
+                  <p>Initial Reward: {pkg.initialReward}</p>
+                  <p>Monthly Reward: {pkg.monthlyReward}</p>
+                  <p>Yearly Reward: {pkg.yearlyReward}</p>
+                  <p>Status: {pkg.status}</p>
+                  <p>Duration: {pkg.duration} days</p>
+                  <hr />
+
+                  <button
+                    className={`bg-white p-2 rounded-md text-black ${
+                      activationStatus === 'success' ? 'bg-green-500' : ''
+                    }`}
+                    onClick={() => handleActivate(pkg.packageId)}
+                    disabled={loading}
+                  >
+                    {loading ? 'Pending' : activationStatus === 'success' ? 'Activated' : 'Activate'}
+                  </button>
+                </div>
+              ))}
             </div>
+          )}
+
+          {selectedPackage && (
             <div>
-              <strong>Email:</strong> {email || 'johndoe@example.com'}
+              <p>Please choose an activation method for {selectedPackage.packageName}:</p>
+              <button onClick={handleBuyDirectly} disabled={loading}>
+                Buy Directly
+              </button>
+              <button
+                onClick={() => {
+                  const franchisorId = prompt('Enter Franchisor ID:');
+                  if (franchisorId) {
+                    handleSubscribeFromFranchisor(franchisorId);
+                  }
+                }}
+                disabled={loading}
+              >
+                Subscribe from Franchisor
+              </button>
             </div>
-            <div>
-              <strong>Role:</strong> {role || 'User'}
-            </div>
-          </div>
-          <button
-            onClick={() => {
-              // Add your signout logic here
-            }}
-            className="block text-sm text-red-600 hover:text-red-800"
+          )}
+
+          {/* Pagination */}
+          <nav
+            className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+            aria-label="Table navigation"
           >
-            Sign Out
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-
-
-
-
-const NavBar = ({ onNavigate }) => {
-  const [activeButton, setActiveButton] = useState(null);
-
-
-  const handleHamburgerClick = (buttonName) => {
-    setActiveButton(activeButton === buttonName ? null : buttonName);
-  };
-
-
-  const handleNotificationButtonClick = () => {
-    // Handle notification button click (e.g., open the dropdown)
-    setActiveButton(activeButton === 'notifications' ? null : 'notifications');
-  };
-
-  return (
-    <nav>
-      <div className="flex flex-wrap justify-between items-center">
-
-        <div className="flex items-center justify-center order-3 lg-order-1">
-
-          <div className="flex flex-row lg-gap-8 w-[100%]">
-
-            <Logo />
-            
-            <HamburgerMenu activeButton={activeButton} handleHamburgerClick={handleHamburgerClick} onNavigate={onNavigate} />
-
-          </div>
-
-        </div>
-
-
-
-
-        <div className="flex items-center justify-center order-3 lg-order-3">
-
-          <div className="flex flex-row lg-gap-8 w-[100%]">
-
-            {/* Desktop Nav items */}
-            <div class="hidden md:flex items-center justify-between order-1 md:w-auto " id="nav_items">
-              <ul class="flex flex-col mt-4 font-medium md:flex-row lg:space-x-8 md:mt-0">
-
-                {/* Home */}
-                {/* <li>
-                  <a href="/home" class="block py-2 pl-3 pr-4 hover:text-[#A020F0] rounded lg:bg-transparent text-gray-700  lg:p-0 dark:text-white" aria-current="page">Home</a>
-                </li> */}
-
-
-              </ul>
-
+            <div className="flex items-center space-x-1">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border rounded text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+              >
+                Prev
+              </button>
+              <div>
+                <span className="text-sm font-normal text-gray-500 dark:text-gray-400 space-x-2">
+                  Showing
+                  <span className="font-semibold text-gray-900 dark:text-white mx-2">{1 + (currentPage - 1) * 10}</span>
+                  of
+                  <span className="font-semibold text-gray-900 dark:text-white">{resellerPackages.length}</span>
+                </span>
+              </div>
+              <button
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                disabled={resellerPackages.length < 10}
+                className="px-3 py-1 border rounded text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+              >
+                Next
+              </button>
             </div>
-
-
-            {/* Notifications */}
-            <div className="relative flex flex-col justify-center items-center gap-4" tabIndex="0">
-              <NotificationButton notificationCount={5} onClick={handleNotificationButtonClick} />
-              {activeButton === 'notifications' && <NotificationDropdown />}
-            </div>
-
-            {/* User Profile Dropdown */}
-            <UserProfileDropdown />
-
-          </div>
+          </nav>
         </div>
-
       </div>
-    </nav>
+    </div>
   );
 };
 
-export default NavBar;
+export default UnactivatedPackages;
+
+
+
+
+  const resellerData = useSelector(selectResellerProfileData);
+  const {
+    firstName,
+    phoneNumber,
+    dob,
+    gender,
+    kin_full_name,
+    kin_phone,
+    kin_address,
+    g_full_name,
+    g_phone,
+    g_address,
+    g_user_id,
+    address_1,
+    address_2,
+    landmark,
+    city,
+    state,
+    country,
+    means_of_id,
+    id_number,
+  } = resellerData || {};

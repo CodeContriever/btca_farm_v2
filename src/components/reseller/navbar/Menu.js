@@ -29,23 +29,25 @@ const Menu = ({ activeButton, handleHamburgerClick, onNavigate }) => {
               <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('packages')}>Packages</button>
             </li>
 
-              {/* Mining */}
-            <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('mining')}>Mining</button>
-            </li>        
+                {/* Pending Sales */}
+             <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('pendingSales')}>Pending Sales</button>
+            </li>
 
-            {/* Transactions */}
+                 {/* Transactions */}
 
  <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('transactions')}>Transactions</button>
             </li>
 
-             
+            
+              {/* Mining */}
+            {/* <li onClick={() => handleHamburgerClick('menu')}>
+              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('mining')}>Mining</button>
+            </li>         */}
+            
 
-            {/* Pending Sales */}
-             {/* <li onClick={() => handleHamburgerClick('menu')}>
-              <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('pendingSales')}>Pending Sales</button>
-            </li> */}
+        
 
             {/* Approved Sales */}
              {/* <li onClick={() => handleHamburgerClick('menu')}>
@@ -63,13 +65,14 @@ const Menu = ({ activeButton, handleHamburgerClick, onNavigate }) => {
               <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('orders')}>Orders</button>
             </li> */}
 
-            <hr />
+               <hr />
             
                {/*Profile */}
                  <li onClick={() => handleHamburgerClick('menu')} className=' space-y-2 border-t border-gray-200'>
               <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('profile')}>Profile</button>
             </li>
 
+            
             {/* Signout */}
                  <li onClick={() => handleHamburgerClick('menu')} className=' space-y-2 border-t border-gray-200'>
               <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('signout')}>Signout</button>

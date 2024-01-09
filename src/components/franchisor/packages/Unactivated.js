@@ -7,10 +7,12 @@ import toast, { Toaster } from 'react-hot-toast';
 const UnactivatedPackages = () => {
   const signinData = useSelector(selectFranchisorSigninData);
   const { userId } = signinData?.data || {};
+  const accessToken = signinData?.accessToken || '';
 
   const [currentPage, setCurrentPage] = useState(1);
   const [franchisorPackages, setFranchisorPackages] = useState([]);
   const [loading, setLoading] = useState(false);
+   const [activationStatus, setActivationStatus] = useState(''); // New state for tracking activation status
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,6 +48,7 @@ const UnactivatedPackages = () => {
     fetchData();
   }, [userId, currentPage]);
 
+  
   const handleActivate = async (packageId) => {
     try {
       setLoading(true);
@@ -53,29 +56,31 @@ const UnactivatedPackages = () => {
       const response = await axios.post(
         'https://api.afribook.world/franchisor/buyPackage',
         {
+          userId,
           packageId,
         },
         {
           headers: {
-            Authorization: 'Bearer YOUR_ACCESS_TOKEN', // Replace with your actual access token
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
 
       if (response.status === 200) {
-        console.log('Package activation successful');
-        // Handle success, e.g., update the UI or show a success message
+        console.log('Package activated successfully');
+        setActivationStatus('success'); // Set activation status to success
       } else {
         console.error('Error activating package, please try again later.');
-        // toast.error('Error activating package, please try again later.');
+        setActivationStatus('error'); // Set activation status to error
       }
     } catch (error) {
       console.error('Error activating package:', error);
-      // toast.error('Error, please check your connection');
+      setActivationStatus('error'); // Set activation status to error
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="container mx-auto px-6">
@@ -97,17 +102,24 @@ const UnactivatedPackages = () => {
                   className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                 >
                   <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3>
+                     <p>Description: {pkg.description}</p>
+                <p>Price: {pkg.price}</p>
+                <p>Initial Reward: {pkg.initialReward}</p>
+                <p>Monthly Reward: {pkg.monthlyReward}</p>
+                <p>Yearly Reward: {pkg.yearlyReward}</p>
+                <p>Status: {pkg.status}</p>
+                <p>Duration: {pkg.duration} days</p>
+                 
                   <hr />
-                  {/* Display other package details */}
-                  {/* ... */}
-                  <hr />
-                  <button
-                    className="bg-white p-2 rounded-md text-black"
-                    onClick={() => handleActivate(pkg.packageId)}
-                    disabled={loading}
-                  >
-                    {loading ? 'Pending' : 'Activate'}
+
+                <button
+                className={`bg-white p-2 rounded-md text-black ${activationStatus === 'success' ? 'bg-green-500' : ''}`}
+                onClick={() => handleActivate(pkg.packageId)}
+                disabled={loading}
+              >
+                {loading ? 'Pending' : activationStatus === 'success' ? 'Activated' : 'Activate'}
                   </button>
+                  
                 </div>
               ))}
             </div>

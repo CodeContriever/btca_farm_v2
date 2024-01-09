@@ -25,7 +25,7 @@ const setRoleAndNavigate =  useCallback(async (userId) => {
       dispatch(setFranchisorRoleData("franchisor"));
       console.log('User role set in Redux store: farmer');
 
-      navigate("/franchisor/edit_profile"); // Navigate to the farmer page
+      navigate("/franchisor/signin"); // Navigate to the farmer page
       toast.success('Role set successfully!');
     } else {
       console.error('Failed to set user role');

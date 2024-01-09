@@ -42,7 +42,7 @@ const VerifyOTP = () => {
 
     if (response.data.success) {
       console.log('Verification successful:', response.data);
-      toast.success('Email verification successful');0
+      toast.success('Email verification successful');
       navigate('/reseller/role');
     } else {
       console.error('Verification failed:', response.data.error);

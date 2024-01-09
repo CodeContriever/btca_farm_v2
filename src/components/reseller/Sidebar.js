@@ -1,6 +1,8 @@
 import React from 'react';
 import { MdApps } from 'react-icons/md';
-import { VscActivateBreakpoints } from 'react-icons/vsc';
+import { TfiPackage } from "react-icons/tfi";
+import { GrTransaction } from "react-icons/gr";
+import { PiSignOutBold } from "react-icons/pi";
 import { FaUser } from 'react-icons/fa';
 
 const Sidebar = ({ onNavigate, activeComponent }) => {
@@ -14,47 +16,57 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
         
         <ul className="space-y-6">
 
-          {/* Dashboard */}
+           {/* Dashboard */}
           <li>
             <button
               type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'profile' ? 'active' : ''}`}
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]   rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'profile' ? 'active' : ''}`}
               onClick={() => onNavigate('dashboard')}
             >
-              <FaUser className="w-6 h-6 text-gray-800 dark:text-white" />
+                     <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
               <span className="ml-3">Dashboard</span>
             </button>
           </li>
 
 
-          {/* Transactions */}
-          <li>
-            <button
-              type="button"
-              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
-              onClick={() => onNavigate('transactions')}
-            >
-              <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
-              <span className="ml-3">Transactions</span>
-            </button>
-          </li>
-
-
-            {/* Pending Sales */}
+               {/* Packages */}
           <li>
             <button
               type="button"
               className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
+              onClick={() => onNavigate('packages')}
+            >
+              <TfiPackage className="w-6 h-6 text-gray-800 dark:text-white" /> 
+              <span className="ml-3">Packages</span>
+            </button>
+          </li>
+
+          {/* Transactions */}
+          <li>
+            <button
+              type="button"
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
+              onClick={() => onNavigate('transactions')}
+            >
+              <GrTransaction className="w-6 h-6 text-gray-800 dark:text-white" />
+              <span className="ml-3">Transactions</span>
+            </button>
+          </li>
+
+            {/* Pending Sales */}
+          {/* <li>
+            <button
+              type="button"
+              className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
               onClick={() => onNavigate('pendingSales')}
             >
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
               <span className="ml-3">Pending Sales</span>
             </button>
-          </li>
-
+          </li> */}
 
            {/* Approvals */}
-           <li>
+           {/* <li>
             <button
               type="button"
               className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
@@ -63,11 +75,10 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
               <span className="ml-3">Approved Sales</span>
             </button>
-          </li>
-
+          </li> */}
 
            {/* Payments */}
-           <li>
+           {/* <li>
             <button
               type="button"
               className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
@@ -76,10 +87,11 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
               <span className="ml-3">Payments</span>
             </button>
-          </li>
+          </li> */}
+
 
             {/* Orders */}
-            <li>
+            {/* <li>
             <button
               type="button"
               className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]  hover:bg-gray-100 rounded-lg dark:text-white dark:hover-bg-gray-700 group ${activeComponent === 'dashboard' ? 'active' : ''}`}
@@ -88,8 +100,9 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
               <MdApps className="w-6 h-6 text-gray-800 dark:text-white" />
               <span className="ml-3">Orders</span>
             </button>
-          </li>
+          </li> */}
 
+          
           {/* Other sidebar items, such as Activation, License Key, etc. */}
           {/* ... */}
         </ul>
@@ -103,19 +116,19 @@ const Sidebar = ({ onNavigate, activeComponent }) => {
               className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] rounded-lg dark:text-white hover-bg-gray-100 dark:hover-bg-gray-700 group ${activeComponent === 'profile' ? 'active' : ''}`}
               onClick={() => onNavigate('profile')}
             >
-              <VscActivateBreakpoints className="w-6 h-6 text-gray-800 dark:text-white" />
+             <FaUser className="w-6 h-6 text-gray-800 dark:text-white" />
               <span className="ml-3">Profile</span>
             </button>
           </li>
 
-          <li>
+        <li>
             <button
               type="button"
               className={`flex items-center p-2 text-base font-medium text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0] rounded-lg dark:text-white hover-bg-gray-100 dark:hover-bg-gray-700 group ${activeComponent === 'support' ? 'active' : ''}`}
-              onClick={() => onNavigate('settings')}
+              onClick={() => onNavigate('signout')}
             >
-              <VscActivateBreakpoints className="w-6 h-6 text-gray-800 dark:text-white" />
-              <span className="ml-3">Settings</span>
+              <PiSignOutBold className="w-6 h-6 text-gray-800 dark:text-white" />
+              <span className="ml-3">Signout</span>
             </button>
           </li>
 

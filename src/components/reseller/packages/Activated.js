@@ -2,24 +2,24 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { useSelector } from "react-redux";
-import { selectFranchisorSigninData } from "../../../store/franchisor/Signin";
+import { selectResellerSigninData } from "../../../store/reseller/Signin";
 
 import toast, { Toaster } from 'react-hot-toast';
 
 
 const ActivatedPackages = () => {
 
-  const signinData = useSelector(selectFranchisorSigninData);
-  const { userId } = signinData?.data || {};
+  const signinData = useSelector(selectResellerSigninData);
+const userId = signinData?.user?.userId || null;
    const accessToken = signinData?.accessToken || '';
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [franchisorPackages, setFranchisorPackages] = useState([]);
+  const [resellerPackages, setResellerPackages] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://api.afribook.world/franchisor/getFranchisorCurrentPackages/${userId}`, {
+        const response = await axios.get(`https://api.afribook.world/reseller/getResellerCurrentPackages/`, {
 
           headers: {
             Authorization: `Bearer ${accessToken}`
@@ -34,18 +34,18 @@ const ActivatedPackages = () => {
 
         if (response.status === 200) {
           const data = response.data;
-          console.log('Franchisor activated packages fetch successfully:', data);
+          console.log('Reseller activated packages fetch successfully:', data);
 
-        setFranchisorPackages(response.data);
+        setResellerPackages(response.data);
         } else {
-          console.error('Error fetching packages, please try again later.');
-             toast.error('Error fetching packages, please try again later.');
+          console.error('Error fetching activated packages, please try again later.');
+            toast.error('Error fetching packages, please try again later.');
          
         }
 
         
       } catch (error) {
-          console.error('Error fetching user packages:', error);
+          console.error('Error fetching packages:', error);
         // Handle the error, e.g., display an error message to the user
         toast.error('Error, please check your connection');
       }
@@ -66,11 +66,11 @@ const ActivatedPackages = () => {
 
         <div className="bg-white rounded-md shadow-lg p-4 mt-4">
 
-          {franchisorPackages.length === 0 ? (
+          {resellerPackages.length === 0 ? (
             <p className="text-center text-gray-500 dark:text-gray-400">Packages not available, please check back later.</p>
           ) : (
             <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-4 lg:space-y-0 lg:space-x-2">
-              {franchisorPackages.map((pkg, index) => (
+              {resellerPackages.map((pkg, index) => (
                 <div
                   key={index}
                   className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white"
@@ -114,13 +114,13 @@ const ActivatedPackages = () => {
               Showing
               <span className="font-semibold text-gray-900 dark:text-white mx-2">{1 + (currentPage - 1) * 10}</span>
               of
-              <span className="font-semibold text-gray-900 dark:text-white">{franchisorPackages.length}</span>
+              <span className="font-semibold text-gray-900 dark:text-white">{resellerPackages.length}</span>
             </span>
             </div>
              
               <button
                 onClick={() => setCurrentPage((prev) => prev + 1)}
-                disabled={franchisorPackages.length < 10}
+                disabled={resellerPackages.length < 10}
                 className="px-3 py-1 border rounded text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
               >
                 Next

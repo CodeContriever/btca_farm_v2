@@ -2,56 +2,60 @@ import React from "react";
 import Users from "./users/Users";
 import Transactions from "./transactions/Transactions";
 
-import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
+// import toast, { Toaster } from "react-hot-toast";
+// import axios from "axios";
 
-import {  useSelector } from "react-redux";
-import { selectAdminSigninData } from "../../../store/admin/Signin";
+// import {  useSelector } from "react-redux";
+// import { selectAdminSigninData } from "../../../store/admin/Signin";
 
 
 
 const Dashboard = () => {
-  const signinData = useSelector(selectAdminSigninData);
-  console.log(signinData)
+  // const signinData = useSelector(selectAdminSigninData);
+  // console.log(signinData)
   
-  const { userId } = signinData?.data || {};
+  // const { userId } = signinData?.data || {};
   
-   const fetchUser = async () => {
+  //  const fetchUser = async () => {
     
-      try {
+  //     try {
 
-        // Make an API call to set the user's role on the server
-        const user = await axios.post("https://btca.afribook.world/account/user", {
-          userId,
+  //       // Make an API call to set the user's role on the server
+  //       const user = await axios.post("https://btca.afribook.world/account/user", {
+  //         userId,
           
-        }
+  //       }
          
-        );
-        console.log('API call to set user role succeeded');
-         if (user.status === 200) {
-        const data = user.data;
+  //       );
+  //       console.log('API call to set user role succeeded');
+  //        if (user.status === 200) {
+  //       const data = user.data;
 
-           console.log('User data fetch Successfuly:', data);
+  //          console.log('User data fetch Successfuly:', data);
     
 
-      } else {
-        toast.error('Error fetching data, please try again later.');
-      }
+  //     } else {
+  //       toast.error('Error fetching data, please try again later.');
+  //     }
 
-      } catch (error) {
-        console.error("Error fetching user:", error);
+  //     } catch (error) {
+  //       console.error("Error fetching user:", error);
 
-        // Handle the error, e.g., display an error message to the user
-        toast.error('Error, please check your connection');
-      }
+  //       // Handle the error, e.g., display an error message to the user
+  //       toast.error('Error, please check your connection');
+  //     }
   
-  };
+  // };
 
   return (
 
     <div
       className="container mx-auto px-6"
     >
+
+       {/* <div className="">
+            <Toaster position='bottom-center' reverseOrder={false}></Toaster>
+          </div> */}
 
       <div className="">
 
