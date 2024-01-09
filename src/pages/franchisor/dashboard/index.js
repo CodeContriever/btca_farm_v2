@@ -15,7 +15,7 @@ import Signout from '../../../components/franchisor/signout/Signout';
 
 
 const Franchisor = () => {
-  const [activeComponent, setActiveComponent] = useState('profile');
+  const [activeComponent, setActiveComponent] = useState('dashboard');
 
   useEffect(() => {
     // Get the current URL path
@@ -23,7 +23,7 @@ const Franchisor = () => {
 
     // Check if the current path is '/franchisor' and update it to '/franchisor/profile'
     if (currentPath === '/franchisor') {
-      window.history.replaceState({}, document.title, '/franchisor/profile');
+      window.history.replaceState({}, document.title, '/franchisor/dashboard');
     }
 
     // Check if the current path is '/franchisor/dashboard' and update the active component

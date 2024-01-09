@@ -1,9 +1,7 @@
 import React, {
   useState,
-  // useEffect
 } from 'react'
 import Notification from './Notification';
-// import Profile from './Profile';
 import Menu from './Menu';
 
 

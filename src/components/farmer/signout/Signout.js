@@ -13,7 +13,7 @@ function Signout() {
       const refreshToken = signinData?.refreshToken || '';
 
       // Make a post request to the logout endpoint using Axios
-      await axios.post('https://api.afribook.world/admin/logout', {
+      await axios.post('https://api.afribook.world/account/logout', {
         refreshToken: refreshToken,
       });
 

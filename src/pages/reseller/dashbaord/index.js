@@ -8,20 +8,20 @@ import Packages from '../../../components/reseller/packages/Packages';
 import PendingSales from '../../../components/reseller/pendingSales/PendingSales';
 import Transactions from '../../../components/reseller/transactions/Transactions';
 import Signout from '../../../components/reseller/signout/Signout';
-// import Approvals from '../../../components/franchisor/approvals/Approvals';
-// import Payments from '../../../components/franchisor/payments/Payments';
-// import Orders from '../../../components/franchisor/orders/Orders';
+// import Approvals from '../../../components/reseller/approvals/Approvals';
+// import Payments from '../../../components/reseller/payments/Payments';
+// import Orders from '../../../components/reseller/orders/Orders';
 
 const Reseller = () => {
-  const [activeComponent, setActiveComponent] = useState('profile');
+  const [activeComponent, setActiveComponent] = useState('dashboard');
 
   useEffect(() => {
     // Get the current URL path
     const currentPath = window.location.pathname;
 
-    // Check if the current path is '/franchisor' and update it to '/franchisor/profile'
+    // Check if the current path is '/reseller' and update it to '/franchisor/profile'
     if (currentPath === '/reseller') {
-      window.history.replaceState({}, document.title, '/reseller/profile');
+      window.history.replaceState({}, document.title, '/reseller/dashboard');
     }
 
     // Check if the current path is '/franchisor/dashboard' and update the active component

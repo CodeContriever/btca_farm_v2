@@ -185,7 +185,7 @@ const EditProfile = () => {
         <div className="container mx-auto px-4 py-20">
 
           <div className="">
-            <Toaster position='bottom-center' reverseOrder={false}></Toaster>
+            <Toaster position='top-center' reverseOrder={false}></Toaster>
           </div>
 
           <div className="grid grid-cols-3 gap-4">

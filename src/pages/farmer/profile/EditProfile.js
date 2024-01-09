@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
 
-import Navbar from '../../../components/franchisor/Navbar';
+import Navbar from '../../../components/farmer/navbar/Navbar';
 import Footer from "../../../components/footer/Footer2";
 import Input from "../../../components/form/Input"
 
@@ -194,7 +194,7 @@ const EditProfile = () => {
         <div className="container mx-auto px-4 py-20">
 
           <div className="">
-            <Toaster position='bottom-center' reverseOrder={false}></Toaster>
+            <Toaster position='top-center' reverseOrder={false}></Toaster>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
