@@ -10,49 +10,60 @@ import toast, { Toaster } from 'react-hot-toast';
 const ActivatedPackages = () => {
 
   const signinData = useSelector(selectFranchisorSigninData);
-  const { userId } = signinData?.data || {};
+const userId = signinData?.user?.userId || null;
    const accessToken = signinData?.accessToken || '';
 
-  const [currentPage, setCurrentPage] = useState(1);
-
+ /* eslint-disable no-unused-vars */
+  const [loading, setLoading] = useState(false);
   const [franchisorPackages, setFranchisorPackages] = useState([]);
+   const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://api.afribook.world/franchisor/getFranchisorCurrentPackages/${userId}`, {
+        setLoading(true);
 
+        const response = await axios.get(`https://api.afribook.world/franchisor/getFranchisorCurrentPackages`, {
           headers: {
-            Authorization: `Bearer ${accessToken}`
+            Authorization: `Bearer ${accessToken}`,
           },
-
-            params: {
+          params: {
             page: currentPage,
-            pageSize: 10, // Adjust this based on your desired page size
+            pageSize: 10,
           },
-            
-        });
+        }
+        );
 
         if (response.status === 200) {
-          const data = response.data;
-          console.log('Franchisor activated packages fetch successfully:', data);
+          const responseData = response.data;
+          console.log('franchisor activated packages fetch successful:', responseData);
 
-        setFranchisorPackages(response.data);
+          if (responseData.data && Array.isArray(responseData.data)) {
+            // Check if transactions property exists in responseData.data
+            const activatedPackages = responseData.data || [];
+
+            setFranchisorPackages(activatedPackages);
+            
+          } else {
+            console.error('Invalid data format. Expected an array.');
+            toast.error('Error: Invalid data format.');
+          }
+
+          
         } else {
-          console.error('Error fetching packages, please try again later.');
-             toast.error('Error fetching packages, please try again later.');
-         
+          console.error('Error fetching franchisor activated packages, please try again later.');
+          toast.error('Error fetching packages, please try again later.');
         }
-
-        
       } catch (error) {
-          console.error('Error fetching user packages:', error);
-        // Handle the error, e.g., display an error message to the user
+        console.error('Error fetching packages:', error);
         toast.error('Error, please check your connection');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [userId, accessToken, currentPage]); // The empty dependency array ensures that the effect runs once when the component mounts
+  }, [userId, currentPage, accessToken]);
 
   return (
     <div className="container mx-auto px-6">
@@ -67,7 +78,7 @@ const ActivatedPackages = () => {
         <div className="bg-white rounded-md shadow-lg p-4 mt-4">
 
           {franchisorPackages.length === 0 ? (
-            <p className="text-center text-gray-500 dark:text-gray-400">Packages not available, please check back later.</p>
+            <p className="text-center text-gray-500 dark:text-gray-400">  No activated packages available, please subscribe.</p>
           ) : (
             <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-4 lg:space-y-0 lg:space-x-2">
               {franchisorPackages.map((pkg, index) => (

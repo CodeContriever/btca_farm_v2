@@ -47,7 +47,7 @@ useEffect(() => {
       // Delay the server request by 10 seconds
       const timeoutId = setTimeout(() => {
         setRoleAndNavigate(userId);
-      }, 10000);
+      }, 3000);
 
       // Clear the timeout if the component unmounts before 10 seconds
       return () => clearTimeout(timeoutId);

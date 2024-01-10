@@ -23,7 +23,7 @@ const setRoleAndNavigate =  useCallback(async (userId) => {
 
     if (response.status === 200) {
       dispatch(setFranchisorRoleData("franchisor"));
-      console.log('User role set in Redux store: farmer');
+      console.log('User role set in Redux store: franchisor');
 
       navigate("/franchisor/signin"); // Navigate to the farmer page
       toast.success('Role set successfully!');
@@ -47,7 +47,7 @@ useEffect(() => {
       // Delay the server request by 10 seconds
       const timeoutId = setTimeout(() => {
         setRoleAndNavigate(userId);
-      }, 10000);
+      }, 3000);
 
       // Clear the timeout if the component unmounts before 10 seconds
       return () => clearTimeout(timeoutId);

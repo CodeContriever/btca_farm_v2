@@ -26,7 +26,7 @@ const Transactions = () => {
         });
         if (response.status === 200) {
           const responseData = response.data;
-          console.log('User data fetch successful:', responseData);
+          console.log('Reseller transaction fetch successful:', responseData);
 
           if (responseData.data && Array.isArray(responseData.data)) {
             // Check if transactions property exists in responseData.data

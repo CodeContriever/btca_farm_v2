@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const PendingSales = () => {
   const signinData = useSelector(selectResellerSigninData);
-  const { userId } = signinData?.data || {};
+const userId = signinData?.user?.userId || null;
   const accessToken = signinData?.accessToken || '';
   const referrerCode = signinData?.user?.referrerCode || null;
 
@@ -17,7 +17,7 @@ const PendingSales = () => {
     const fetchPendingSales = async () => {
       try {
         const response = await axios.get(
-        'https://api.afribook.world/package/resellerGetPendingSales',
+        'https://api.afribook.world/reseller/resellerGetPendingSales',
         {
           resellerReferrerCode: referrerCode,
         },
@@ -55,7 +55,8 @@ const PendingSales = () => {
     };
 
     fetchPendingSales();
-  }, [userId, currentPage, accessToken, referrerCode]);
+  }, [currentPage, accessToken, referrerCode]);
+
 
   const handleConfirmSales = async () => {
     try {
@@ -84,6 +85,7 @@ const PendingSales = () => {
       // Handle error, e.g., show an error message
     }
   };
+
 
   return (
     <div className="container mx-auto px-6">

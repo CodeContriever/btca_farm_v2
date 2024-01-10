@@ -5,7 +5,7 @@ import { selectFranchisorSigninData } from '../../../store/franchisor/Signin';
 
 const PendingSales = () => {
   const signinData = useSelector(selectFranchisorSigninData);
-  const { userId } = signinData?.data || {};
+    const userId = signinData?.user?.userId || null;
   const accessToken = signinData?.accessToken || '';
 
   const [pendingSales, setPendingSales] = useState([]);
@@ -42,6 +42,7 @@ const PendingSales = () => {
 
     fetchPendingSales();
   }, [userId, currentPage, accessToken]);
+
 
   const handleConfirmSales = async (userId, role, rpi) => {
     try {

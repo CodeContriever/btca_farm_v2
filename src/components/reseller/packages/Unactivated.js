@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const UnactivatedPackages = () => {
   const signinData = useSelector(selectResellerSigninData);
   const userId = signinData?.user?.userId || null;
+  console.log(userId)
   const accessToken = signinData?.accessToken || '';
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,9 +33,21 @@ const UnactivatedPackages = () => {
         );
 
         if (response.status === 200) {
-          const data = response.data;
-          console.log('Reseller Unactivated packages fetch successful:', data);
-          setResellerPackages(response.data);
+          const responseData = response.data;
+          console.log('Reseller Unactivated packages fetch successful:', responseData);
+
+          if (responseData.data && Array.isArray(responseData.data)) {
+            // Check if transactions property exists in responseData.data
+            const UnactivatedPackages = responseData.data || [];
+
+            setResellerPackages(UnactivatedPackages);
+            
+          } else {
+            console.error('Invalid data format. Expected an array.');
+            toast.error('Error: Invalid data format.');
+          }
+
+          
         } else {
           console.error('Error fetching reseller unactivated packages, please try again later.');
           toast.error('Error fetching packages, please try again later.');
@@ -130,7 +143,10 @@ const UnactivatedPackages = () => {
           ) : (
             <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-4 lg:space-y-0 lg:space-x-2">
               {resellerPackages.map((pkg, index) => (
-                <div key={index}>
+                <div
+                  key={index}
+                  className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                >
                   <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3>
                   <p>Description: {pkg.description}</p>
                   <p>Price: {pkg.price}</p>
@@ -151,9 +167,9 @@ const UnactivatedPackages = () => {
                     </button>
 
                     {selectedPackageId === pkg.packageId && (
-                      <div className="absolute top-8 right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-md">
+                      <div className="absolute top-8 right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-md bg-[#A020F0] ">
                         <button
-                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none"
+                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-white"
                           onClick={() => {
                             handleActivate('Company');
                             setSelectedPackageId(null);
@@ -162,7 +178,7 @@ const UnactivatedPackages = () => {
                           Buy from Company
                         </button>
                         <button
-                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none"
+                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-white"
                           onClick={() => {
                             handleActivate('Franchisor');
                             setSelectedPackageId(null);

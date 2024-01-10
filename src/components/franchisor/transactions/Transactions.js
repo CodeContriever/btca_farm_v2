@@ -26,7 +26,7 @@ const Transactions = () => {
         });
         if (response.status === 200) {
           const responseData = response.data;
-          console.log('User data fetch successful:', responseData);
+          console.log('Franchisor transactions fetch successful:', responseData);
 
           if (responseData.data && Array.isArray(responseData.data)) {
             // Check if transactions property exists in responseData.data
@@ -96,7 +96,7 @@ const Transactions = () => {
                  {transactionData.length === 0 ? (
                 <tr>
                   <td colSpan="8" className="my-4 px-4 py-3 border-r text-xl text-center text-gray-500 dark:text-gray-400">
-                    Transactions not available, please check back later.
+                   You haven't made any transactions yet
                   </td>
                 </tr>
               ) : (
