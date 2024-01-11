@@ -1,19 +1,16 @@
-import React, { useState } from "react";
-import TabButton from "../TabButton";
-import Franchisors from './franchisors/Franchisors'
-import Resellers from './resellers/Resellers'
-import Company from "./company/Company";
+import React, { useState } from 'react';
 
-
+import TabButton from "../TabButton"
+import ActivatedPackages from './Activated';
+import UnactivatedPackages from './Unactivated';
+import PendingPackages from './PendingPackages';
 
 const Packages = () => {
-   const [activeButton, setActiveButton] = useState("company");
+    const [activeButton, setActiveButton] = useState("activated");
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
   }
-
   return (
-
     <div
       className="container mx-auto px-6"
     >
@@ -24,68 +21,71 @@ const Packages = () => {
           Packages
         </h1>
 
-        <div className="bg-white rounded-md shadow-lg p-8  mt-4">
+        <div className="bg-white rounded-md shadow-lg p-4  mt-4">
 
-           {/* Tabs */}
+             {/* Tabs */}
           <div
             className='w-[100%] mb-6 mt-8'
           >
 
-            {/*TabButtons: Myfarm, farm and frozen history buttons */}
+            {/*TabButtons: Activated & Unactivated */}
             <div className="border-2 border-gray-200 bg-gray-100 flex justify-between flex-nowrap mb-6 overflow-x-auto rounded-md">
 
-              <TabButton active={activeButton === 'company'} onClick={() => handleButtonClick('company')}>
-                Company
+              <TabButton active={activeButton === 'activated'} onClick={() => handleButtonClick('activated')}>
+                Activated
+              </TabButton>
+
+
+              <TabButton
+                active={activeButton === 'pending'}
+                onClick={() => handleButtonClick('pending')}
+              >
+                Pending
               </TabButton>
 
               <TabButton
-                active={activeButton === 'franchisors'}
-                onClick={() => handleButtonClick('franchisors')}
+                active={activeButton === 'unactivated'}
+                onClick={() => handleButtonClick('unactivated')}
               >
-                Franchisors
+                Unactivated
               </TabButton>
 
-              <TabButton
-                active={activeButton === 'resellers'}
-                onClick={() => handleButtonClick('resellers')}
-              >
-               Resellers
-              </TabButton>
+              
 
             </div>
 
-            {/* Company content */}
-            {activeButton === 'company' && (
+            {/* Activated content */}
+            {activeButton === 'activated' && (
 
               <div className="">
-                <Company />
+                <ActivatedPackages />
+              </div>
+
+            )}
+
+                {/* Pending packages content */}
+            {activeButton === 'pending' && (
+
+              <div className="">
+               <PendingPackages />
               </div>
 
             )}
 
 
-            {/* Franchisor content */}
-            {activeButton === 'franchisors' && (
+            {/* Unactivated content */}
+            {activeButton === 'unactivated' && (
 
 
               <div className="">
 
-                <Franchisors />
+                <UnactivatedPackages />
               </div>
 
             )}
 
 
-            {/* Reseller content */}
-            {activeButton === 'resellers' && (
-             
-              <div className="">
-                
-                <Resellers />
 
-              </div>
-
-            )}
 
          
 
@@ -96,14 +96,8 @@ const Packages = () => {
 
       </div>
 
-
-
-
-
-    </div>
-
-
-
+          
+          </div>
   )
 }
 

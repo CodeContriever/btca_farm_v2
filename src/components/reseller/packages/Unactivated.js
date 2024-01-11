@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { selectResellerSigninData } from '../../../store/reseller/Signin';
 import toast, { Toaster } from 'react-hot-toast';
+import { selectResellerSigninData } from '../../../store/reseller/Signin';
 
 const UnactivatedPackages = () => {
   const signinData = useSelector(selectResellerSigninData);
   const userId = signinData?.user?.userId || null;
-  console.log(userId)
+  console.log(userId);
   const accessToken = signinData?.accessToken || '';
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,25 +29,19 @@ const UnactivatedPackages = () => {
             page: currentPage,
             pageSize: 10,
           },
-        }
-        );
+        });
 
         if (response.status === 200) {
           const responseData = response.data;
           console.log('Reseller Unactivated packages fetch successful:', responseData);
 
           if (responseData.data && Array.isArray(responseData.data)) {
-            // Check if transactions property exists in responseData.data
-            const UnactivatedPackages = responseData.data || [];
-
-            setResellerPackages(UnactivatedPackages);
-            
+            const unactivatedPackages = responseData.data.map(pkg => ({ ...pkg, buttonDisabled: pkg.status === 'Active' }));
+            setResellerPackages(unactivatedPackages);
           } else {
             console.error('Invalid data format. Expected an array.');
             toast.error('Error: Invalid data format.');
           }
-
-          
         } else {
           console.error('Error fetching reseller unactivated packages, please try again later.');
           toast.error('Error fetching packages, please try again later.');
@@ -89,6 +83,18 @@ const UnactivatedPackages = () => {
         if (response.status === 200) {
           console.log('Package activated successfully');
           setActivationStatus('success');
+
+          // Check if the package was activated through the Company
+          if (boughtFrom === 'Company') {
+            // Find the activated package in the resellerPackages array
+            const updatedPackages = resellerPackages.map(pkg =>
+              pkg.packageId === selectedPackageId
+                ? { ...pkg, status: 'Active', buttonDisabled: true }
+                : pkg
+            );
+
+            setResellerPackages(updatedPackages);
+          }
         } else {
           console.error('Error activating package, please try again later.');
           setActivationStatus('error');
@@ -114,6 +120,15 @@ const UnactivatedPackages = () => {
           if (response.status === 200) {
             console.log('Package activated successfully through franchisor');
             setActivationStatus('success');
+
+            // Change the button text to 'Pending' for the Franchisor-activated package
+            const updatedPackages = resellerPackages.map(pkg =>
+              pkg.packageId === selectedPackageId
+                ? { ...pkg, status: 'Pending', buttonDisabled: true }
+                : pkg
+            );
+
+            setResellerPackages(updatedPackages);
           } else {
             console.error('Error activating package through franchisor, please try again later.');
             setActivationStatus('error');
@@ -159,15 +174,21 @@ const UnactivatedPackages = () => {
 
                   <div className="relative">
                     <button
-                      className={`bg-white p-2 rounded-md text-black ${activationStatus === 'success' ? 'bg-green-500' : ''}`}
+                      className={`bg-white p-2 rounded-md text-black ${activationStatus === 'success' && selectedPackageId === pkg.packageId ? 'bg-green-500' : ''}`}
                       onClick={() => setSelectedPackageId(pkg.packageId)}
-                      disabled={loading}
+                      disabled={loading || pkg.buttonDisabled}
                     >
-                      {loading ? 'Pending' : activationStatus === 'success' ? 'Activated' : 'Activate'}
+                      {loading
+                        ? 'Pending'
+                        : activationStatus === 'success' && selectedPackageId === pkg.packageId
+                        ? 'Activated'
+                        : pkg.status === 'Active'
+                        ? 'Active'
+                        : 'Activate'}
                     </button>
 
                     {selectedPackageId === pkg.packageId && (
-                      <div className="absolute top-8 right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-md bg-[#A020F0] ">
+                      <div className="absolute top-8 right-0 mt-2 border border-gray-200 rounded-md shadow-md bg-[#A020F0]">
                         <button
                           className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-white"
                           onClick={() => {

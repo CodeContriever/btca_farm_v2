@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { useSelector } from "react-redux";
-import { selectFarmerSigninData } from "../../../../store/farmer/Signin";
+import { selectFarmerSigninData } from "../../../store/farmer/Signin";
 
 import toast, { Toaster } from 'react-hot-toast';
 

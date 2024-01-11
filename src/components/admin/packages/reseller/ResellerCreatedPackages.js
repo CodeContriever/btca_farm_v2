@@ -159,15 +159,13 @@ const handleEditPackage = async (updatedPackage) => {
             key={index}
             className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white"
           >
-            <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3>
+             <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3>
             <p>Date Created: {new Date(pkg.dateCreated).toLocaleDateString()}</p>
             <p>Description: {pkg.description}</p>
             <p>Duration: {pkg.duration} days</p>
-            <p>Initial Reward: {pkg.initialReward}</p>
-            <p>Monthly Reward: {pkg.monthlyReward}</p>
-            <p>Yearly Reward: {pkg.yearlyReward}</p>
             <p>Package ID: {pkg.packageId}</p>
             <p>Price: ${pkg.price}</p>
+            <p>Reward: ${pkg.reward}</p>
             <p>Status: {pkg.status}</p>
 
             <div className="flex gap-4">

@@ -162,11 +162,12 @@ const handleEditPackage = async (updatedPackage) => {
             <p>Date Created: {new Date(pkg.dateCreated).toLocaleDateString()}</p>
             <p>Description: {pkg.description}</p>
             <p>Duration: {pkg.duration} days</p>
-            <p>Initial Reward: {pkg.initialReward}</p>
+            {/* <p>Initial Reward: {pkg.initialReward}</p>
             <p>Monthly Reward: {pkg.monthlyReward}</p>
-            <p>Yearly Reward: {pkg.yearlyReward}</p>
+            <p>Yearly Reward: {pkg.yearlyReward}</p> */}
             <p>Package ID: {pkg.packageId}</p>
             <p>Price: ${pkg.price}</p>
+             <p>Reward: ${pkg.reward}</p>
             <p>Status: {pkg.status}</p>
 
             <div className="flex gap-4">

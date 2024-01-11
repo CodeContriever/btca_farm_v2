@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { selectFarmerSigninData } from '../../../../store/farmer/Signin';
 import toast, { Toaster } from 'react-hot-toast';
+import { selectFarmerSigninData } from '../../../store/farmer/Signin';
 
-const Company = () => {
+const UnactivatedPackages = () => {
   const signinData = useSelector(selectFarmerSigninData);
   const userId = signinData?.user?.userId || null;
-  console.log(userId)
+  console.log(userId);
   const accessToken = signinData?.accessToken || '';
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,25 +29,20 @@ const Company = () => {
             page: currentPage,
             pageSize: 10,
           },
-        }
-        );
+        });
 
         if (response.status === 200) {
           const responseData = response.data;
           console.log('farmer Unactivated packages fetch successful:', responseData);
 
           if (responseData.data && Array.isArray(responseData.data)) {
-            // Check if transactions property exists in responseData.data
-            const UnactivatedPackages = responseData.data || [];
+            const unactivatedPackages = responseData.data.map((pkg) => ({ ...pkg, buttonDisabled: false })) || [];
 
-            setFarmerPackages(UnactivatedPackages);
-            
+            setFarmerPackages(unactivatedPackages);
           } else {
             console.error('Invalid data format. Expected an array.');
             toast.error('Error: Invalid data format.');
           }
-
-          
         } else {
           console.error('Error fetching farmer unactivated packages, please try again later.');
           toast.error('Error fetching packages, please try again later.');
@@ -62,7 +57,6 @@ const Company = () => {
 
     fetchData();
   }, [userId, currentPage, accessToken]);
-    
 
   const handleActivate = async (method) => {
     try {
@@ -76,7 +70,6 @@ const Company = () => {
         const response = await axios.post(
           'https://api.afribook.world/subscription/subscribeToAPackage',
           {
-            /* farmerUserId: userId, */
             packageId: selectedPackageId,
             boughtFrom,
           },
@@ -89,13 +82,16 @@ const Company = () => {
 
         if (response.status === 200) {
           console.log('Package activated successfully');
+          console.log(response.data);
           setActivationStatus('success');
+          // Disable the button for the Company-activated package
+          setFarmerPackages((prevPackages) =>
+            prevPackages.map((pkg) => (pkg.packageId === selectedPackageId ? { ...pkg, buttonDisabled: true } : pkg))
+          );
         } else {
           console.error('Error activating package, please try again later.');
           setActivationStatus('error');
-          }
-          
-
+        }
       } else if (method === 'Franchisor') {
         // Activate from Franchisor
         const franchisorId = prompt('Enter Franchisor ID:');
@@ -103,7 +99,6 @@ const Company = () => {
           const response = await axios.post(
             'https://api.afribook.world/subscription/subscribeToAPackageFromFranchisor',
             {
-                /* farmerUserId: userId, */
               packageId: selectedPackageId,
               boughtFrom: franchisorId,
             },
@@ -117,21 +112,24 @@ const Company = () => {
           if (response.status === 200) {
             console.log('Package activated successfully through franchisor');
             setActivationStatus('success');
+            // Change the button text to 'Pending' for the Franchisor-activated package
+            setFarmerPackages((prevPackages) =>
+              prevPackages.map((pkg) =>
+                pkg.packageId === selectedPackageId ? { ...pkg, buttonDisabled: true, status: 'Pending' } : pkg
+              )
+            );
           } else {
             console.error('Error activating package through franchisor, please try again later.');
             setActivationStatus('error');
           }
         }
-      }
-      
-      else if (method === 'Reseller') {
-        // Activate from Franchisor
+      } else if (method === 'Reseller') {
+        // Activate from Reseller
         const resellerId = prompt('Enter Reseller ID:');
         if (resellerId) {
           const response = await axios.post(
             'https://api.afribook.world/subscription/subscribeToAPackageFromReseller',
             {
-                /* farmerUserId: userId, */
               packageId: selectedPackageId,
               boughtFrom: resellerId,
             },
@@ -145,6 +143,12 @@ const Company = () => {
           if (response.status === 200) {
             console.log('Package activated successfully through reseller');
             setActivationStatus('success');
+            // Change the button text to 'Pending' for the Reseller-activated package
+            setFarmerPackages((prevPackages) =>
+              prevPackages.map((pkg) =>
+                pkg.packageId === selectedPackageId ? { ...pkg, buttonDisabled: true, status: 'Pending' } : pkg
+              )
+            );
           } else {
             console.error('Error activating package through reseller, please try again later.');
             setActivationStatus('error');
@@ -190,17 +194,23 @@ const Company = () => {
 
                   <div className="relative">
                     <button
-                      className={`bg-white p-2 rounded-md text-black ${activationStatus === 'success' ? 'bg-green-500' : ''}`}
+                      className={`bg-white p-2 rounded-md text-black ${activationStatus === 'success' && selectedPackageId === pkg.packageId ? 'bg-green-500' : ''}`}
                       onClick={() => setSelectedPackageId(pkg.packageId)}
-                      disabled={loading}
+                      disabled={loading || pkg.buttonDisabled || pkg.status === 'Active'}
                     >
-                      {loading ? 'Pending' : activationStatus === 'success' ? 'Activated' : 'Activate'}
+                      {loading
+                        ? 'Pending'
+                        : activationStatus === 'success' && selectedPackageId === pkg.packageId
+                        ? 'Activated'
+                        : pkg.status === 'Active'
+                        ? 'Active'
+                        : 'Activate'}
                     </button>
 
                     {selectedPackageId === pkg.packageId && (
-                      <div className="absolute top-8 right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-md bg-[#A020F0] ">
+                      <div className="absolute top-8 right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-md">
                         <button
-                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-white"
+                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-black"
                           onClick={() => {
                             handleActivate('Company');
                             setSelectedPackageId(null);
@@ -209,17 +219,16 @@ const Company = () => {
                           Buy from Company
                         </button>
                         <button
-                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-white"
+                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-black"
                           onClick={() => {
                             handleActivate('Franchisor');
                             setSelectedPackageId(null);
                           }}
                         >
                           Buy from Franchisor
-                                  </button>
-                                  
-                                    <button
-                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-white"
+                        </button>
+                        <button
+                          className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-black"
                           onClick={() => {
                             handleActivate('Reseller');
                             setSelectedPackageId(null);
@@ -271,4 +280,4 @@ const Company = () => {
   );
 };
 
-export default Company;
+export default UnactivatedPackages;

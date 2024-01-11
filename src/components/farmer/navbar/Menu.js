@@ -40,7 +40,6 @@ const Menu = ({ activeButton, handleHamburgerClick, onNavigate }) => {
               <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('transactions')}>Transactions</button>
             </li>
 
-             
 
             {/* Pending Sales */}
              {/* <li onClick={() => handleHamburgerClick('menu')}>
@@ -62,8 +61,7 @@ const Menu = ({ activeButton, handleHamburgerClick, onNavigate }) => {
              {/* <li onClick={() => handleHamburgerClick('menu')}>
               <button className="cursor-pointer text-gray-800 hover:text-[#A020F0] focus:text-[#A020F0]" onClick={() => onNavigate('orders')}>Orders</button>
             </li> */}
-
-            <hr />
+            
             
                {/*Profile */}
                  <li onClick={() => handleHamburgerClick('menu')} className=' space-y-2 border-t border-gray-200'>

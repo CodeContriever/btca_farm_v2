@@ -10,12 +10,10 @@ const ResellerCreatePackages = ({ resellerCreatedPackages, setResellerCreatedPac
   
   const [showInputFields, setShowInputFields] = useState(false);
   const [packageName, setPackageName] = useState('');
+    const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [initialReward, setInitialReward] = useState('');
-  const [monthlyReward, setMonthlyReward] = useState('');
-  const [yearlyReward, setYearlyReward] = useState('');
-  const [description, setDescription] = useState('');
-  const [duration, setDuration] = useState('');
+  const [reward, setReward] = useState('');
+    const [duration, setDuration] = useState('');
   const [alert, setAlert] = useState(null);
 
   const handleCreatePackage = async () => {
@@ -23,11 +21,9 @@ const ResellerCreatePackages = ({ resellerCreatedPackages, setResellerCreatedPac
        const accessToken = signinData?.accessToken || '';
       // Make a POST request to submit package details to the backend
       const response = await axios.post('https://api.afribook.world/package/createResellerPackage', {
-        price,
+       price,
         packageName,
-        initialReward,
-        monthlyReward,
-        yearlyReward,
+        reward,
         description,
         duration,
       }, {
@@ -46,9 +42,7 @@ const ResellerCreatePackages = ({ resellerCreatedPackages, setResellerCreatedPac
         // Reset input fields after creating a package
         setPackageName('');
         setPrice('');
-        setInitialReward('');
-        setMonthlyReward('');
-        setYearlyReward('');
+        setReward('');
         setDescription('');
         setDuration('');
 
@@ -118,37 +112,18 @@ const ResellerCreatePackages = ({ resellerCreatedPackages, setResellerCreatedPac
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
-            </div>
-
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Initial Reward</label>
+              </div>
+              
+                 <div className="flex flex-col gap-1 items-center">
+              <label className="text-2xl font-semibold text-white">Reward</label>
               <input
                 className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
                 type="text"
-                value={initialReward}
-                onChange={(e) => setInitialReward(e.target.value)}
+                value={reward}
+                onChange={(e) => setReward(e.target.value)}
               />
-            </div>
-
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Monthly Reward</label>
-              <input
-                className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
-                type="text"
-                value={monthlyReward}
-                onChange={(e) => setMonthlyReward(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col gap-1 items-center">
-              <label className="text-2xl font-semibold text-white">Yearly Reward</label>
-              <input
-                className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
-                type="text"
-                value={yearlyReward}
-                onChange={(e) => setYearlyReward(e.target.value)}
-              />
-            </div>
+              </div>
+              
 
             <div className="flex flex-col gap-1 items-center">
               <label className="text-2xl font-semibold text-white">Duration</label>

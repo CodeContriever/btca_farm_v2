@@ -10,12 +10,10 @@ const FranchisorCreatePackages = ({ franchisorCreatedPackages, setFranchisorCrea
   
   const [showInputFields, setShowInputFields] = useState(false);
   const [packageName, setPackageName] = useState('');
+    const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [reward, setReward] = useState('');
-  // const [monthlyReward, setMonthlyReward] = useState('');
-  // const [yearlyReward, setYearlyReward] = useState('');
-  const [description, setDescription] = useState('');
-  // const [duration, setDuration] = useState('');
+    const [duration, setDuration] = useState('');
   const [alert, setAlert] = useState(null);
 
   const handleCreatePackage = async () => {
@@ -26,10 +24,8 @@ const FranchisorCreatePackages = ({ franchisorCreatedPackages, setFranchisorCrea
         price,
         packageName,
         reward,
-        // monthlyReward,
-        // yearlyReward,
         description,
-        // duration,
+        duration,
       }, {
         headers: {
  Authorization: `Bearer ${accessToken}`,
@@ -47,10 +43,8 @@ const FranchisorCreatePackages = ({ franchisorCreatedPackages, setFranchisorCrea
         setPackageName('');
         setPrice('');
         setReward('');
-        // setMonthlyReward('');
-        // setYearlyReward('');
         setDescription('');
-        // setDuration('');
+        setDuration('');
 
         // Hide input fields after creating a package
         setShowInputFields(false);
@@ -151,7 +145,7 @@ const FranchisorCreatePackages = ({ franchisorCreatedPackages, setFranchisorCrea
               />
             </div> */}
 
-            {/* <div className="flex flex-col gap-1 items-center">
+            <div className="flex flex-col gap-1 items-center">
               <label className="text-2xl font-semibold text-white">Duration</label>
               <input
                 className="bg-transparent border-none outline-none text-white placeholder-gray-500 placeholder-opacity-50 text-center focus:outline-none focus:border-none focus:ring-0"
@@ -159,7 +153,7 @@ const FranchisorCreatePackages = ({ franchisorCreatedPackages, setFranchisorCrea
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
               />
-            </div> */}
+            </div>
 
             <button
               onClick={handleCreatePackage}

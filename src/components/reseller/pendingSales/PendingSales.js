@@ -8,6 +8,7 @@ const PendingSales = () => {
   const signinData = useSelector(selectResellerSigninData);
 const userId = signinData?.user?.userId || null;
   const accessToken = signinData?.accessToken || '';
+  console.log(accessToken)
   const referrerCode = signinData?.user?.referrerCode || null;
 
   const [pendingSales, setPendingSales] = useState([]);
@@ -16,22 +17,25 @@ const userId = signinData?.user?.userId || null;
   useEffect(() => {
     const fetchPendingSales = async () => {
       try {
-        const response = await axios.get(
-        'https://api.afribook.world/reseller/resellerGetPendingSales',
-        {
-          resellerReferrerCode: referrerCode,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+      const response = await axios.get(
+  'https://api.afribook.world/reseller/resellerGetPendingSales',
+  {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    data: {
+      resellerReferrerCode: referrerCode,
+    },
+    params: {
+      page: currentPage,
+      pageSize: 10,
+    },
+  }
+);
 
-           params: {
-            page: currentPage,
-            pageSize: 10,
-          },
-        }
-      );
+
+     
+
 
         if (response.status === 200) {
           const responseData = response.data;

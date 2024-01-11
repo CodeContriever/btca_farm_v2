@@ -23,7 +23,7 @@ const userId = signinData?.user?.userId || null;
       try {
         setLoading(true);
 
-        const response = await axios.get(`https://api.afribook.world/reseller/getResellerCurrentPackage`, {
+        const response = await axios.get(`https://api.afribook.world/subscription/getUserPackageByStatus`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -36,13 +36,17 @@ const userId = signinData?.user?.userId || null;
 
         if (response.status === 200) {
           const responseData = response.data;
-          console.log('Reseller activated packages fetch successful:', responseData);
+          console.log('reseller activated packages fetch successful:', responseData);
 
           if (responseData.data && Array.isArray(responseData.data)) {
             // Check if transactions property exists in responseData.data
             const activatedPackages = responseData.data || [];
 
-            setResellerPackages(activatedPackages);
+           // Filter packages with status "Pending"
+            const activePackages = activatedPackages.filter(pkg => pkg.status === 'Active');
+            console.log(activePackages)
+
+            setResellerPackages(activePackages);
             
           } else {
             console.error('Invalid data format. Expected an array.');
@@ -86,20 +90,22 @@ const userId = signinData?.user?.userId || null;
                   key={index}
                   className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                 >
-                  <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3>
-                <p>Description: {pkg.description}</p>
-                <p>Price: {pkg.price}</p>
-                <p>Initial Reward: {pkg.initialReward}</p>
-                <p>Monthly Reward: {pkg.monthlyReward}</p>
-                <p>Yearly Reward: {pkg.yearlyReward}</p>
-                <p>Status: {pkg.status}</p>
-                <p>Duration: {pkg.duration} days</p>
+                  {/* <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3> */}
+                {/* <p>Description: {pkg.description}</p> */}
+                  <p>From: {pkg.boughtFrom}</p>
+                      <p>Buying Price: ${pkg.buyingPrice}</p>
+                  <p>Minned: {pkg.minned}</p>
+                    <p>Total Reward: {pkg.totalReward}</p>
+                <p>Withdrawn: {pkg.withdrawn}</p>
+              
+                {/* <p>Status: {pkg.status}</p> */}
+                {/* <p>Duration: {pkg.duration} days</p> */}
                
                 <button
   className="bg-white p-2 rounded-md text-black"
   disabled
 >
-  Activated
+ {pkg.status}
 </button>
 
                 </div>
