@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { selectFranchisorSigninData } from '../../../store/franchisor/Signin';
+import toast, { Toaster } from 'react-hot-toast';
 
 const PendingSales = () => {
   const signinData = useSelector(selectFranchisorSigninData);
-    const userId = signinData?.user?.userId || null;
+const userId = signinData?.user?.userId || null;
   const accessToken = signinData?.accessToken || '';
+  console.log(accessToken)
+  const referrerCode = signinData?.user?.referrerCode || null;
 
   const [pendingSales, setPendingSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,23 +17,34 @@ const PendingSales = () => {
   useEffect(() => {
     const fetchPendingSales = async () => {
       try {
-        const response = await axios.get(
-          `https://api.afribook.world/franchisor/getFranchisorPendingPackageSales`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-            params: {
-              page: currentPage,
-              pageSize: 10,
-            },
-          }
+      const response = await axios.get(
+  'https://api.afribook.world/franchisor/franchisorGetPendingSales',
+  {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    data: {
+      franchisorReferrerCode: referrerCode,
+    },
+    params: {
+      page: currentPage,
+      pageSize: 10,
+    },
+  }
         );
-
+        
         if (response.status === 200) {
-          const data = response.data;
-          console.log('Pending sales fetch successful:', data);
-          setPendingSales(data);
+          const responseData = response.data;
+          console.log('Pending sales fetch successful:', responseData);
+          if (responseData.data && Array.isArray(responseData.data)) {
+            // Check if transactions property exists in responseData.data
+            const sales = responseData.data || [];
+
+            setPendingSales(sales);
+          } else {
+            console.error('Invalid data format. Expected an array.');
+            toast.error('Error: Invalid data format.');
+          }
         } else {
           console.error('Error fetching pending sales, please try again later.');
         }
@@ -41,7 +55,7 @@ const PendingSales = () => {
     };
 
     fetchPendingSales();
-  }, [userId, currentPage, accessToken]);
+  }, [userId, currentPage, accessToken, referrerCode]);
 
 
   const handleConfirmSales = async (userId, role, rpi) => {
@@ -56,8 +70,8 @@ const PendingSales = () => {
       const response = await axios.put(
         endpoint,
         {
-          rpi: role === 'reseller' ? rpi : undefined, // Include rpi only for resellers
-          userId,
+          rpi: role === 'reseller' ? rpi : undefined, // Include rpi only for franchisors
+          // userId,
         },
         {
           headers: {
@@ -81,6 +95,11 @@ const PendingSales = () => {
 
   return (
     <div className="container mx-auto px-6">
+
+           <div>
+        <Toaster position="top-center" reverseOrder={false}></Toaster>
+      </div>
+      
       <div>
         <h1 className="text-gray-800 text-2xl font-medium font-inter leading-6">Pending Sales</h1>
 
@@ -124,24 +143,25 @@ const PendingSales = () => {
                     </td>
                   </tr>
                 ) : (
-                  pendingSales.map((sale, index) => (
+                  pendingSales.map((sales, index) => (
                     <tr key={index} className="border-b dark:border-gray-700">
                       {/* Table row data */}
                       <th scope="row" className="px-4 py-3 border-r font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {sale.package}
+                        {sales.package}
                       </th>
-                      <td className="px-4 py-3 border-r">{sale.description}</td>
-                      <td className="px-4 py-3 border-r">{sale.price}</td>
-                      <td className="px-4 py-3 border-r">{sale.applicant}</td>
-                      <td className="px-4 py-3 border-r">{sale.role}</td>
-                      <td className="px-4 py-3 border-r">{sale.date}</td>
-                      <td className="px-4 py-3 border-r">{sale.status}</td>
+                      <td className="px-4 py-3 border-r">{sales.description}</td>
+                      <td className="px-4 py-3 border-r">{sales.price}</td>
+                      <td className="px-4 py-3 border-r">{sales.applicant}</td>
+                      <td className="px-4 py-3 border-r">{sales.role}</td>
+                      <td className="px-4 py-3 border-r">{sales.date}</td>
+                      <td className="px-4 py-3 border-r">{sales.status}</td>
                       <td className="px-4 py-3 border-r">
                         <button
-                          className="bg-blue-500 p-2 rounded-md text-white"
-                          onClick={() => handleConfirmSales(sale.userId, sale.role, sale.rpi)}
+                          className={`bg-blue-500 p-2 rounded-md text-white ${sales.status === 'Confirmed' ? 'bg-gray-400 cursor-not-allowed' : ''}`}
+                          onClick={() => handleConfirmSales(sales.userPackageId)}
+                          disabled={sales.status === 'Confirmed'}
                         >
-                          {sale.status === 'Confirmed' ? 'Confirmed' : 'Confirm'}
+                          {sales.status === 'Confirmed' ? 'Confirmed' : 'Confirm'}
                         </button>
                       </td>
                     </tr>

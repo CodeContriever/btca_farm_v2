@@ -129,6 +129,18 @@ const UnactivatedPackages = () => {
             );
 
             setResellerPackages(updatedPackages);
+
+            // Check and confirm the sales after a delay (simulating asynchronous confirmation)
+            setTimeout(() => {
+              // Update the status to 'Active' for the confirmed package
+              const confirmedPackages = updatedPackages.map(pkg =>
+                pkg.packageId === selectedPackageId
+                  ? { ...pkg, status: 'Active', buttonDisabled: true }
+                  : pkg
+              );
+
+              setResellerPackages(confirmedPackages);
+            }, 5000);
           } else {
             console.error('Error activating package through franchisor, please try again later.');
             setActivationStatus('error');

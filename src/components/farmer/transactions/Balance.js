@@ -5,16 +5,17 @@ import { selectFarmerSigninData } from '../../../store/farmer/Signin';
 import toast, { Toaster } from 'react-hot-toast';
 
 const Balance = () => {
-    const signinData = useSelector(selectFarmerSigninData);
+  const signinData = useSelector(selectFarmerSigninData);
+   const walletId = signinData?.user?.wallet?.walletId || null;
+      console.log(walletId)
 
   const [walletBalance, setWalletBalance] = useState(0);
 
    useEffect(() => {
     const fetchBalance = async () => {
-      const { userId } = signinData?.data || {};
       const accessToken = signinData?.accessToken || '';
       try {
-        const response = await axios.get(`https://api.afribook.world/account/getWalletBalance/${userId}`, {
+        const response = await axios.get(`https://api.afribook.world/account/getWalletBalance/${walletId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

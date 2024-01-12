@@ -23,11 +23,12 @@ const userId = signinData?.user?.userId || null;
       try {
         setLoading(true);
 
-        const response = await axios.get(`https://api.afribook.world/subscription/getUserPackageByStatus`, {
+        const response = await axios.get(`https://api.afribook.world/reseller/getResellerCurrentPackage`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
           params: {
+            status: 'Active',
             page: currentPage,
             pageSize: 10,
           },
@@ -55,7 +56,7 @@ const userId = signinData?.user?.userId || null;
 
           
         } else {
-          console.error('Error fetching reseller unactivated packages, please try again later.');
+          console.error('Error fetching reseller activated packages, please try again later.');
           toast.error('Error fetching packages, please try again later.');
         }
       } catch (error) {

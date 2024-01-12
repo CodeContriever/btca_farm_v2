@@ -7,7 +7,6 @@ import { selectFarmerSigninData } from '../../../store/farmer/Signin';
 const UnactivatedPackages = () => {
   const signinData = useSelector(selectFarmerSigninData);
   const userId = signinData?.user?.userId || null;
-  console.log(userId);
   const accessToken = signinData?.accessToken || '';
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,7 +32,6 @@ const UnactivatedPackages = () => {
 
         if (response.status === 200) {
           const responseData = response.data;
-          console.log('farmer Unactivated packages fetch successful:', responseData);
 
           if (responseData.data && Array.isArray(responseData.data)) {
             const unactivatedPackages = responseData.data.map((pkg) => ({ ...pkg, buttonDisabled: false })) || [];
@@ -63,7 +61,6 @@ const UnactivatedPackages = () => {
       setLoading(true);
 
       if (method === 'Company') {
-        // Activate directly
         let boughtFrom = prompt('Enter boughtFrom value:');
         boughtFrom = boughtFrom || 'Company';
 
@@ -83,17 +80,23 @@ const UnactivatedPackages = () => {
         if (response.status === 200) {
           console.log('Package activated successfully');
           console.log(response.data);
-          setActivationStatus('success');
-          // Disable the button for the Company-activated package
-          setFarmerPackages((prevPackages) =>
-            prevPackages.map((pkg) => (pkg.packageId === selectedPackageId ? { ...pkg, buttonDisabled: true } : pkg))
-          );
+
+          if (response.data.message === 'User already has a subscription.') {
+            // Display a toast notification to inform the user
+            toast.error('You have already subscribed to a package, please proceed to mine');
+          } else {
+            setActivationStatus('success');
+            setFarmerPackages((prevPackages) =>
+              prevPackages.map((pkg) =>
+                pkg.packageId === selectedPackageId ? { ...pkg, buttonDisabled: true, status: 'Activated' } : pkg
+              )
+            );
+          }
         } else {
           console.error('Error activating package, please try again later.');
           setActivationStatus('error');
         }
       } else if (method === 'Franchisor') {
-        // Activate from Franchisor
         const franchisorId = prompt('Enter Franchisor ID:');
         if (franchisorId) {
           const response = await axios.post(
@@ -111,20 +114,24 @@ const UnactivatedPackages = () => {
 
           if (response.status === 200) {
             console.log('Package activated successfully through franchisor');
-            setActivationStatus('success');
-            // Change the button text to 'Pending' for the Franchisor-activated package
-            setFarmerPackages((prevPackages) =>
-              prevPackages.map((pkg) =>
-                pkg.packageId === selectedPackageId ? { ...pkg, buttonDisabled: true, status: 'Pending' } : pkg
-              )
-            );
+
+            if (response.data.message === 'User already has a subscription.') {
+              // Display a toast notification to inform the user
+              toast.error('You have already subscribed to a package, please proceed to mine');
+            } else {
+              setActivationStatus('success');
+              setFarmerPackages((prevPackages) =>
+                prevPackages.map((pkg) =>
+                  pkg.packageId === selectedPackageId ? { ...pkg, buttonDisabled: true, status: 'Pending' } : pkg
+                )
+              );
+            }
           } else {
             console.error('Error activating package through franchisor, please try again later.');
             setActivationStatus('error');
           }
         }
       } else if (method === 'Reseller') {
-        // Activate from Reseller
         const resellerId = prompt('Enter Reseller ID:');
         if (resellerId) {
           const response = await axios.post(
@@ -142,13 +149,18 @@ const UnactivatedPackages = () => {
 
           if (response.status === 200) {
             console.log('Package activated successfully through reseller');
-            setActivationStatus('success');
-            // Change the button text to 'Pending' for the Reseller-activated package
-            setFarmerPackages((prevPackages) =>
-              prevPackages.map((pkg) =>
-                pkg.packageId === selectedPackageId ? { ...pkg, buttonDisabled: true, status: 'Pending' } : pkg
-              )
-            );
+
+            if (response.data.message === 'User already has a subscription.') {
+              // Display a toast notification to inform the user
+              toast.error('You have already subscribed to a package, please proceed to mine');
+            } else {
+              setActivationStatus('success');
+              setFarmerPackages((prevPackages) =>
+                prevPackages.map((pkg) =>
+                  pkg.packageId === selectedPackageId ? { ...pkg, buttonDisabled: true, status: 'Pending' } : pkg
+                )
+              );
+            }
           } else {
             console.error('Error activating package through reseller, please try again later.');
             setActivationStatus('error');
@@ -159,7 +171,10 @@ const UnactivatedPackages = () => {
       console.error('Error activating package:', error);
       setActivationStatus('error');
     } finally {
+      // Add a delay to make sure the state updates are applied before the next lines of code
+      await new Promise(resolve => setTimeout(resolve, 0));
       setLoading(false);
+      setSelectedPackageId(null);
     }
   };
 
@@ -196,14 +211,14 @@ const UnactivatedPackages = () => {
                     <button
                       className={`bg-white p-2 rounded-md text-black ${activationStatus === 'success' && selectedPackageId === pkg.packageId ? 'bg-green-500' : ''}`}
                       onClick={() => setSelectedPackageId(pkg.packageId)}
-                      disabled={loading || pkg.buttonDisabled || pkg.status === 'Active'}
+                      disabled={loading || pkg.buttonDisabled}
                     >
                       {loading
                         ? 'Pending'
                         : activationStatus === 'success' && selectedPackageId === pkg.packageId
                         ? 'Activated'
                         : pkg.status === 'Active'
-                        ? 'Active'
+                        ? 'Activate'
                         : 'Activate'}
                     </button>
 
@@ -213,7 +228,6 @@ const UnactivatedPackages = () => {
                           className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-black"
                           onClick={() => {
                             handleActivate('Company');
-                            setSelectedPackageId(null);
                           }}
                         >
                           Buy from Company
@@ -222,7 +236,6 @@ const UnactivatedPackages = () => {
                           className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-black"
                           onClick={() => {
                             handleActivate('Franchisor');
-                            setSelectedPackageId(null);
                           }}
                         >
                           Buy from Franchisor
@@ -231,7 +244,6 @@ const UnactivatedPackages = () => {
                           className="block w-full text-left p-2 hover:bg-gray-200 focus:outline-none text-black"
                           onClick={() => {
                             handleActivate('Reseller');
-                            setSelectedPackageId(null);
                           }}
                         >
                           Buy from Reseller

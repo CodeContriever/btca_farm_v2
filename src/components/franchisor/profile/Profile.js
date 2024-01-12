@@ -37,7 +37,7 @@ const Profile = () => {
     const fetchFranchisorProfile = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('https://api.afribook.world/franchisor/getfranchisorProfile', {
+        const response = await axios.get('https://api.afribook.world/franchisor/getFranchisorProfile', {
           headers: {
          Authorization: `Bearer ${accessToken}`,
           },

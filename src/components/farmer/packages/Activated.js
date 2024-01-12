@@ -28,6 +28,7 @@ const userId = signinData?.user?.userId || null;
             Authorization: `Bearer ${accessToken}`,
           },
           params: {
+            status: 'Active',
             page: currentPage,
             pageSize: 10,
           },
@@ -90,16 +91,11 @@ const userId = signinData?.user?.userId || null;
                   key={index}
                   className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                 >
-                  {/* <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3> */}
-                {/* <p>Description: {pkg.description}</p> */}
                   <p>From: {pkg.boughtFrom}</p>
                       <p>Buying Price: ${pkg.buyingPrice}</p>
                   <p>Minned: {pkg.minned}</p>
                     <p>Total Reward: {pkg.totalReward}</p>
                 <p>Withdrawn: {pkg.withdrawn}</p>
-              
-                {/* <p>Status: {pkg.status}</p> */}
-                {/* <p>Duration: {pkg.duration} days</p> */}
                
                 <button
   className="bg-white p-2 rounded-md text-black"

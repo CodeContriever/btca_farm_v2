@@ -26,6 +26,7 @@ const PendingPackages = () => {
             Authorization: `Bearer ${accessToken}`,
           },
           params: {
+            status: 'Pending',
             page: currentPage,
             pageSize: 10,
           },
