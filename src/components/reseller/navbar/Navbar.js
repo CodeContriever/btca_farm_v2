@@ -1,7 +1,7 @@
 import React, {
   useState,
 } from 'react'
-import Notification from './Notification';
+// import Notification from './Notification';
 import Menu from './Menu';
 
 
@@ -72,9 +72,9 @@ const NavBar = ({ onNavigate }) => {
 
 
             {/* Notifications */}
-            <div className="relative flex flex-col justify-center items-center gap-4" tabIndex="0">
+            {/* <div className="relative flex flex-col justify-center items-center gap-4" tabIndex="0">
                           <Notification />
-            </div>
+            </div> */}
 
                       {/* Profile */}
                       {/* <div>

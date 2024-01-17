@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TabButton from "../TabButton";
 
-import History from "./History";
+// import History from "./History";
 import MyFarm from "./farm/Farm";
 
 
@@ -35,12 +35,12 @@ const Mining = () => {
             
 
             {/* Mining history */}
-              <TabButton
+              {/* <TabButton
                 active={activeButton === 'miningHistory'}
                 onClick={() => handleButtonClick('miningHistory')}
               >
                 Mining History
-              </TabButton>
+              </TabButton> */}
 
             
 
@@ -62,7 +62,7 @@ const Mining = () => {
            {activeButton === 'miningHistory' && (
               <div className="">
 
-                <History />
+                {/* <History /> */}
               </div>
 
           )}

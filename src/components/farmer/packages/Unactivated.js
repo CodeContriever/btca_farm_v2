@@ -198,13 +198,13 @@ const UnactivatedPackages = () => {
                   className="flex flex-col gap-4 p-4 mx-auto max-w-lg text-center bg-[#A020F0] text-white rounded-lg border border-gray-100 shadow dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                 >
                   <h3 className="mb-2 text-2xl font-semibold">{pkg.packageName}</h3>
-                  <p>Description: {pkg.description}</p>
+                  {/* <p>Description: {pkg.description}</p> */}
                   <p>Price: {pkg.price}</p>
                   <p>Initial Reward: {pkg.initialReward}</p>
                   <p>Monthly Reward: {pkg.monthlyReward}</p>
                   <p>Yearly Reward: {pkg.yearlyReward}</p>
-                  <p>Status: {pkg.status}</p>
                   <p>Duration: {pkg.duration} days</p>
+                   {/* <p>Status: {pkg.status}</p> */}
                   <hr />
 
                   <div className="relative">

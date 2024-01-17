@@ -133,7 +133,7 @@ const MyFarm = () => {
                 >
                   <p>From: {pkg.boughtFrom}</p>
                   <p>Buying Price: ${pkg.buyingPrice}</p>
-                  <p>Mined: {pkg.mined}</p>
+                  <p>Mined: {pkg.minned}</p>
                   <p>Total Reward: {pkg.totalReward}</p>
                   <p>Withdrawn: {pkg.withdrawn}</p>
 
