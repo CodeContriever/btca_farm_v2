@@ -2,10 +2,10 @@ import React from "react";
 // import { useNavigate } from 'react-router-dom';
 
 import AvailableBalance from "./balance/AvailableBalance";
-import TotalFarmedAmount from "./balance/TotalFarmedAmount";
+// import TotalFarmedAmount from "./balance/TotalFarmedAmount";
 import ActivatedPackages from "./packages/ActivatedPackages";
 import MiningReward from "./balance/MiningReward";
-import FarmSpeed from "./farmSpeed/FarmSpeed";
+// import FarmSpeed from "./farmSpeed/FarmSpeed";
 
 import { useSelector } from "react-redux";
 import { selectFarmerSigninData } from '../../../store/farmer/Signin';
@@ -35,14 +35,14 @@ console.log('isAccountVerified:', isAccountVerified);
           {/* Balance */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <AvailableBalance />
-            <TotalFarmedAmount />
+            {/* <TotalFarmedAmount /> */}
             <MiningReward />
           </div>
           
            {/* Farming Speed */}
-          <div className="mt-12">
+          {/* <div className="mt-12">
             <FarmSpeed />
-          </div>
+          </div> */}
           
           {/* Activated Packages */}
           <div className="mt-12">

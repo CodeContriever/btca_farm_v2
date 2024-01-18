@@ -104,7 +104,7 @@ const PendingPackages = () => {
 
           {/* Pagination */}
           <nav className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-4">
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
@@ -113,14 +113,14 @@ const PendingPackages = () => {
                 Prev
               </button>
 
-              <div>
+              {/* <div>
                 <span className="text-sm font-normal text-gray-500 dark:text-gray-400 space-x-2">
                   Showing
                   <span className="font-semibold text-gray-900 dark:text-white mx-2">{1 + (currentPage - 1) * 10}</span>
                   of
                   <span className="font-semibold text-gray-900 dark:text-white">{farmerPackages.length}</span>
                 </span>
-              </div>
+              </div> */}
 
               <button
                 onClick={() => setCurrentPage((prev) => prev + 1)}
